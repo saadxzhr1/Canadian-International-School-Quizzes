@@ -214,7 +214,7 @@ const CURRICULUM = {
           ]
         },
         {
-          id: "u3", label: "Unit 3", title: "***********",
+          id: "u3", label: "Unit 3", title: "Unit 3: The Next Level Programming in Java With IPO Mode in Java",
           icon: "🏗️",
           lessons: [
               {
