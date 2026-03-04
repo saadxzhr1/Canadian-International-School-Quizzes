@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuizClass — Quiz</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .qcm-header { text-align: center; padding: 40px 24px 10px; }
+    .qcm-header h1 { font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 6px; }
+    .qcm-header p { color: var(--text-muted); font-size: 0.9rem; }
+    .loading { display: flex; align-items: center; justify-content: center; padding: 100px; font-family: var(--font-mono); color: var(--text-muted); gap: 12px; }
+    .spinner { width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.1); border-top-color: var(--cyan); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .finish-meme { width: 240px; height: 180px; object-fit: cover; border-radius: 16px; margin: 20px auto; display: block; }
+    .finish-stars { font-size: 2rem; margin-bottom: 8px; letter-spacing: 4px; }
+    .result-summary { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin: 20px 0; }
+    .result-pill { display: flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 100px; font-family: var(--font-mono); font-size: 0.85rem; border: 1px solid; }
+    .result-pill.green { background: rgba(6,214,160,0.08); color: var(--green); border-color: rgba(6,214,160,0.25); }
+    .result-pill.red { background: rgba(239,35,60,0.08); color: var(--red); border-color: rgba(239,35,60,0.25); }
+    .result-pill.blue { background: rgba(76,201,240,0.08); color: var(--cyan); border-color: rgba(76,201,240,0.25); }
+    .finish-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <a class="page-nav nav-left" id="navBack" href="#">
+  <div class="nav-arrow">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+  </div>
+  <span class="nav-label">Lessons</span>
+</a>
+  <header class="site-header">
+    <div class="logo-wrap">
+      <a href="index.html" class="logo">⚡ QuizClass</a>
+      <span class="logo-by">By Saad Zahraoui</span>
+    </div>
+    <nav class="breadcrumb" id="breadcrumb">
+      <a href="index.html">Home</a>
+      <span>&#8250;</span>
+      <a id="gradeLink" href="#">...</a>
+      <span>&#8250;</span>
+      <a id="unitLink" href="#">...</a>
+      <span>&#8250;</span>
+      <span id="lessonLabel">Quiz</span>
+    </nav>
+  </header>
+
+  <div id="quizArea">
+    <div class="loading"><div class="spinner"></div> Loading quiz...</div>
+  </div>
+
+  <div class="modal-overlay" id="resultModal" style="display:none;">
+    <div class="modal-content" id="modalContent">
+      <img id="modalMeme" class="modal-meme" src="" alt="reaction meme" onerror="this.style.display='none'">
+      <div class="modal-result-icon" id="modalIcon"></div>
+      <div class="modal-verdict" id="modalVerdict"></div>
+      <div class="modal-caption" id="modalCaption"></div>
+      <div class="modal-correct-answer" id="modalCorrectAnswer" style="display:none;"></div>
+      <button class="modal-btn next" id="modalBtn" onclick="nextQuestion()"></button>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script>
+    var params = getParams();
+    var gradeId = params.grade, unitId = params.unit, lessonId = params.lesson;
+    var grade = getGrade(gradeId);
+    var unit = getUnit(gradeId, unitId);
+    var lesson = getLesson(gradeId, unitId, lessonId);
+
+    if (!lesson) { document.location = 'index.html'; }
+
+    var currentQ = 0, score = 0, selectedOption = null, wrongCount = 0, attempts = 0;
+    var questions = lesson.qcm;
+    var letters = ['A', 'B', 'C', 'D'];
+
+    document.title = 'QuizClass - ' + lesson.title;
+    document.getElementById('gradeLink').href = 'units.html?grade=' + gradeId;
+    document.getElementById('gradeLink').textContent = grade.label;
+    document.getElementById('unitLink').href = 'lessons.html?grade=' + gradeId + '&unit=' + unitId;
+    document.getElementById('unitLink').textContent = unit.label;
+    document.getElementById('lessonLabel').textContent = lesson.title;
+
+    function renderQuestion() {
+      var q = questions[currentQ];
+      var progressPct = Math.round((currentQ / questions.length) * 100);
+      var optionsHtml = '';
+      for (var i = 0; i < q.options.length; i++) {
+        optionsHtml += '<button class="option-btn" onclick="selectOption(' + i + ')" id="opt-' + i + '">' +
+          '<span class="option-letter">' + letters[i] + '</span>' +
+          '<span>' + q.options[i] + '</span></button>';
+      }
+
+      document.getElementById('quizArea').innerHTML =
+        '<div class="qcm-header"><h1>' + lesson.title + '</h1><p>' + unit.label + ' &middot; ' + grade.label + '</p></div>' +
+        '<div class="qcm-container">' +
+          '<div class="qcm-meta">' +
+            '<div class="qcm-progress-wrap">' +
+              '<div class="qcm-progress-label"><span>Progress</span><span>' + (currentQ+1) + ' / ' + questions.length + '</span></div>' +
+              '<div class="qcm-progress-bar"><div class="qcm-progress-fill" style="width:' + progressPct + '%"></div></div>' +
+            '</div>' +
+            '<div class="qcm-score-badge" id="scoreBadge">Score: ' + score + '</div>' +
+          '</div>' +
+          '<div class="question-card">' +
+            '<div class="question-num">Question ' + (currentQ+1) + ' of ' + questions.length + '</div>' +
+            '<div class="question-text">' + q.question + '</div>' +
+            '<div class="options-grid" id="optionsGrid">' + optionsHtml + '</div>' +
+          '</div>' +
+          '<button class="confirm-btn" id="confirmBtn" onclick="confirmAnswer()" disabled>Confirm Answer &rarr;</button>' +
+        '</div>';
+      selectedOption = null;
+    }
+
+    function selectOption(index) {
+      var btns = document.querySelectorAll('.option-btn');
+      for (var i = 0; i < btns.length; i++) btns[i].classList.remove('selected');
+      document.getElementById('opt-' + index).classList.add('selected');
+      selectedOption = index;
+      document.getElementById('confirmBtn').disabled = false;
+    }
+
+    function confirmAnswer() {
+      var q = questions[currentQ];
+      var isCorrect = selectedOption === q.correct;
+      attempts++;
+      if (isCorrect) { score++; } else { wrongCount++; }
+      showResultModal(isCorrect, q);
+    }
+
+    function showResultModal(isCorrect, q) {
+      var modal = document.getElementById('resultModal');
+      var content = document.getElementById('modalContent');
+      var memePool = isCorrect ? MEMES.correct : MEMES.wrong;
+      var meme = memePool[Math.floor(Math.random() * memePool.length)];
+      var isLast = currentQ === questions.length - 1;
+
+      content.className = 'modal-content ' + (isCorrect ? 'correct' : 'wrong');
+      var memeImg = document.getElementById('modalMeme');
+      memeImg.src = meme.url;
+      memeImg.style.display = 'inline-block';
+      document.getElementById('modalIcon').textContent = isCorrect ? '' : '';
+      document.getElementById('modalVerdict').className = 'modal-verdict ' + (isCorrect ? 'correct' : 'wrong');
+      document.getElementById('modalVerdict').textContent = isCorrect ? 'Correct!' : 'Wrong!';
+      document.getElementById('modalCaption').textContent = meme.caption;
+
+      var answerEl = document.getElementById('modalCorrectAnswer');
+      answerEl.style.display = 'none';
+
+      var btn = document.getElementById('modalBtn');
+      if (!isCorrect) {
+        btn.textContent = 'Try Again';
+        btn.className = 'modal-btn next';
+      } else if (isLast) {
+        btn.textContent = 'See Results';
+        btn.className = 'modal-btn finish';
+      } else {
+        btn.textContent = 'Next Question';
+        btn.className = 'modal-btn next';
+      }
+
+      modal.style.display = 'flex';
+    }
+
+    function nextQuestion() {
+      document.getElementById('resultModal').style.display = 'none';
+      var q = questions[currentQ];
+      var lastAnswerWasCorrect = (selectedOption === q.correct);
+      if (!lastAnswerWasCorrect) {
+        // reset options, stay on same question
+        var btns = document.querySelectorAll('.option-btn');
+        for (var i = 0; i < btns.length; i++) btns[i].classList.remove('selected');
+        document.getElementById('confirmBtn').disabled = true;
+        selectedOption = null;
+      } else if (currentQ === questions.length - 1) {
+        showFinishScreen();
+      } else {
+        currentQ++;
+        renderQuestion();
+      }
+    }
+
+    function showFinishScreen() {
+      var pct = Math.round((score / questions.length) * 100);
+      var stars = pct >= 80 ? 3 : pct >= 60 ? 2 : 1;
+      var starsHtml = Array(stars).fill('&#11088;').join('');
+      var msg = pct >= 80 ? 'Outstanding!' : pct >= 60 ? 'Good job!' : 'Keep practicing!';
+      var finishMeme = pct >= 60 ? MEMES.finish[0] : MEMES.finish[1];
+
+      document.getElementById('quizArea').innerHTML =
+        '<div class="finish-screen">' +
+          '<div class="finish-stars">' + starsHtml + '</div>' +
+          '<h2>' + msg + '</h2>' +
+          '<img class="finish-meme" src="' + finishMeme.url + '" alt="finish" onerror="this.style.display=\'none\'">' +
+          '<div class="big-score">' + attempts + '</div>' +
+          '<div class="score-label">attempts to complete ' + questions.length + ' questions</div>' +
+          '<div class="result-summary">' +
+            '<div class="result-pill green">&#10003; ' + score + ' correct</div>' +
+            '<div class="result-pill red">&#10007; ' + wrongCount + ' wrong</div>' +
+            '<div class="result-pill blue">&#128221; ' + questions.length + ' total</div>' +
+          '</div>' +
+          '<p style="color:var(--text-muted);margin-bottom:20px;font-size:0.9rem">Save your result to the leaderboard!</p>' +
+          '<div class="name-input-wrap">' +
+            '<input class="name-input" type="text" id="studentName" placeholder="Your name..." maxlength="30">' +
+            '<button class="save-btn" id="saveBtn" onclick="saveResult()">Save Score</button>' +
+          '</div>' +
+          '<div class="finish-actions">' +
+            '<button class="back-home-btn" onclick="restartQuiz()">Retry</button>' +
+            '<a href="lessons.html?grade=' + gradeId + '&unit=' + unitId + '" class="back-home-btn">Back to Lessons</a>' +
+            '<a href="index.html" class="back-home-btn">Home</a>' +
+          '</div>' +
+        '</div>';
+    }
+
+    function saveResult() {
+      var name = document.getElementById('studentName').value.trim();
+      if (!name) { document.getElementById('studentName').focus(); return; }
+      addStudent(gradeId, unitId, lessonId, name, attempts, questions.length);
+      var btn = document.getElementById('saveBtn');
+      btn.textContent = 'Saved!';
+      btn.disabled = true;
+      btn.style.background = 'var(--green)';
+      document.getElementById('studentName').disabled = true;
+    }
+
+    function restartQuiz() {
+      currentQ = 0; score = 0; wrongCount = 0; selectedOption = null;
+      renderQuestion();
+    }
+
+    renderQuestion();
+
+    document.getElementById('navBack').href = `lessons.html?grade=${gradeId}&unit=${unitId}`;
+  </script>
+</body>
+</html>

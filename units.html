@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuizClass — Units</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .unit-card {
+      min-height: 180px;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .unit-card:hover {
+      box-shadow: 0 0 30px rgba(76,201,240,0.2);
+      border-color: rgba(76,201,240,0.35);
+    }
+
+    .unit-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+    }
+
+    .unit-lessons-count {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .unit-arrow {
+      font-size: 1.1rem;
+      opacity: 0.4;
+      transition: transform var(--transition), opacity var(--transition);
+    }
+    .unit-card:hover .unit-arrow { transform: translateX(6px); opacity: 1; }
+
+    .unit-card {
+      opacity: 0;
+      animation: slideUp 0.45s ease forwards;
+    }
+    .unit-card:nth-child(1) { animation-delay: 0.05s; }
+    .unit-card:nth-child(2) { animation-delay: 0.15s; }
+    .unit-card:nth-child(3) { animation-delay: 0.25s; }
+    .unit-card:nth-child(4) { animation-delay: 0.35s; }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Grade badge strip */
+    .grade-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border-radius: 100px;
+      font-family: var(--font-display);
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      border: 1px solid;
+    }
+  </style>
+</head>
+<body>
+  <a class="page-nav nav-left" href="index.html">
+  <div class="nav-arrow">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+  </div>
+  <span class="nav-label">Home</span>
+</a>
+  <header class="site-header">
+    <div class="logo-wrap">
+      <a href="index.html" class="logo">⚡ QuizClass</a>
+      <span class="logo-by">By Saad Zahraoui</span>
+    </div>
+    <nav class="breadcrumb" id="breadcrumb">
+      <a href="index.html">Home</a>
+      <span>›</span>
+      <span id="gradeLabel">...</span>
+    </nav>
+  </header>
+
+  <div class="page-section-title" id="sectionTitle">
+    <div id="gradeBadge"></div>
+    <h2 id="pageTitle">Select a Unit</h2>
+    <p id="pageSubtitle">Choose which unit you want to study</p>
+  </div>
+
+  <div class="cards-grid tight" id="unitsGrid"></div>
+
+  <script src="data.js"></script>
+  <script>
+    const { grade: gradeId } = getParams();
+    const grade = getGrade(gradeId);
+
+    if (!grade) {
+      document.location = 'index.html';
+    } else {
+      document.title = `QuizClass — ${grade.label}`;
+      document.getElementById('gradeLabel').textContent = grade.label;
+      document.getElementById('pageTitle').textContent = `${grade.label} — Units`;
+      document.getElementById('pageSubtitle').textContent = `${grade.units.length} units · ${grade.tagline}`;
+
+      const badge = document.getElementById('gradeBadge');
+      badge.innerHTML = `
+        <div class="grade-badge" style="color:${grade.color}; border-color:${grade.color}40; background:${grade.color}0f;">
+          ${grade.emoji} ${grade.label}
+        </div>
+      `;
+
+      const grid = document.getElementById('unitsGrid');
+
+      grade.units.forEach(unit => {
+        const totalQ = unit.lessons.reduce((a, l) => a + l.qcm.length, 0);
+        const card = document.createElement('a');
+        card.href = `lessons.html?grade=${gradeId}&unit=${unit.id}`;
+        card.className = 'card unit-card';
+        card.innerHTML = `
+          <div class="unit-icon">${unit.icon}</div>
+          <div class="unit-num">${unit.label}</div>
+          <div class="unit-title">${unit.title}</div>
+          <div class="unit-card-footer">
+            <span class="unit-lessons-count">${unit.lessons.length} lessons · ${totalQ} questions</span>
+            <span class="unit-arrow">→</span>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+  </script>
+</body>
+</html>

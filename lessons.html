@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuizClass — Lessons</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .lesson-card {
+      min-height: 160px;
+      gap: 10px;
+    }
+
+    .lesson-card:hover {
+      box-shadow: 0 0 24px rgba(247,37,133,0.18);
+      border-color: rgba(247,37,133,0.35);
+    }
+
+    .lesson-card {
+      opacity: 0;
+      animation: slideUp 0.4s ease forwards;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .unit-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 40px 40px 0;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .unit-icon-big {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+
+    .unit-header-info h2 {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+    }
+
+    .unit-header-info p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 4px;
+      font-family: var(--font-mono);
+    }
+
+    /* Sidebar tab */
+    .sidebar-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .sidebar-tab {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      cursor: pointer;
+      transition: all var(--transition);
+      text-align: center;
+    }
+
+    .sidebar-tab.active {
+      background: rgba(255,209,102,0.1);
+      border-color: rgba(255,209,102,0.3);
+      color: var(--gold);
+    }
+
+    .top-banner {
+      background: linear-gradient(135deg, rgba(247,37,133,0.08), rgba(114,9,183,0.08));
+      border: 1px solid rgba(247,37,133,0.15);
+      border-radius: 16px;
+      padding: 20px 24px;
+      margin: 0 40px 0;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .top-banner-text h3 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      color: var(--pink);
+    }
+    .top-banner-text p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .top-banner-icon { font-size: 2rem; }
+
+    .lesson-completers-info {
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .lesson-completers-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      flex-shrink: 0;
+    }
+
+    .all-students-section {
+      display: none;
+    }
+
+    .all-students-section.active { display: block; }
+    .per-lesson-section.active { display: block; }
+    .per-lesson-section { display: none; }
+
+    .lesson-select {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      padding: 8px 12px;
+      cursor: pointer;
+      margin-bottom: 12px;
+      outline: none;
+    }
+
+    .lesson-select option { background: #0d1130; }
+  </style>
+</head>
+<body>
+  <a class="page-nav nav-left" id="navBack" href="#">
+  <div class="nav-arrow">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+  </div>
+  <span class="nav-label">Units</span>
+</a>
+  <header class="site-header">
+    <div class="logo-wrap">
+      <a href="index.html" class="logo">⚡ QuizClass</a>
+      <span class="logo-by">By Saad Zahraoui</span>
+    </div>
+    <nav class="breadcrumb" id="breadcrumb">
+      <a href="index.html">Home</a>
+      <span>›</span>
+      <a id="gradeLink" href="#">...</a>
+      <span>›</span>
+      <span id="unitLabel">...</span>
+    </nav>
+  </header>
+
+  <div class="unit-header">
+    <div class="unit-icon-big" id="unitIcon">📖</div>
+    <div class="unit-header-info">
+      <h2 id="unitTitle">Loading...</h2>
+      <p id="unitMeta">...</p>
+    </div>
+  </div>
+
+  <div class="lessons-layout">
+    <!-- Main lessons grid -->
+    <div>
+      <div class="lessons-grid" id="lessonsGrid"></div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-title">🏆 Hall of Fame</div>
+
+      <div class="sidebar-tabs">
+        <button class="sidebar-tab active" id="tabAll" onclick="switchTab('all')">All</button>
+        <button class="sidebar-tab" id="tabLesson" onclick="switchTab('lesson')">By Lesson</button>
+      </div>
+
+      <div class="all-students-section active" id="allStudents">
+        <ul class="student-list" id="allStudentList">
+          <li class="sidebar-empty">No completions yet.<br>Be the first! 🎯</li>
+        </ul>
+      </div>
+
+      <div class="per-lesson-section" id="perLesson">
+        <select class="lesson-select" id="lessonPicker" onchange="loadLessonStudents()">
+        </select>
+        <ul class="student-list" id="lessonStudentList">
+          <li class="sidebar-empty">Select a lesson above</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <script src="data.js"></script>
+  <script>
+    const { grade: gradeId, unit: unitId } = getParams();
+    const grade = getGrade(gradeId);
+    const unit = getUnit(gradeId, unitId);
+
+    if (!grade || !unit) {
+      document.location = 'index.html';
+    } else {
+      document.title = `QuizClass — ${unit.title}`;
+      document.getElementById('gradeLink').href = `units.html?grade=${gradeId}`;
+      document.getElementById('gradeLink').textContent = grade.label;
+      document.getElementById('unitLabel').textContent = unit.label;
+      document.getElementById('unitIcon').textContent = unit.icon;
+      document.getElementById('unitTitle').textContent = unit.title;
+      document.getElementById('unitMeta').textContent = `${grade.label} · ${unit.label} · ${unit.lessons.length} lessons`;
+
+      // Render lesson cards
+      const grid = document.getElementById('lessonsGrid');
+      unit.lessons.forEach((lesson, i) => {
+        const students = getStudents(gradeId, unitId, lesson.id);
+        const card = document.createElement('a');
+        card.href = `qcm.html?grade=${gradeId}&unit=${unitId}&lesson=${lesson.id}`;
+        card.className = 'card lesson-card';
+        card.style.animationDelay = `${i * 0.08}s`;
+        card.innerHTML = `
+          <div class="lesson-num">Lesson ${i + 1}</div>
+          <div class="lesson-title">${lesson.title}</div>
+          <div class="lesson-desc">${lesson.description}</div>
+          ${students.length > 0 ? `
+            <div class="lesson-completers-info">
+              <div class="lesson-completers-dot"></div>
+              ${students.length} student${students.length > 1 ? 's' : ''} completed
+            </div>
+          ` : ''}
+          <div class="lesson-badge">📝 ${lesson.qcm.length} questions</div>
+        `;
+        grid.appendChild(card);
+      });
+
+      // Populate lesson picker
+      const picker = document.getElementById('lessonPicker');
+      unit.lessons.forEach(l => {
+        const opt = document.createElement('option');
+        opt.value = l.id;
+        opt.textContent = l.title;
+        picker.appendChild(opt);
+      });
+
+      // Load all students
+      loadAllStudents();
+    }
+
+    function switchTab(tab) {
+      document.getElementById('tabAll').classList.toggle('active', tab === 'all');
+      document.getElementById('tabLesson').classList.toggle('active', tab === 'lesson');
+      document.getElementById('allStudents').classList.toggle('active', tab === 'all');
+      document.getElementById('perLesson').classList.toggle('active', tab === 'lesson');
+      if (tab === 'lesson') loadLessonStudents();
+    }
+
+    function loadAllStudents() {
+      const all = [];
+      unit.lessons.forEach(l => {
+        getStudents(gradeId, unitId, l.id).forEach(s => {
+          all.push({ ...s, lessonTitle: l.title });
+        });
+      });
+      all.sort((a, b) => a.attempts - b.attempts);
+      const medals = ['🥇','🥈','🥉'];
+      const list = document.getElementById('allStudentList');
+      if (all.length === 0) {
+        list.innerHTML = '<li class="sidebar-empty">No completions yet.<br>Be the first! 🎯</li>';
+      } else {
+        list.innerHTML = all.slice(0, 20).map((s, i) => `
+          <li class="student-item">
+            <div class="student-avatar">${medals[i] || s.name.charAt(0).toUpperCase()}</div>
+            <div class="student-info">
+              <div class="student-name">${s.name}</div>
+              <div class="student-meta">${s.lessonTitle}</div>
+            </div>
+            <div class="student-score">${s.attempts} attempts</div>
+          </li>
+        `).join('');
+      }
+    }
+
+    function loadLessonStudents() {
+      const lessonId = document.getElementById('lessonPicker').value;
+      const students = getStudents(gradeId, unitId, lessonId);
+      const list = document.getElementById('lessonStudentList');
+      if (students.length === 0) {
+        list.innerHTML = '<li class="sidebar-empty">No one finished this lesson yet!</li>';
+      } else {
+        list.innerHTML = students.slice(0, 15).map(s => `
+          <li class="student-item">
+            <div class="student-avatar">${s.name.charAt(0).toUpperCase()}</div>
+            <div class="student-info">
+              <div class="student-name">${s.name}</div>
+              <div class="student-meta">${s.date}</div>
+            </div>
+            <div class="student-score">${s.attempts}/${s.total}</div>
+          </li>
+        `).join('');
+      }
+    }
+    document.getElementById('navBack').href = `units.html?grade=${gradeId}`;
+  </script>
+</body>
+</html>
