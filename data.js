@@ -217,16 +217,113 @@ const CURRICULUM = {
           id: "u3", label: "Unit 3", title: "***********",
           icon: "🏗️",
           lessons: [
-            // {
-            //   id: "l4", title: "Kinematics", description: "Displacement, velocity and acceleration",
-            //   qcm: [
-            //     { question: "Average velocity = displacement /", options: ["Mass", "Force", "Time", "Distance"], correct: 2 },
-            //     { question: "The unit of acceleration is:", options: ["m/s", "m/s²", "kg·m/s", "N"], correct: 1 },
-            //     { question: "An object with zero acceleration moves at:", options: ["Zero speed", "Increasing speed", "Constant velocity", "Decreasing speed"], correct: 2 },
-            //     { question: "Free fall acceleration on Earth is approximately:", options: ["5 m/s²", "9.8 m/s²", "12 m/s²", "1 m/s²"], correct: 1 },
-            //     { question: "Distance is a _____ quantity while displacement is _____:", options: ["Vector; scalar", "Scalar; vector", "Both scalar", "Both vector"], correct: 1 }
-            //   ]
-            // }
+              {
+  id: "l_java_decisions",
+  title: "Lesson 1",
+  description: "if, else, and else if statements in Java",
+  qcm: [
+    {
+      question: "In programming, what is a 'condition' and what must it always evaluate to?",
+      options: [
+        "A mathematical formula that calculates a numeric result used to determine how many times a block of code repeats",
+        "A block of code that runs automatically every time the program starts, regardless of any user interaction",
+        "A true or false expression that determines which path of code the program will follow when executed",
+        "A predefined value stored in memory that the program compares against data received from the user"
+      ],
+      correct: 2
+    },
+    {
+      question: "When a Java if statement's condition evaluates to false, what happens to code written OUTSIDE the if block?",
+      options: [
+        "It executes normally — code outside the if block always runs regardless of whether the condition was true or false",
+        "It is permanently skipped for the rest of the program once any if condition evaluates to false",
+        "It waits for the condition to become true before executing on the next iteration of the program",
+        "It triggers a runtime error because the program cannot safely continue after a false condition"
+      ],
+      correct: 0
+    },
+    {
+      question: "Consider this Java code: int i = 10; if (i > 15) { System.out.println(\"inside\"); } System.out.println(\"outside\"); — What gets printed?",
+      options: [
+        "Both 'inside' and 'outside' print because all code executes sequentially from top to bottom",
+        "Only 'inside' prints because the condition is met and no else block interrupts normal execution",
+        "Nothing prints because an if statement without an else block causes a compile-time error in Java",
+        "Only 'outside' prints because i=10 is not greater than 15, so the if block is skipped entirely"
+      ],
+      correct: 3
+    },
+    {
+      question: "Using the same code structure, what gets printed if i is changed to 20?",
+      options: [
+        "Only 'inside' prints because once an if condition is true, the program stops after its block",
+        "Both 'inside' and 'outside' print — 20>15 triggers the if block, then execution continues normally outside it",
+        "Only 'outside' prints because the else block always runs after any if statement finishes",
+        "Nothing prints because integer comparisons above a certain value cause overflow errors"
+      ],
+      correct: 1
+    },
+    {
+      question: "Relational and logical operators can be combined inside a single if condition. What requirement must the entire combined expression meet?",
+      options: [
+        "Every individual comparison must be wrapped in its own separate if statement before being combined with &&",
+        "All comparisons must use the same relational operator to avoid ambiguous results during evaluation",
+        "The full combined expression must resolve to a single boolean — true or false — for the if statement to function",
+        "Logical operators must always appear before relational operators to guarantee correct evaluation order"
+      ],
+      correct: 2
+    },
+    {
+      question: "A nested if statement and a single if using && can produce the same logical outcome. What is one key advantage of nesting?",
+      options: [
+        "Nesting allows code to be placed between the two checks — code that runs when the outer condition is true but does not depend on the inner condition — which a single && cannot do",
+        "Nested ifs always execute faster because the compiler skips the inner check immediately after any result",
+        "Nested ifs automatically prevent type mismatch errors that occur when && is used with certain data types",
+        "Nesting is the only way to combine more than two conditions inside a single decision-making structure"
+      ],
+      correct: 0
+    },
+    {
+      question: "Which statement accurately describes how the else keyword works in Java?",
+      options: [
+        "An else block can appear independently in a program as long as it is placed before any if statement",
+        "An else block fires whenever any if statement anywhere in the same program evaluates to false",
+        "An else block requires its own condition written in brackets, just like a regular if statement does",
+        "An else block pairs exclusively with the immediately preceding if — it runs only when that specific if is false and never has its own condition"
+      ],
+      correct: 3
+    },
+    {
+      question: "Given: if (numb > 0) {code1} if (numb2 == 4) {code2} else {code3} — with numb=4 and numb2=0, which blocks execute?",
+      options: [
+        "Only code2 runs because numb2 must equal 4 for any block in that pair to execute at all",
+        "code1 and code3 both run — numb>0 is true so code1 triggers, numb2==4 is false so else triggers code3",
+        "All three blocks run because each if statement always evaluates independently in sequence",
+        "Only code1 runs because the false result on the second if cancels all remaining execution"
+      ],
+      correct: 1
+    },
+    {
+      question: "What is the fundamental difference between multiple consecutive if statements and an else-if chain?",
+      options: [
+        "Multiple if statements can only evaluate numeric conditions while else-if chains work with any data type",
+        "Else-if chains use more memory because all conditions are loaded into evaluation before any result is returned",
+        "With multiple ifs, several blocks can trigger if multiple conditions are true — with an else-if chain, only the first true condition fires and all remaining checks are skipped",
+        "Multiple ifs always run slower because the compiler re-evaluates every condition even after a match is found"
+      ],
+      correct: 2
+    },
+    {
+      question: "In a block structured as: if(num2 >= 0){block1} else if(num2 == 4){block2} if(num2 == 0){block3} else{block4} — with num2 = 4, which blocks trigger?",
+      options: [
+        "block1 and block4 — 4>=0 is true so block1 fires, else if is skipped since the first if was true, 4==0 is false so block3 is skipped, making else trigger block4",
+        "All four blocks trigger because every statement independently evaluates its own condition",
+        "Only block2 fires because 4==4 is the most specific matching condition across the entire structure",
+        "block1 and block2 both fire because 4>=0 and 4==4 are simultaneously true across the two chains"
+      ],
+      correct: 0
+    }
+  ]
+}
           ]
         },
         {
