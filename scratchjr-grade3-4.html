@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ScratchJr – Grade 3 & 4 Challenges</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0F0E17;
+    --cream: #FFFCF0;
+    --warm: #F5F0E8;
+    --accent1: #E84855; /* red */
+    --accent2: #3A86FF; /* blue */
+    --accent3: #FF9F1C; /* amber */
+    --accent4: #2EC4B6; /* teal */
+    --muted: #6B6576;
+    --border: #DDD8CE;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  .page { max-width: 820px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* ── TOP STRIPE ── */
+  .top-stripe {
+    height: 7px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--accent1) 0px, var(--accent1) 80px,
+      var(--accent3) 80px, var(--accent3) 160px,
+      var(--accent2) 160px, var(--accent2) 240px,
+      var(--accent4) 240px, var(--accent4) 320px
+    );
+  }
+
+  /* ── HEADER ── */
+  header { padding: 44px 0 20px; border-bottom: 2px solid var(--border); margin-bottom: 36px; }
+  .tag-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+  .tag {
+    font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 4px;
+  }
+  .tag-red    { background: #FDECEA; color: var(--accent1); }
+  .tag-blue   { background: #E8F1FF; color: var(--accent2); }
+  .tag-amber  { background: #FFF4E0; color: var(--accent3); }
+  .tag-teal   { background: #E4F8F6; color: var(--accent4); }
+
+  header h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1.1;
+    margin-bottom: 10px;
+    letter-spacing: -.5px;
+  }
+  header h1 span { color: var(--accent1); }
+  header p { font-size: .97rem; color: var(--muted); max-width: 580px; line-height: 1.7; }
+
+  /* ── META ROW ── */
+  .meta-row {
+    display: flex; gap: 28px; flex-wrap: wrap;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 40px;
+  }
+  .meta-item { display: flex; align-items: center; gap: 8px; font-size: .88rem; color: var(--muted); }
+  .meta-item strong { color: var(--ink); }
+
+  /* ── PREREQUISITE BOX ── */
+  .prereq {
+    background: var(--warm);
+    border: 1.5px solid var(--border);
+    border-left: 5px solid var(--accent3);
+    border-radius: 0 12px 12px 0;
+    padding: 18px 22px;
+    margin-bottom: 40px;
+  }
+  .prereq h3 { font-size: .8rem; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 800; color: var(--accent3); margin-bottom: 10px; }
+  .prereq-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .prereq-chip {
+    font-size: .82rem; font-weight: 700;
+    padding: 4px 12px; border-radius: 20px;
+    background: white; border: 1.5px solid var(--border); color: var(--muted);
+  }
+
+  /* ── SECTION DIVIDER ── */
+  .section-label {
+    font-size: 10px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 16px; display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::after { content:''; flex: 1; height: 1px; background: var(--border); }
+
+  /* ── EXERCISE ── */
+  .exercise {
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    margin-bottom: 36px;
+    overflow: hidden;
+    background: white;
+  }
+
+  .ex-banner {
+    padding: 26px 30px 22px;
+    border-bottom: 1.5px solid var(--border);
+    display: flex; align-items: flex-start; gap: 18px;
+  }
+  .ex-number {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.4rem;
+    line-height: 1;
+    width: 52px; flex-shrink: 0;
+  }
+  .ex-info { flex: 1; }
+  .ex-info h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+  }
+  .ex-info .subtitle { font-size: .85rem; color: var(--muted); font-weight: 600; }
+  .level-pill {
+    padding: 5px 16px; border-radius: 50px;
+    font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px;
+    flex-shrink: 0; align-self: flex-start; margin-top: 4px;
+  }
+
+  /* ── SCENE PLANNER ── */
+  .scene-planner {
+    padding: 22px 30px;
+    border-bottom: 1.5px solid var(--border);
+    background: var(--warm);
+  }
+  .scene-planner h4 {
+    font-size: .75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px;
+    color: var(--muted); margin-bottom: 14px;
+  }
+  .scenes-row { display: flex; align-items: center; gap: 0; flex-wrap: wrap; gap: 6px; }
+  .scene-box {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: .82rem;
+    line-height: 1.4;
+    flex: 1; min-width: 120px;
+  }
+  .scene-box .scene-num {
+    font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .scene-box .scene-desc { font-weight: 700; color: var(--ink); }
+  .scene-box .scene-bg { font-size: .75rem; color: var(--muted); margin-top: 2px; }
+  .arrow { font-size: 1.1rem; color: var(--muted); flex-shrink: 0; }
+
+  /* ── BODY ── */
+  .ex-body { padding: 26px 30px; }
+
+  /* Objective */
+  .objective {
+    display: flex; gap: 14px; align-items: flex-start;
+    background: #F8F8FF;
+    border: 1.5px solid #E0E0F0;
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 26px;
+  }
+  .obj-icon { font-size: 1.5rem; flex-shrink: 0; }
+  .obj-text { font-size: .93rem; line-height: 1.7; color: #333; }
+  .obj-text strong { color: var(--ink); }
+
+  /* Character plan */
+  .char-plan {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 10px;
+    margin-bottom: 26px;
+  }
+  .char-card {
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    background: var(--warm);
+  }
+  .char-card .char-label { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 6px; }
+  .char-card .char-name { font-weight: 800; font-size: .95rem; margin-bottom: 4px; }
+  .char-card .char-role { font-size: .8rem; color: var(--muted); line-height: 1.5; }
+
+  /* Steps */
+  .steps-heading {
+    font-size: .75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px;
+    color: var(--muted); margin-bottom: 16px;
+  }
+  .step {
+    display: flex; gap: 14px; margin-bottom: 16px; align-items: flex-start;
+  }
+  .step-n {
+    width: 28px; height: 28px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 12px; flex-shrink: 0; margin-top: 1px;
+  }
+  .step-content { font-size: .91rem; line-height: 1.7; color: #2a2a2a; padding-top: 3px; flex: 1; }
+  .step-content strong { color: var(--ink); }
+
+  /* Who label */
+  .who {
+    display: inline-block;
+    font-size: 10px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 4px; margin-right: 6px; vertical-align: middle;
+  }
+  .who-a { background: #FDECEA; color: var(--accent1); }
+  .who-b { background: #E8F1FF; color: var(--accent2); }
+  .who-both { background: #E4F8F6; color: var(--accent4); }
+
+  /* Block chips */
+  .blk {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 2px 9px; border-radius: 6px;
+    font-weight: 800; font-size: 12px; margin: 0 2px; vertical-align: middle;
+    white-space: nowrap;
+  }
+  .blk-y  { background: #FFF4E0; color: #C77700; border: 1px solid #F5DCA0; }
+  .blk-b  { background: #E8F1FF; color: #2563EB; border: 1px solid #BFCFEE; }
+  .blk-p  { background: #F3EBFF; color: #7C3AED; border: 1px solid #D4BCFF; }
+  .blk-o  { background: #FFF0E0; color: #C2540A; border: 1px solid #F5CEAD; }
+  .blk-r  { background: #FDECEA; color: #BE123C; border: 1px solid #FBBBBB; }
+  .blk-t  { background: #E4F8F6; color: #0D9488; border: 1px solid #A7D7D4; }
+
+  /* Script block — visual script display */
+  .script {
+    background: var(--warm);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-size: .87rem;
+  }
+  .script-who {
+    font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--muted); margin-bottom: 8px;
+  }
+  .script-line {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 4px;
+    margin-bottom: 4px;
+  }
+
+  /* Divider in body */
+  .body-divider {
+    border: none; border-top: 1px dashed var(--border);
+    margin: 24px 0;
+  }
+
+  /* Hint */
+  .hint {
+    background: #FFFBEA;
+    border: 1.5px solid #F5DCA0;
+    border-radius: 12px;
+    padding: 14px 18px;
+    display: flex; gap: 12px;
+    margin-top: 20px;
+    font-size: .87rem; color: #5a4800; line-height: 1.6;
+  }
+  .hint strong { color: #92610A; }
+
+  /* Challenge */
+  .challenge {
+    background: #F3EBFF;
+    border: 1.5px solid #D4BCFF;
+    border-radius: 12px;
+    padding: 14px 18px;
+    display: flex; gap: 12px;
+    margin-top: 12px;
+    font-size: .87rem; color: #3b1f6e; line-height: 1.6;
+  }
+  .challenge strong { color: #6D28D9; }
+
+  /* Warning / watch out */
+  .watch {
+    background: #FEF3F2;
+    border: 1.5px solid #FCA5A5;
+    border-radius: 12px;
+    padding: 14px 18px;
+    display: flex; gap: 12px;
+    margin-top: 12px;
+    font-size: .87rem; color: #7F1D1D; line-height: 1.6;
+  }
+  .watch strong { color: #B91C1C; }
+
+  /* Reflection */
+  .reflection {
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 28px 30px;
+    background: white;
+    margin-bottom: 36px;
+  }
+  .reflection h3 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem; margin-bottom: 20px;
+  }
+  .q-item { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 16px; }
+  .q-num {
+    font-size: 11px; font-weight: 900; padding: 3px 9px; border-radius: 5px;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .q-text { font-size: .92rem; color: #333; line-height: 1.65; }
+
+  footer {
+    text-align: center; font-size: .78rem; color: var(--muted);
+    padding: 20px 0; border-top: 1px solid var(--border);
+  }
+
+  @media(max-width:560px){
+    .ex-banner { flex-wrap: wrap; }
+    .ex-body { padding: 18px; }
+    .scene-planner { padding: 18px; }
+    .scenes-row { flex-direction: column; }
+    .arrow { transform: rotate(90deg); align-self: center; }
+  }
+</style>
+</head>
+<body>
+<div class="top-stripe"></div>
+<div class="page">
+
+<!-- HEADER -->
+<header>
+  <div class="tag-row">
+    <span class="tag tag-red">Grade 3–4</span>
+    <span class="tag tag-blue">ScratchJr</span>
+    <span class="tag tag-amber">Intermediate</span>
+    <span class="tag tag-teal">No Sound</span>
+  </div>
+  <h1>ScratchJr <span>Challenge</span> Pack</h1>
+  <p>Three structured projects that build on what you already know. Each exercise introduces a new problem to solve using scenes, timing, size, messages, and multi-character coordination.</p>
+</header>
+
+<div class="meta-row">
+  <div class="meta-item">📚 <strong>Grade 3–4</strong></div>
+  <div class="meta-item">⏱ <strong>~75–90 min total</strong></div>
+  <div class="meta-item">🎬 <strong>3 projects</strong></div>
+  <div class="meta-item">🚫 <strong>No sound blocks used</strong></div>
+</div>
+
+<!-- PREREQUISITES -->
+<div class="prereq">
+  <h3>✅ You already know how to use</h3>
+  <div class="prereq-chips">
+    <span class="prereq-chip">Direction blocks (↑↓←→)</span>
+    <span class="prereq-chip">Wait / Timing blocks</span>
+    <span class="prereq-chip">Multiple scenes</span>
+    <span class="prereq-chip">Grow / Shrink blocks</span>
+    <span class="prereq-chip">Repeat loops</span>
+    <span class="prereq-chip">Green flag trigger</span>
+  </div>
+</div>
+
+<div class="section-label">Exercise 01</div>
+
+<!-- ══════════════════════════════════
+     EXERCISE 1 – THE SHRINKING ESCAPE
+     ══════════════════════════════════ -->
+<div class="exercise">
+  <div class="ex-banner">
+    <div class="ex-number" style="color:var(--accent1)">01</div>
+    <div class="ex-info">
+      <h2>The Shrinking Escape</h2>
+      <div class="subtitle">Size control · Scene transitions · Precise timing</div>
+    </div>
+    <span class="level-pill" style="background:#FDECEA;color:var(--accent1)">Intermediate</span>
+  </div>
+
+  <!-- SCENE PLANNER -->
+  <div class="scene-planner">
+    <h4>🎬 Scene Plan</h4>
+    <div class="scenes-row">
+      <div class="scene-box">
+        <div class="scene-num" style="color:var(--accent1)">Scene 1</div>
+        <div class="scene-desc">The Forest</div>
+        <div class="scene-bg">Character starts full size → shrinks → disappears</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="scene-box">
+        <div class="scene-num" style="color:var(--accent2)">Scene 2</div>
+        <div class="scene-desc">The Cave</div>
+        <div class="scene-bg">Character appears tiny → grows back → walks to centre</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="scene-box">
+        <div class="scene-num" style="color:var(--accent4)">Scene 3</div>
+        <div class="scene-desc">Safe Place</div>
+        <div class="scene-bg">Character bounces (loop) to celebrate escape</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex-body">
+    <div class="objective">
+      <div class="obj-icon">🎯</div>
+      <div class="obj-text">
+        <strong>Goal:</strong> A character shrinks small enough to "slip through" to a new scene, reappears tiny, grows back to full size, then celebrates. The challenge is <strong>controlling timing</strong> so the shrinking finishes <em>before</em> the scene changes, and the growing looks smooth on the other side.
+      </div>
+    </div>
+
+    <div class="char-plan">
+      <div class="char-card">
+        <div class="char-label">Character</div>
+        <div class="char-name">🧒 Hero (you choose)</div>
+        <div class="char-role">Main character. Place at left of Scene 1. Appears in all 3 scenes.</div>
+      </div>
+    </div>
+
+    <div class="steps-heading">📋 Build Instructions</div>
+
+    <div class="step">
+      <div class="step-n" style="background:#FDECEA;color:var(--accent1)">1</div>
+      <div class="step-content">Create <strong>3 scenes</strong>. Add your character to each scene, positioned where you want them to appear in that scene. Set the character in Scene 2 and 3 to <strong>smallest size</strong> at the start (you'll grow them with blocks).</div>
+    </div>
+
+    <div class="step">
+      <div class="step-n" style="background:#FDECEA;color:var(--accent1)">2</div>
+      <div class="step-content">
+        <strong>Scene 1 script:</strong> The character must shrink <em>4 times</em> with waits between each shrink, then change scene.
+        <div class="script">
+          <div class="script-who">Character – Scene 1</div>
+          <div class="script-line">
+            <span class="blk blk-y">▶ Start on Green Flag</span>
+          </div>
+          <div class="script-line">
+            <span class="blk blk-b">→ Move Right 2</span>
+            <span class="blk blk-o">⏱ Wait 1</span>
+            <span class="blk blk-p">⬇ Shrink</span>
+            <span class="blk blk-o">⏱ Wait 1</span>
+            <span class="blk blk-p">⬇ Shrink</span>
+            <span class="blk blk-o">⏱ Wait 1</span>
+            <span class="blk blk-p">⬇ Shrink</span>
+            <span class="blk blk-o">⏱ Wait 1</span>
+            <span class="blk blk-p">⬇ Shrink</span>
+          </div>
+          <div class="script-line">
+            <span class="blk blk-t">🎬 Change Scene →</span>
+            <span class="blk blk-r">⬛ End</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n" style="background:#FDECEA;color:var(--accent1)">3</div>
+      <div class="step-content">
+        <strong>Scene 2 script:</strong> Start from hidden/tiny. Grow 4 times with waits, then walk to centre.
+        <div class="script">
+          <div class="script-who">Character – Scene 2</div>
+          <div class="script-line">
+            <span class="blk blk-y">▶ Start on Scene Begin</span>
+          </div>
+          <div class="script-line">
+            <span class="blk blk-p">⬆ Grow</span>
+            <span class="blk blk-o">⏱ Wait 1</span>
+            <span class="blk blk-p">⬆ Grow</span>
+            <span class="blk blk-o">⏱ Wait 1</span>
+            <span class="blk blk-p">⬆ Grow</span>
+            <span class="blk blk-o">⏱ Wait 1</span>
+            <span class="blk blk-p">⬆ Grow</span>
+          </div>
+          <div class="script-line">
+            <span class="blk blk-b">→ Move Right 3</span>
+            <span class="blk blk-t">🎬 Change Scene →</span>
+            <span class="blk blk-r">⬛ End</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n" style="background:#FDECEA;color:var(--accent1)">4</div>
+      <div class="step-content">
+        <strong>Scene 3 script:</strong> Use a <span class="blk blk-o">🔁 Repeat</span> loop to make the character jump up and down <strong>3 times</strong> to celebrate. Do this with alternating Move Up → Wait → Move Down → Wait inside the loop.
+      </div>
+    </div>
+
+    <div class="watch">
+      <span>⚠️</span>
+      <div><strong>Common mistake:</strong> Using "Start on Green Flag" in Scene 2 won't work — the green flag only fires once at the very beginning. You must use <strong>"Start on Scene Begin"</strong> (the orange page trigger) for scenes 2 and 3.</div>
+    </div>
+
+    <div class="hint">
+      <span>💡</span>
+      <div><strong>Think about it:</strong> What happens if you remove all the Wait blocks? Does the animation still look like shrinking? Why or why not?</div>
+    </div>
+
+    <div class="challenge">
+      <span>⭐</span>
+      <div><strong>Extension:</strong> Add a <strong>second character</strong> in Scene 1 — a monster chasing the hero. The monster should walk towards the hero and reach the hero's starting position <em>right as the hero disappears</em>. You'll need to calculate how many Move blocks the monster needs based on how far away it starts.</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-label">Exercise 02</div>
+
+<!-- ══════════════════════════════════
+     EXERCISE 2 – THE SYNCHRONIZED RACE
+     ══════════════════════════════════ -->
+<div class="exercise">
+  <div class="ex-banner">
+    <div class="ex-number" style="color:var(--accent2)">02</div>
+    <div class="ex-info">
+      <h2>The Synchronized Race</h2>
+      <div class="subtitle">Messages · Multi-character coordination · Staggered timing</div>
+    </div>
+    <span class="level-pill" style="background:#E8F1FF;color:var(--accent2)">Intermediate+</span>
+  </div>
+
+  <div class="scene-planner">
+    <h4>🎬 Scene Plan</h4>
+    <div class="scenes-row">
+      <div class="scene-box">
+        <div class="scene-num" style="color:var(--accent2)">Scene 1</div>
+        <div class="scene-desc">The Starting Line</div>
+        <div class="scene-bg">3 characters wait, then race on a message signal</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="scene-box">
+        <div class="scene-num" style="color:var(--accent4)">Scene 2</div>
+        <div class="scene-desc">The Finish Line</div>
+        <div class="scene-bg">Winner grows big · Others stay small · Podium effect</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex-body">
+    <div class="objective">
+      <div class="obj-icon">🎯</div>
+      <div class="obj-text">
+        <strong>Goal:</strong> Three racers start at different speeds (controlled by different numbers in their Move blocks). A <strong>referee character</strong> sends the start signal via a message. In Scene 2, each racer arrives at a different time — the first to arrive (fastest racer) <strong>grows big</strong>, the others stay small. You control who wins by choosing the Move block values.
+      </div>
+    </div>
+
+    <div class="char-plan">
+      <div class="char-card">
+        <div class="char-label">Character A</div>
+        <div class="char-name">🐢 Racer 1 (slow)</div>
+        <div class="char-role">Move Right = 3. Arrives last. Stays small in Scene 2.</div>
+      </div>
+      <div class="char-card">
+        <div class="char-label">Character B</div>
+        <div class="char-name">🐇 Racer 2 (fast)</div>
+        <div class="char-role">Move Right = 7. Arrives first. Grows in Scene 2.</div>
+      </div>
+      <div class="char-card">
+        <div class="char-label">Character C</div>
+        <div class="char-name">🐸 Racer 3 (medium)</div>
+        <div class="char-role">Move Right = 5. Arrives second. Stays small.</div>
+      </div>
+      <div class="char-card">
+        <div class="char-label">Character D</div>
+        <div class="char-name">🏁 Referee</div>
+        <div class="char-name" style="font-size:.8rem;font-weight:400;color:var(--muted)">Sends the start message. Doesn't move.</div>
+      </div>
+    </div>
+
+    <div class="steps-heading">📋 Build Instructions</div>
+
+    <div class="step">
+      <div class="step-n" style="background:#E8F1FF;color:var(--accent2)">1</div>
+      <div class="step-content">Place all 4 characters in <strong>Scene 1</strong>. Line up the 3 racers at the left edge. Put the referee at the top centre. Set all racers facing right.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-n" style="background:#E8F1FF;color:var(--accent2)">2</div>
+      <div class="step-content">
+        <strong>Referee script</strong> — sends the "GO" signal after a short delay:
+        <div class="script">
+          <div class="script-who">Referee – Scene 1</div>
+          <div class="script-line">
+            <span class="blk blk-y">▶ Green Flag</span>
+            <span class="blk blk-o">⏱ Wait 2</span>
+            <span class="blk blk-t">📨 Send Message (Yellow)</span>
+            <span class="blk blk-r">⬛ End</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n" style="background:#E8F1FF;color:var(--accent2)">3</div>
+      <div class="step-content">
+        <strong>Each racer</strong> waits for the message, then runs. Racer 2 is fastest (bigger Move number):
+        <div class="script">
+          <div class="script-who">Racer 2 (fast) – Scene 1</div>
+          <div class="script-line">
+            <span class="blk blk-t">📬 Receive Message (Yellow)</span>
+            <span class="blk blk-b">→ Move Right 7</span>
+            <span class="blk blk-t">🎬 Change Scene →</span>
+            <span class="blk blk-r">⬛ End</span>
+          </div>
+        </div>
+        Repeat for Racer 1 (Move Right <strong>3</strong>) and Racer 3 (Move Right <strong>5</strong>).
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n" style="background:#E8F1FF;color:var(--accent2)">4</div>
+      <div class="step-content">
+        In <strong>Scene 2</strong>, add all 3 racers. <strong>Racer 2</strong> (the winner) has this script:<br>
+        <div class="script">
+          <div class="script-who">Racer 2 – Scene 2</div>
+          <div class="script-line">
+            <span class="blk blk-y">▶ Scene Begin</span>
+            <span class="blk blk-p">⬆ Grow</span>
+            <span class="blk blk-p">⬆ Grow</span>
+            <span class="blk blk-p">⬆ Grow</span>
+            <span class="blk blk-r">⬛ End</span>
+          </div>
+        </div>
+        Racer 1 and 3 just have a <span class="blk blk-r">⬛ End</span> block — they stay small.
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n" style="background:#E8F1FF;color:var(--accent2)">5</div>
+      <div class="step-content">Test your project. <strong>Change the Move numbers</strong> to swap who wins. Try making Racer 1 the winner by giving it Move Right = 8 and reducing the others.</div>
+    </div>
+
+    <div class="watch">
+      <span>⚠️</span>
+      <div><strong>Important:</strong> All 3 racers must receive the <strong>same colour message</strong> from the referee. If they're listening for different colours, they won't all start at the same time.</div>
+    </div>
+
+    <div class="hint">
+      <span>💡</span>
+      <div><strong>Design question:</strong> Could you make a race with a <em>looped</em> Move block (e.g., Repeat 4 × Move Right 2) instead of one large move? Would the result look different? Try it!</div>
+    </div>
+
+    <div class="challenge">
+      <span>⭐</span>
+      <div><strong>Extension:</strong> Add a <strong>countdown</strong> in Scene 1. Use 3 separate scripts on the referee: one that sends a message at Wait 0, one at Wait 1, one at Wait 2 — each making a different visual change (e.g. growing, shrinking). The 3rd message is the real GO signal for the racers.</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-label">Exercise 03</div>
+
+<!-- ══════════════════════════════════
+     EXERCISE 3 – THE HIDING GAME
+     ══════════════════════════════════ -->
+<div class="exercise">
+  <div class="ex-banner">
+    <div class="ex-number" style="color:var(--accent3)">03</div>
+    <div class="ex-info">
+      <h2>The Hiding Game</h2>
+      <div class="subtitle">Hide/Show · Tap events · Message chains · Multi-scene logic</div>
+    </div>
+    <span class="level-pill" style="background:#FFF4E0;color:#A85800">Advanced</span>
+  </div>
+
+  <div class="scene-planner">
+    <h4>🎬 Scene Plan</h4>
+    <div class="scenes-row">
+      <div class="scene-box">
+        <div class="scene-num" style="color:var(--accent3)">Scene 1</div>
+        <div class="scene-desc">The Room</div>
+        <div class="scene-bg">Hider runs and becomes invisible. Seeker searches by tapping.</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="scene-box">
+        <div class="scene-num" style="color:var(--accent1)">Scene 2</div>
+        <div class="scene-desc">Found!</div>
+        <div class="scene-bg">Both characters appear. Hider grows, Seeker jumps.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex-body">
+    <div class="objective">
+      <div class="obj-icon">🎯</div>
+      <div class="obj-text">
+        <strong>Goal:</strong> The Hider moves to a corner and becomes <strong>invisible (shrink to nothing)</strong>. The Seeker walks around. When the player <strong>taps the Seeker</strong>, it triggers a message that makes the Hider <strong>reappear (grow back)</strong>. Then both characters do a reaction and the scene changes. You will use <strong>tap-on-character events</strong> for the first time to trigger a message chain.
+      </div>
+    </div>
+
+    <div class="char-plan">
+      <div class="char-card">
+        <div class="char-label">Character A</div>
+        <div class="char-name">🙈 The Hider</div>
+        <div class="char-role">Runs to corner → shrinks to invisible → reappears when found.</div>
+      </div>
+      <div class="char-card">
+        <div class="char-label">Character B</div>
+        <div class="char-name">🔍 The Seeker</div>
+        <div class="char-role">Walks around searching. When tapped by player, sends "found!" message.</div>
+      </div>
+    </div>
+
+    <div class="steps-heading">📋 Build Instructions</div>
+
+    <div class="step">
+      <div class="step-n" style="background:#FFF4E0;color:#A85800">1</div>
+      <div class="step-content">
+        <strong>Hider – Scene 1 (hiding script):</strong> Run to a corner and shrink 5 times until invisible. Add waits to make it look gradual.
+        <div class="script">
+          <div class="script-who">Hider – Scene 1</div>
+          <div class="script-line">
+            <span class="blk blk-y">▶ Green Flag</span>
+            <span class="blk blk-b">→ Move Right 5</span>
+            <span class="blk blk-b">↑ Move Up 3</span>
+          </div>
+          <div class="script-line">
+            <span class="blk blk-o">⏱ Wait 1</span>
+            <span class="blk blk-p">⬇ Shrink</span>
+            <span class="blk blk-o">⏱ Wait 1</span>
+            <span class="blk blk-p">⬇ Shrink</span>
+            <span class="blk blk-o">⏱ Wait 1</span>
+            <span class="blk blk-p">⬇ Shrink</span>
+            <span class="blk blk-o">⏱ Wait 1</span>
+            <span class="blk blk-p">⬇ Shrink</span>
+            <span class="blk blk-o">⏱ Wait 1</span>
+            <span class="blk blk-p">⬇ Shrink</span>
+            <span class="blk blk-r">⬛ End</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n" style="background:#FFF4E0;color:#A85800">2</div>
+      <div class="step-content">
+        <strong>Hider – Scene 1 (reappear script):</strong> The Hider also needs a <em>second</em> script — one that listens for a "found" message and makes it grow back.
+        <div class="script">
+          <div class="script-who">Hider – Scene 1 (2nd script)</div>
+          <div class="script-line">
+            <span class="blk blk-t">📬 Receive Message (Red)</span>
+          </div>
+          <div class="script-line">
+            <span class="blk blk-p">⬆ Grow</span>
+            <span class="blk blk-o">⏱ Wait 1</span>
+            <span class="blk blk-p">⬆ Grow</span>
+            <span class="blk blk-o">⏱ Wait 1</span>
+            <span class="blk blk-p">⬆ Grow</span>
+            <span class="blk blk-o">⏱ Wait 1</span>
+            <span class="blk blk-p">⬆ Grow</span>
+            <span class="blk blk-o">⏱ Wait 1</span>
+            <span class="blk blk-p">⬆ Grow</span>
+          </div>
+          <div class="script-line">
+            <span class="blk blk-t">📨 Send Message (Blue)</span>
+            <span class="blk blk-r">⬛ End</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n" style="background:#FFF4E0;color:#A85800">3</div>
+      <div class="step-content">
+        <strong>Seeker – Scene 1 (searching script):</strong> Walk left and right using a loop to simulate searching, then stop.
+        <div class="script">
+          <div class="script-who">Seeker – Scene 1</div>
+          <div class="script-line">
+            <span class="blk blk-y">▶ Green Flag</span>
+            <span class="blk blk-o">⏱ Wait 3</span>
+          </div>
+          <div class="script-line">
+            <span class="blk blk-o">🔁 Repeat 3</span>
+            <span>[ <span class="blk blk-b">→ Move Right 2</span> <span class="blk blk-o">⏱ Wait 1</span> <span class="blk blk-b">← Move Left 2</span> <span class="blk blk-o">⏱ Wait 1</span> ]</span>
+          </div>
+          <div class="script-line">
+            <span class="blk blk-r">⬛ End</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n" style="background:#FFF4E0;color:#A85800">4</div>
+      <div class="step-content">
+        <strong>Seeker – Scene 1 (tap event script):</strong> This is a <em>separate</em> script on the Seeker. Use the <span class="blk blk-y">👆 Tap on Character</span> trigger. When the player taps the Seeker, it sends the "found" message.
+        <div class="script">
+          <div class="script-who">Seeker – Scene 1 (2nd script)</div>
+          <div class="script-line">
+            <span class="blk blk-y">👆 Tap on Character</span>
+            <span class="blk blk-t">📨 Send Message (Red)</span>
+            <span class="blk blk-r">⬛ End</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n" style="background:#FFF4E0;color:#A85800">5</div>
+      <div class="step-content">
+        <strong>Seeker – Scene 1 (react script):</strong> When the Seeker receives the Blue message (sent by Hider after reappearing), it jumps up and changes scene.
+        <div class="script">
+          <div class="script-who">Seeker – Scene 1 (3rd script)</div>
+          <div class="script-line">
+            <span class="blk blk-t">📬 Receive Message (Blue)</span>
+            <span class="blk blk-b">↑ Move Up 3</span>
+            <span class="blk blk-o">⏱ Wait 1</span>
+            <span class="blk blk-b">↓ Move Down 3</span>
+            <span class="blk blk-t">🎬 Change Scene →</span>
+            <span class="blk blk-r">⬛ End</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n" style="background:#FFF4E0;color:#A85800">6</div>
+      <div class="step-content">
+        <strong>Scene 2:</strong> Place both characters. Both use <span class="blk blk-y">▶ Scene Begin</span>. Hider grows big (victory!), Seeker does a spin loop (Turn Right × 4 inside a Repeat 2).
+      </div>
+    </div>
+
+    <div class="watch">
+      <span>⚠️</span>
+      <div><strong>The message chain matters:</strong> The order is — Seeker gets tapped → sends Red → Hider receives Red, grows, sends Blue → Seeker receives Blue, jumps, changes scene. If any link in this chain is wrong, the whole sequence breaks. Draw it out before building!</div>
+    </div>
+
+    <div class="hint">
+      <span>💡</span>
+      <div><strong>Multiple scripts on one character:</strong> In ScratchJr, one character can have <strong>several independent scripts</strong> at the same time. The hiding script and the reappear script on the Hider run separately — one starts at the green flag, the other waits for a message. This is normal and expected!</div>
+    </div>
+
+    <div class="challenge">
+      <span>⭐</span>
+      <div><strong>Extension:</strong> Add a <strong>third hiding spot</strong>. Place a second hidden character in Scene 1. The player must tap the Seeker <strong>twice</strong> — each tap sends a different colour message revealing a different character. Only when <em>both</em> are found does the scene change. How would you change the message chain to make this work?</div>
+    </div>
+  </div>
+</div>
+
+<!-- REFLECTION -->
+<div class="reflection">
+  <h3>🧠 Discussion Questions</h3>
+
+  <div class="q-item">
+    <span class="q-num" style="background:#FDECEA;color:var(--accent1)">Q1</span>
+    <div class="q-text">In Exercise 1, why do you need a Wait block <em>between</em> each Shrink block? What would happen without them?</div>
+  </div>
+  <div class="q-item">
+    <span class="q-num" style="background:#E8F1FF;color:var(--accent2)">Q2</span>
+    <div class="q-text">In Exercise 2, the 3 racers all receive the same Yellow message. Could you give them <em>different</em> Wait blocks before their Move block to stagger their starts? How would that change the race?</div>
+  </div>
+  <div class="q-item">
+    <span class="q-num" style="background:#FFF4E0;color:#A85800">Q3</span>
+    <div class="q-text">In Exercise 3, the Hider has <strong>two separate scripts</strong>. Why can't we put everything in a single script? What would happen if we tried?</div>
+  </div>
+  <div class="q-item">
+    <span class="q-num" style="background:#E4F8F6;color:var(--accent4)">Q4</span>
+    <div class="q-text">In all three exercises, the <strong>scene change</strong> happens at the end of a script. What would happen if you put the scene change block at the <em>beginning</em> instead?</div>
+  </div>
+</div>
+
+</div><!-- end page -->
+<footer>ScratchJr Challenge Pack · Grade 3–4 · Intermediate Level · No Sound Activities</footer>
+</body>
+</html>
