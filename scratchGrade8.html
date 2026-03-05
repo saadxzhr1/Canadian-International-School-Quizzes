@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scratch – Grade 7 Game Project</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@400;600;700;800;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #09090F;
+    --bg2: #0E0E1A;
+    --panel: #12121E;
+    --border: #1E1E30;
+    --neon: #00FF88;
+    --hot: #FF0066;
+    --cyan: #00E5FF;
+    --gold: #FFD600;
+    --purple: #BF5FFF;
+    --text: #C8C8D8;
+    --dim: #555568;
+    --mono: 'Share Tech Mono', monospace;
+    --body: 'Barlow', sans-serif;
+    --display: 'Barlow Condensed', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--body);
+    background: #0f212f;
+    color: var(--text);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* scanline overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,.12) 2px,
+      rgba(0,0,0,.12) 4px
+    );
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  /* ambient glows */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 15% 10%, rgba(0,255,136,.06) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 35% at 85% 80%, rgba(255,0,102,.06) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 22px 80px; position: relative; z-index: 1; }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 56px 0 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 44px;
+  }
+  .hero-top {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 22px; flex-wrap: wrap;
+  }
+  .pill {
+    font-family: var(--mono);
+    font-size: 10px; letter-spacing: 2px;
+    padding: 5px 14px; border-radius: 3px;
+    text-transform: uppercase;
+  }
+  .pill-neon  { background: rgba(0,255,136,.12); color: var(--neon);   border: 1px solid rgba(0,255,136,.3); }
+  .pill-hot   { background: rgba(255,0,102,.12);  color: var(--hot);    border: 1px solid rgba(255,0,102,.3); }
+  .pill-cyan  { background: rgba(0,229,255,.12);  color: var(--cyan);   border: 1px solid rgba(0,229,255,.3); }
+  .pill-gold  { background: rgba(255,214,0,.12);  color: var(--gold);   border: 1px solid rgba(255,214,0,.3); }
+  .pill-dim   { background: rgba(255,255,255,.04);color: #9e9eca;    border: 1px solid var(--border); }
+
+  .hero h1 {
+    font-family: var(--display);
+    font-size: clamp(3rem, 9vw, 6rem);
+    font-weight: 900;
+    line-height: .95;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .hero h1 .line1 { color: var(--neon); text-shadow: 0 0 30px rgba(0,255,136,.5); }
+  .hero h1 .line2 { color: white; }
+  .hero h1 .line3 { color: var(--hot);  text-shadow: 0 0 30px rgba(255,0,102,.4); }
+
+  .hero-desc {
+    font-size: 1.05rem; color: #9e9eca; line-height: 1.7;
+    max-width: 560px; margin-bottom: 28px;
+  }
+
+  .stat-row {
+    display: flex; gap: 0; flex-wrap: wrap;
+    border: 1px solid var(--border); border-radius: 10px;
+    overflow: hidden; width: fit-content;
+  }
+  .stat {
+    padding: 12px 22px;
+    border-right: 1px solid var(--border);
+    font-family: var(--mono);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-label { font-size: 9px; color: #9e9eca; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+  .stat-value { font-size: 1rem; font-weight: 700; }
+
+  /* ── WHAT YOU'LL BUILD ── */
+  .game-preview {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 44px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+  @media(max-width:620px){ .game-preview { grid-template-columns: 1fr; } }
+
+  .game-preview h2 {
+    font-family: var(--display);
+    font-size: 1.6rem; font-weight: 900; text-transform: uppercase;
+    color: white; margin-bottom: 12px; grid-column: 1/-1;
+  }
+  .game-preview h2 span { color: var(--neon); }
+
+  .screen-mock {
+    background: #000;
+    border: 2px solid var(--neon);
+    border-radius: 10px;
+    aspect-ratio: 4/3;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0,255,136,.15), inset 0 0 20px rgba(0,0,0,.5);
+  }
+  .mock-sky {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, #0a0a2e 0%, #1a0a3e 100%);
+  }
+  /* animated mock slimes */
+  .mock-slime {
+    position: absolute;
+    width: 32px; height: 28px;
+    background: var(--neon);
+    border-radius: 50% 50% 45% 45%;
+    animation: fall linear infinite;
+  }
+  .mock-slime::before {
+    content: '👾';
+    font-size: 22px;
+    position: absolute;
+    top: 2px; left: 4px;
+  }
+  .mock-slime:nth-child(2){ left:18%; animation-duration:2.4s; animation-delay:-.6s; background:var(--hot); }
+  .mock-slime:nth-child(3){ left:55%; animation-duration:1.8s; animation-delay:-1.2s; }
+  .mock-slime:nth-child(4){ left:78%; animation-duration:2.8s; animation-delay:-.3s; background:var(--purple); }
+  .mock-gem {
+    position: absolute;
+    font-size: 20px;
+    animation: fall linear infinite;
+  }
+  .mock-gem:nth-child(5){ left:35%; animation-duration:3s; animation-delay:-1.5s; }
+  .mock-gem:nth-child(6){ left:65%; animation-duration:2.2s; animation-delay:-.8s; }
+  @keyframes fall {
+    from { top: -40px; }
+    to   { top: 110%; }
+  }
+  .mock-player {
+    position: absolute;
+    bottom: 8%; left: 44%;
+    font-size: 30px;
+    filter: drop-shadow(0 0 8px var(--cyan));
+    animation: playerBob .8s ease-in-out infinite alternate;
+  }
+  @keyframes playerBob {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-4px); }
+  }
+  .mock-hud {
+    position: absolute; top: 8px; left: 10px; right: 10px;
+    display: flex; justify-content: space-between;
+    font-family: var(--mono); font-size: 11px; color: white;
+  }
+  .mock-score { color: var(--gold); }
+  .mock-lives { color: var(--hot); }
+
+  .game-details {}
+  .game-details h3 {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 2px;
+    color: #9e9eca; text-transform: uppercase; margin-bottom: 14px;
+  }
+  .mechanic {
+    display: flex; gap: 12px; align-items: flex-start;
+    margin-bottom: 12px; font-size: .9rem; line-height: 1.5;
+  }
+  .mechanic-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+  .mechanic-text { color: var(--text); }
+  .mechanic-text strong { color: white; }
+
+  /* ── SECTION HEADER ── */
+  .sec {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 20px; margin-top: 44px;
+  }
+  .sec-num {
+    font-family: var(--mono); font-size: 11px; color: #9e9eca;
+    padding: 4px 10px; border: 1px solid var(--border); border-radius: 4px;
+    white-space: nowrap;
+  }
+  .sec h2 {
+    font-family: var(--display);
+    font-size: 1.4rem; font-weight: 900; text-transform: uppercase; color: white;
+  }
+  .sec-line { flex: 1; height: 1px; background: var(--border); }
+
+  /* ── SPRITE TABLE ── */
+  .sprite-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px; margin-bottom: 8px;
+  }
+  .sprite-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    transition: border-color .2s;
+  }
+  .sprite-card:hover { border-color: var(--neon); }
+  .sprite-emoji { font-size: 2rem; margin-bottom: 8px; }
+  .sprite-name { font-family: var(--mono); font-size: .85rem; color: white; font-weight: 700; margin-bottom: 4px; }
+  .sprite-desc { font-size: .8rem; color: #9e9eca; line-height: 1.5; }
+  .sprite-tag {
+    display: inline-block; margin-top: 8px;
+    font-size: 9px; font-family: var(--mono); letter-spacing: 1px;
+    padding: 2px 8px; border-radius: 3px;
+  }
+
+  /* ── VARIABLE TABLE ── */
+  .var-table {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  .var-row {
+    display: grid;
+    grid-template-columns: 160px 80px 1fr;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+  }
+  .var-row:last-child { border-bottom: none; }
+  .var-row.header {
+    background: rgba(255,255,255,.03);
+    font-family: var(--mono); font-size: 10px; letter-spacing: 2px;
+    color: #9e9eca; text-transform: uppercase;
+  }
+  .var-cell { padding: 12px 16px; font-size: .87rem; }
+  .var-name { font-family: var(--mono); color: var(--gold); font-weight: 700; }
+  .var-start { font-family: var(--mono); color: var(--cyan); }
+  .var-role { color: #9e9eca; line-height: 1.5; }
+  @media(max-width:500px){
+    .var-row { grid-template-columns: 1fr 60px; }
+    .var-role { display: none; }
+  }
+
+  /* ── SCRIPT CARDS ── */
+  .script-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .sc-header {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 22px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,.02);
+    flex-wrap: wrap; gap: 10px;
+  }
+  .sc-sprite {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px;
+    text-transform: uppercase; padding: 3px 10px; border-radius: 3px;
+  }
+  .sc-title {
+    font-family: var(--display);
+    font-size: 1.1rem; font-weight: 700; color: white; flex: 1;
+  }
+  .sc-tag {
+    font-family: var(--mono); font-size: 9px; letter-spacing: 1px;
+    padding: 3px 9px; border-radius: 3px; text-transform: uppercase;
+  }
+
+  .sc-body { padding: 20px 22px; }
+
+  .sc-explain {
+    font-size: .87rem; color: #9e9eca; line-height: 1.7;
+    margin-bottom: 18px; border-left: 3px solid var(--border);
+    padding-left: 14px;
+  }
+  .sc-explain strong { color: var(--text); }
+
+  /* Block visual */
+  .blocks {
+    background: #1A1A26;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 2;
+  }
+  .b {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 11px 3px 9px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: var(--mono);
+    white-space: nowrap;
+    vertical-align: middle;
+    margin: 1px 2px;
+  }
+  /* Scratch colour coding */
+  .b-hat    { background:#5C3A1E; color:#FFAB19; border:1px solid #7A4E20; } /* Events – yellow-ish */
+  .b-ctl    { background:#2D1B4E; color:#BF5FFF; border:1px solid #4A2B7A; } /* Control – purple */
+  .b-mot    { background:#0D2A4E; color:#4D97FF; border:1px solid #1A3F6E; } /* Motion – blue */
+  .b-look   { background:#2A1A4E; color:#9966FF; border:1px solid #3D2870; } /* Looks – violet */
+  .b-sense  { background:#0D3A2A; color:#5CB1D6; border:1px solid #1A5240; } /* Sensing – teal */
+  .b-op     { background:#1A3A1A; color:#5CB85C; border:1px solid #2A5A2A; } /* Operators – green */
+  .b-var    { background:#3A2000; color:#FF8C1A; border:1px solid #5A3500; } /* Variables – orange */
+  .b-broad  { background:#3A1A00; color:#FFAB19; border:1px solid #5A2800; } /* Broadcast – amber */
+  .b-val    { background:rgba(255,255,255,.06); color:white; border:1px solid rgba(255,255,255,.15); } /* value box */
+
+  .indent { padding-left: 28px; display: block; border-left: 2px solid rgba(191,95,255,.2); margin-left: 14px; }
+  .indent2 { padding-left: 52px; display: block; border-left: 2px solid rgba(191,95,255,.15); margin-left: 28px; }
+  .blk-row { display: flex; align-items: center; flex-wrap: wrap; gap: 2px; }
+  .blk-comment { font-size: 10px; color: #9e9eca; padding-left: 8px; font-style: italic; }
+
+  /* ── HINT / WARN / CHALLENGE ── */
+  .callout {
+    display: flex; gap: 14px; align-items: flex-start;
+    border-radius: 10px; padding: 14px 18px;
+    margin-top: 14px; font-size: .86rem; line-height: 1.7;
+  }
+  .callout-icon { font-size: 1.2rem; flex-shrink: 0; }
+  .c-tip   { background: rgba(0,229,255,.07);  border: 1px solid rgba(0,229,255,.2);  color: rgba(200,240,255,.75); }
+  .c-tip strong   { color: var(--cyan); }
+  .c-warn  { background: rgba(255,214,0,.07);  border: 1px solid rgba(255,214,0,.2);  color: rgba(255,245,180,.75); }
+  .c-warn strong  { color: var(--gold); }
+  .c-star  { background: rgba(255,0,102,.07);  border: 1px solid rgba(255,0,102,.2);  color: rgba(255,190,210,.75); }
+  .c-star strong  { color: var(--hot); }
+  .c-debug { background: rgba(191,95,255,.07); border: 1px solid rgba(191,95,255,.2); color: rgba(220,190,255,.75); }
+  .c-debug strong { color: var(--purple); }
+
+  /* ── EXTENSIONS ── */
+  .ext-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+  }
+  .ext-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .ext-card .ext-level {
+    font-family: var(--mono); font-size: 9px; letter-spacing: 1.5px;
+    text-transform: uppercase; margin-bottom: 10px;
+  }
+  .ext-card h4 {
+    font-family: var(--display); font-weight: 900; font-size: 1.1rem;
+    color: white; text-transform: uppercase; margin-bottom: 8px;
+  }
+  .ext-card p { font-size: .84rem; color: #9e9eca; line-height: 1.6; }
+  .ext-card .concept {
+    margin-top: 12px;
+    font-family: var(--mono); font-size: 10px; color: var(--neon);
+  }
+
+  /* ── DEBUG CHALLENGE ── */
+  .debug-box {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 26px 28px;
+    margin-bottom: 20px;
+  }
+  .debug-box h3 {
+    font-family: var(--display); font-weight: 900;
+    font-size: 1.3rem; text-transform: uppercase; color: var(--purple);
+    margin-bottom: 16px;
+  }
+  .bug {
+    display: flex; gap: 14px; align-items: flex-start;
+    margin-bottom: 14px; font-size: .88rem;
+  }
+  .bug-num {
+    font-family: var(--mono); font-size: 10px;
+    padding: 3px 8px; border-radius: 3px;
+    background: rgba(191,95,255,.15); color: var(--purple);
+    border: 1px solid rgba(191,95,255,.3); flex-shrink: 0; margin-top: 2px;
+  }
+  .bug-text { color: #9e9eca; line-height: 1.6; }
+  .bug-text strong { color: var(--text); }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 0;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: #9e9eca;
+    letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-top">
+    <span class="pill pill-hot">Grade 8</span>
+    <span class="pill pill-neon">Scratch 3</span>
+    <span class="pill pill-cyan">Game Dev</span>
+    <span class="pill pill-gold">~90 min</span>
+    <span class="pill pill-dim">Variables · Clones · Collision · Broadcast</span>
+  </div>
+  <h1>
+    <div class="line1">SLIME</div>
+    <div class="line2">RAIN</div>
+    <div class="line3">SURVIVAL</div>
+  </h1>
+  <p class="hero-desc">Build a complete arcade survival game from scratch. Slimes fall from the sky. Gems give you points. You have 3 lives. The longer you survive, the faster it gets. How long can you last?</p>
+  <div class="stat-row">
+    <div class="stat"><div class="stat-label">Sprites</div><div class="stat-value" style="color:var(--cyan)">4</div></div>
+    <div class="stat"><div class="stat-label">Variables</div><div class="stat-value" style="color:var(--gold)">4</div></div>
+    <div class="stat"><div class="stat-label">Scripts</div><div class="stat-value" style="color:var(--neon)">8</div></div>
+    <div class="stat"><div class="stat-label">New concepts</div><div class="stat-value" style="color:var(--hot)">3</div></div>
+  </div>
+</div>
+
+<!-- ── GAME PREVIEW ── -->
+<div class="game-preview">
+  <h2>What you'll <span>build</span></h2>
+
+  <!-- Animated mock screen -->
+  <div class="screen-mock">
+    <div class="mock-sky"></div>
+    <div class="mock-hud">
+      <div class="mock-score">⭐ 07</div>
+      <div class="mock-lives">❤️❤️❤️</div>
+    </div>
+    <div class="mock-slime"></div>
+    <div class="mock-slime"></div>
+    <div class="mock-slime"></div>
+    <div class="mock-slime"></div>
+    <div class="mock-gem">💎</div>
+    <div class="mock-gem">💎</div>
+    <div class="mock-player">🧑‍🚀</div>
+  </div>
+
+  <div class="game-details">
+    <h3>// game mechanics</h3>
+    <div class="mechanic">
+      <div class="mechanic-icon">🕹️</div>
+      <div class="mechanic-text"><strong>Arrow keys</strong> move the player left and right along the bottom of the screen.</div>
+    </div>
+    <div class="mechanic">
+      <div class="mechanic-icon">👾</div>
+      <div class="mechanic-text"><strong>Slimes</strong> fall from random positions at the top. Touch one → lose a life.</div>
+    </div>
+    <div class="mechanic">
+      <div class="mechanic-icon">💎</div>
+      <div class="mechanic-text"><strong>Gems</strong> fall too. Catch them → <strong>+1 score</strong>.</div>
+    </div>
+    <div class="mechanic">
+      <div class="mechanic-icon">⏱️</div>
+      <div class="mechanic-text">Every 10 seconds, slimes <strong>fall faster</strong>. The game gets harder as you survive longer.</div>
+    </div>
+    <div class="mechanic">
+      <div class="mechanic-icon">💀</div>
+      <div class="mechanic-text"><strong>3 lives</strong>. Reach 0 → Game Over screen with your final score.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ STEP 1: SPRITES ══════════ -->
+<div class="sec">
+  <div class="sec-num">STEP 01</div>
+  <h2>Create Your Sprites</h2>
+  <div class="sec-line"></div>
+</div>
+
+<div class="sprite-grid">
+  <div class="sprite-card">
+    <div class="sprite-emoji">🧑‍🚀</div>
+    <div class="sprite-name">PLAYER</div>
+    <div class="sprite-desc">Any character you like. Place at the bottom centre. This is what the player controls.</div>
+    <span class="sprite-tag pill-neon" style="background:rgba(0,255,136,.1);color:var(--neon);border:1px solid rgba(0,255,136,.25);font-family:var(--mono);font-size:9px;letter-spacing:1px;padding:2px 8px;border-radius:3px;">keyboard controlled</span>
+  </div>
+  <div class="sprite-card">
+    <div class="sprite-emoji">👾</div>
+    <div class="sprite-name">SLIME</div>
+    <div class="sprite-desc">One sprite that will be cloned into many falling enemies. Draw a blob or pick one from the library.</div>
+    <span class="sprite-tag" style="background:rgba(255,0,102,.1);color:var(--hot);border:1px solid rgba(255,0,102,.25);font-family:var(--mono);font-size:9px;letter-spacing:1px;padding:2px 8px;border-radius:3px;">uses clones</span>
+  </div>
+  <div class="sprite-card">
+    <div class="sprite-emoji">💎</div>
+    <div class="sprite-name">GEM</div>
+    <div class="sprite-desc">Same idea as Slime — one sprite, cloned many times. Use a star, gem, or coin shape.</div>
+    <span class="sprite-tag" style="background:rgba(255,214,0,.1);color:var(--gold);border:1px solid rgba(255,214,0,.25);font-family:var(--mono);font-size:9px;letter-spacing:1px;padding:2px 8px;border-radius:3px;">uses clones</span>
+  </div>
+  <div class="sprite-card">
+    <div class="sprite-emoji">💀</div>
+    <div class="sprite-name">GAME OVER</div>
+    <div class="sprite-desc">A sprite (or text) that shows the score at the end. Hidden at start, shown on game over.</div>
+    <span class="sprite-tag" style="background:rgba(191,95,255,.1);color:var(--purple);border:1px solid rgba(191,95,255,.25);font-family:var(--mono);font-size:9px;letter-spacing:1px;padding:2px 8px;border-radius:3px;">hidden at start</span>
+  </div>
+</div>
+
+<!-- ══════════ STEP 2: VARIABLES ══════════ -->
+<div class="sec">
+  <div class="sec-num">STEP 02</div>
+  <h2>Create These Variables</h2>
+  <div class="sec-line"></div>
+</div>
+
+<p style="font-size:.9rem;color:#9e9eca;margin-bottom:16px;">Go to <strong style="color:white">Variables → Make a Variable</strong>. Create all four. Set them to <em>apply to all sprites</em>.</p>
+
+<div class="var-table">
+  <div class="var-row header">
+    <div class="var-cell">Variable name</div>
+    <div class="var-cell">Starts at</div>
+    <div class="var-cell">What it does</div>
+  </div>
+  <div class="var-row">
+    <div class="var-cell var-name">score</div>
+    <div class="var-cell var-start">0</div>
+    <div class="var-cell var-role">Increases by 1 each time the player catches a gem</div>
+  </div>
+  <div class="var-row">
+    <div class="var-cell var-name">lives</div>
+    <div class="var-cell var-start">3</div>
+    <div class="var-cell var-role">Decreases by 1 when a slime touches the player. Game over at 0.</div>
+  </div>
+  <div class="var-row">
+    <div class="var-cell var-name">speed</div>
+    <div class="var-cell var-start">3</div>
+    <div class="var-cell var-role">Controls how fast slimes and gems fall. Increases every 10 seconds.</div>
+  </div>
+  <div class="var-row">
+    <div class="var-cell var-name">playing</div>
+    <div class="var-cell var-start">1</div>
+    <div class="var-cell var-role">1 = game is running, 0 = game over. Used to stop clone loops cleanly.</div>
+  </div>
+</div>
+
+<div class="callout c-tip" style="margin-top:14px;margin-bottom:0;">
+  <div class="callout-icon">💡</div>
+  <div><strong>Why "playing"?</strong> Without this variable, clones keep spawning even after game over. Setting <code style="color:var(--cyan)">playing = 0</code> is a signal for every loop in the game to stop cleanly. This is a real technique used in game dev.</div>
+</div>
+
+<!-- ══════════ STEP 3: SCRIPTS ══════════ -->
+<div class="sec">
+  <div class="sec-num">STEP 03</div>
+  <h2>Build the Scripts</h2>
+  <div class="sec-line"></div>
+</div>
+
+<!-- SCRIPT 1: SETUP -->
+<div class="script-card">
+  <div class="sc-header">
+    <span class="sc-sprite" style="background:rgba(0,255,136,.1);color:var(--neon);border:1px solid rgba(0,255,136,.25);">PLAYER</span>
+    <div class="sc-title">Script 1 — Game Setup</div>
+    <span class="sc-tag pill-dim">runs once at start</span>
+  </div>
+  <div class="sc-body">
+    <div class="sc-explain">
+      When the green flag is clicked, we reset <strong>every variable</strong> to its starting value and position the player at the bottom centre. This script must run before anything else — it's the game's "reset button."
+    </div>
+    <div class="blocks">
+      <div class="blk-row">
+        <span class="b b-hat">🚩 when green flag clicked</span>
+      </div>
+      <div class="blk-row">
+        <span class="b b-var">set</span><span class="b b-val">score</span><span class="b b-var">to</span><span class="b b-val">0</span>
+      </div>
+      <div class="blk-row">
+        <span class="b b-var">set</span><span class="b b-val">lives</span><span class="b b-var">to</span><span class="b b-val">3</span>
+      </div>
+      <div class="blk-row">
+        <span class="b b-var">set</span><span class="b b-val">speed</span><span class="b b-var">to</span><span class="b b-val">3</span>
+      </div>
+      <div class="blk-row">
+        <span class="b b-var">set</span><span class="b b-val">playing</span><span class="b b-var">to</span><span class="b b-val">1</span>
+      </div>
+      <div class="blk-row">
+        <span class="b b-mot">go to x:</span><span class="b b-val">0</span><span class="b b-mot">y:</span><span class="b b-val">-150</span>
+        <span class="blk-comment">// bottom centre of screen</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPT 2: PLAYER MOVEMENT -->
+<div class="script-card">
+  <div class="sc-header">
+    <span class="sc-sprite" style="background:rgba(0,255,136,.1);color:var(--neon);border:1px solid rgba(0,255,136,.25);">PLAYER</span>
+    <div class="sc-title">Script 2 — Player Movement</div>
+    <span class="sc-tag pill-dim">forever loop</span>
+  </div>
+  <div class="sc-body">
+    <div class="sc-explain">
+      A <strong>forever loop</strong> checks the keyboard every single frame. If left arrow is held, move left. If right arrow is held, move right. The <strong>if on edge, bounce</strong> is replaced by clamping — we use an <code>if</code> to prevent the player from going off screen.
+    </div>
+    <div class="blocks">
+      <div class="blk-row"><span class="b b-hat">🚩 when green flag clicked</span></div>
+      <div class="blk-row"><span class="b b-ctl">forever</span></div>
+      <span class="indent">
+        <div class="blk-row">
+          <span class="b b-ctl">if</span>
+          <span class="b b-sense">key [left arrow] pressed?</span>
+          <span class="b b-ctl">then</span>
+        </div>
+        <span class="indent">
+          <div class="blk-row"><span class="b b-mot">change x by</span><span class="b b-val">-12</span></div>
+        </span>
+        <div class="blk-row"><span class="b b-ctl">end</span></div>
+        <div class="blk-row">
+          <span class="b b-ctl">if</span>
+          <span class="b b-sense">key [right arrow] pressed?</span>
+          <span class="b b-ctl">then</span>
+        </div>
+        <span class="indent">
+          <div class="blk-row"><span class="b b-mot">change x by</span><span class="b b-val">12</span></div>
+        </span>
+        <div class="blk-row"><span class="b b-ctl">end</span></div>
+        <div class="blk-row">
+          <span class="b b-ctl">if</span>
+          <span class="b b-op">x position &gt;</span><span class="b b-val">200</span>
+          <span class="b b-ctl">then</span>
+        </div>
+        <span class="indent">
+          <div class="blk-row"><span class="b b-mot">set x to</span><span class="b b-val">200</span><span class="blk-comment">// wall on right</span></div>
+        </span>
+        <div class="blk-row"><span class="b b-ctl">end</span></div>
+        <div class="blk-row">
+          <span class="b b-ctl">if</span>
+          <span class="b b-op">x position &lt;</span><span class="b b-val">-200</span>
+          <span class="b b-ctl">then</span>
+        </div>
+        <span class="indent">
+          <div class="blk-row"><span class="b b-mot">set x to</span><span class="b b-val">-200</span><span class="blk-comment">// wall on left</span></div>
+        </span>
+        <div class="blk-row"><span class="b b-ctl">end</span></div>
+      </span>
+      <div class="blk-row"><span class="b b-ctl">end</span></div>
+    </div>
+    <div class="callout c-tip">
+      <div class="callout-icon">💡</div>
+      <div><strong>Why check x position manually?</strong> Scratch's "if on edge bounce" makes sprites flip direction — ugly for a player. Clamping the x value between -200 and 200 keeps the player inside without any flip.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPT 3: SPEED RAMP -->
+<div class="script-card">
+  <div class="sc-header">
+    <span class="sc-sprite" style="background:rgba(0,255,136,.1);color:var(--neon);border:1px solid rgba(0,255,136,.25);">PLAYER</span>
+    <div class="sc-title">Script 3 — Difficulty Ramp</div>
+    <span class="sc-tag" style="background:rgba(255,0,102,.1);color:var(--hot);border:1px solid rgba(255,0,102,.25);">new concept: wait + loop</span>
+  </div>
+  <div class="sc-body">
+    <div class="sc-explain">
+      Every 10 seconds, <strong>speed increases by 1</strong>. This script runs alongside the others at the same time (Scratch runs all green-flag scripts at once). It stops itself when <strong>playing = 0</strong>.
+    </div>
+    <div class="blocks">
+      <div class="blk-row"><span class="b b-hat">🚩 when green flag clicked</span></div>
+      <div class="blk-row"><span class="b b-ctl">repeat until</span><span class="b b-op">playing = 0</span></div>
+      <span class="indent">
+        <div class="blk-row"><span class="b b-ctl">wait</span><span class="b b-val">10</span><span class="b b-ctl">seconds</span></div>
+        <div class="blk-row"><span class="b b-var">change</span><span class="b b-val">speed</span><span class="b b-var">by</span><span class="b b-val">1</span></div>
+      </span>
+      <div class="blk-row"><span class="b b-ctl">end</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPT 4: SLIME SPAWNER -->
+<div class="script-card">
+  <div class="sc-header">
+    <span class="sc-sprite" style="background:rgba(255,0,102,.1);color:var(--hot);border:1px solid rgba(255,0,102,.25);">SLIME</span>
+    <div class="sc-title">Script 4 — Slime Spawner</div>
+    <span class="sc-tag" style="background:rgba(255,0,102,.1);color:var(--hot);border:1px solid rgba(255,0,102,.25);">new concept: clones</span>
+  </div>
+  <div class="sc-body">
+    <div class="sc-explain">
+      The Slime sprite itself <strong>hides</strong> at the start — it's just a factory. Every 1.5 seconds it creates a <strong>clone</strong> of itself. Each clone will run independently (Script 5). The original Slime is never seen.
+    </div>
+    <div class="blocks">
+      <div class="blk-row"><span class="b b-hat">🚩 when green flag clicked</span></div>
+      <div class="blk-row"><span class="b b-look">hide</span></div>
+      <div class="blk-row"><span class="b b-ctl">repeat until</span><span class="b b-op">playing = 0</span></div>
+      <span class="indent">
+        <div class="blk-row"><span class="b b-ctl">create clone of</span><span class="b b-val">myself</span></div>
+        <div class="blk-row">
+          <span class="b b-ctl">wait</span>
+          <span class="b b-op">(</span><span class="b b-val">1.5</span><span class="b b-op">–</span><span class="b b-val">0.1</span><span class="b b-op">×</span><span class="b b-val">speed</span><span class="b b-op">)</span>
+          <span class="b b-ctl">seconds</span>
+          <span class="blk-comment">// faster speed = shorter wait</span>
+        </div>
+      </span>
+      <div class="blk-row"><span class="b b-ctl">end</span></div>
+    </div>
+    <div class="callout c-warn">
+      <div class="callout-icon">⚠️</div>
+      <div><strong>Wait formula:</strong> You can simplify this — just use <code style="color:var(--gold)">wait 1 second</code> to start. Once the game works, replace it with <code style="color:var(--gold)">wait (1.5 – (speed × 0.1)) seconds</code> for a proper ramp. Make sure this value never reaches 0 or negative!</div>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPT 5: SLIME CLONE BEHAVIOUR -->
+<div class="script-card">
+  <div class="sc-header">
+    <span class="sc-sprite" style="background:rgba(255,0,102,.1);color:var(--hot);border:1px solid rgba(255,0,102,.25);">SLIME</span>
+    <div class="sc-title">Script 5 — Slime Clone Behaviour</div>
+    <span class="sc-tag" style="background:rgba(255,0,102,.1);color:var(--hot);border:1px solid rgba(255,0,102,.25);">clone logic</span>
+  </div>
+  <div class="sc-body">
+    <div class="sc-explain">
+      This script runs <em>on each clone</em> as soon as it's created. The clone appears at a <strong>random x</strong> position at the top, shows itself, then falls. If it touches the player → lose a life, delete clone. If it reaches the bottom → just delete clone.
+    </div>
+    <div class="blocks">
+      <div class="blk-row"><span class="b b-hat">⬜ when I start as a clone</span></div>
+      <div class="blk-row">
+        <span class="b b-mot">go to x:</span>
+        <span class="b b-op">pick random</span><span class="b b-val">-200</span><span class="b b-op">to</span><span class="b b-val">200</span>
+        <span class="b b-mot">y:</span><span class="b b-val">180</span>
+      </div>
+      <div class="blk-row"><span class="b b-look">show</span></div>
+      <div class="blk-row"><span class="b b-ctl">repeat until</span><span class="b b-op">y position &lt; -180</span></div>
+      <span class="indent">
+        <div class="blk-row"><span class="b b-mot">change y by</span><span class="b b-op">-</span><span class="b b-val">speed</span></div>
+        <div class="blk-row"><span class="b b-ctl">if</span><span class="b b-sense">touching [Player]?</span><span class="b b-ctl">then</span></div>
+        <span class="indent">
+          <div class="blk-row"><span class="b b-var">change</span><span class="b b-val">lives</span><span class="b b-var">by</span><span class="b b-val">-1</span></div>
+          <div class="blk-row"><span class="b b-ctl">delete this clone</span></div>
+        </span>
+        <div class="blk-row"><span class="b b-ctl">end</span></div>
+      </span>
+      <div class="blk-row"><span class="b b-ctl">end</span><span class="blk-comment">// reached bottom</span></div>
+      <div class="blk-row"><span class="b b-ctl">delete this clone</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPT 6: GEM -->
+<div class="script-card">
+  <div class="sc-header">
+    <span class="sc-sprite" style="background:rgba(255,214,0,.1);color:var(--gold);border:1px solid rgba(255,214,0,.25);">GEM</span>
+    <div class="sc-title">Script 6 — Gem Spawner + Clone</div>
+    <span class="sc-tag pill-dim">same pattern as Slime</span>
+  </div>
+  <div class="sc-body">
+    <div class="sc-explain">
+      Gems work the same way as slimes, but touching the player gives <strong>+1 score</strong> instead of losing a life. Build the spawner and clone scripts using the Slime as a model — the only differences are the touching condition and what happens.
+    </div>
+    <div class="blocks">
+      <div class="blk-row" style="opacity:.5"><span class="b b-hat">🚩 when green flag clicked</span><span class="blk-comment">  ← same as Slime Script 4</span></div>
+      <div style="height:8px"></div>
+      <div class="blk-row"><span class="b b-hat">⬜ when I start as a clone</span></div>
+      <div class="blk-row"><span class="b b-mot">go to x:</span><span class="b b-op">pick random</span><span class="b b-val">-200</span><span class="b b-op">to</span><span class="b b-val">200</span><span class="b b-mot">y:</span><span class="b b-val">180</span></div>
+      <div class="blk-row"><span class="b b-look">show</span></div>
+      <div class="blk-row"><span class="b b-ctl">repeat until</span><span class="b b-op">y position &lt; -180</span></div>
+      <span class="indent">
+        <div class="blk-row"><span class="b b-mot">change y by</span><span class="b b-op">-</span><span class="b b-val">speed</span></div>
+        <div class="blk-row"><span class="b b-ctl">if</span><span class="b b-sense">touching [Player]?</span><span class="b b-ctl">then</span></div>
+        <span class="indent">
+          <div class="blk-row"><span class="b b-var">change</span><span class="b b-val">score</span><span class="b b-var">by</span><span class="b b-val">1</span></div>
+          <div class="blk-row"><span class="b b-ctl">delete this clone</span></div>
+        </span>
+        <div class="blk-row"><span class="b b-ctl">end</span></div>
+      </span>
+      <div class="blk-row"><span class="b b-ctl">end</span></div>
+      <div class="blk-row"><span class="b b-ctl">delete this clone</span></div>
+    </div>
+    <div class="callout c-tip">
+      <div class="callout-icon">💡</div>
+      <div><strong>Make gems rarer:</strong> Give gems a longer wait between spawns than slimes (e.g. wait 3 seconds instead of 1.5). This makes catching them feel rewarding.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPT 7: LIVES MONITOR / GAME OVER -->
+<div class="script-card">
+  <div class="sc-header">
+    <span class="sc-sprite" style="background:rgba(0,255,136,.1);color:var(--neon);border:1px solid rgba(0,255,136,.25);">PLAYER</span>
+    <div class="sc-title">Script 7 — Lives Monitor & Game Over</div>
+    <span class="sc-tag" style="background:rgba(191,95,255,.1);color:var(--purple);border:1px solid rgba(191,95,255,.25);">new concept: broadcast</span>
+  </div>
+  <div class="sc-body">
+    <div class="sc-explain">
+      A dedicated script watches the <strong>lives</strong> variable. The moment it hits 0, it sets <code>playing = 0</code> (stopping all loops), then <strong>broadcasts "game over"</strong> to tell every sprite the game has ended.
+    </div>
+    <div class="blocks">
+      <div class="blk-row"><span class="b b-hat">🚩 when green flag clicked</span></div>
+      <div class="blk-row"><span class="b b-ctl">repeat until</span><span class="b b-op">lives ≤ 0</span></div>
+      <span class="indent">
+        <div class="blk-row"><span class="b b-ctl">wait</span><span class="b b-val">0.1</span><span class="b b-ctl">seconds</span><span class="blk-comment">// checks 10x per second</span></div>
+      </span>
+      <div class="blk-row"><span class="b b-ctl">end</span></div>
+      <div class="blk-row"><span class="b b-var">set</span><span class="b b-val">playing</span><span class="b b-var">to</span><span class="b b-val">0</span></div>
+      <div class="blk-row"><span class="b b-broad">broadcast</span><span class="b b-val">game over</span></div>
+      <div class="blk-row"><span class="b b-ctl">stop</span><span class="b b-val">other scripts in sprite</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPT 8: GAME OVER SCREEN -->
+<div class="script-card">
+  <div class="sc-header">
+    <span class="sc-sprite" style="background:rgba(191,95,255,.1);color:var(--purple);border:1px solid rgba(191,95,255,.25);">GAME OVER</span>
+    <div class="sc-title">Script 8 — Game Over Screen</div>
+    <span class="sc-tag pill-dim">receive broadcast</span>
+  </div>
+  <div class="sc-body">
+    <div class="sc-explain">
+      The Game Over sprite is <strong>hidden at game start</strong>. When it receives the "game over" broadcast, it appears and displays the final score using the <strong>say</strong> block.
+    </div>
+    <div class="blocks">
+      <div class="blk-row"><span class="b b-hat">🚩 when green flag clicked</span></div>
+      <div class="blk-row"><span class="b b-look">hide</span></div>
+      <div style="height:10px"></div>
+      <div class="blk-row"><span class="b b-hat">📨 when I receive</span><span class="b b-val">game over</span></div>
+      <div class="blk-row"><span class="b b-look">show</span></div>
+      <div class="blk-row">
+        <span class="b b-look">say</span>
+        <span class="b b-op">join</span>
+        <span class="b b-val">"GAME OVER! Score: "</span>
+        <span class="b b-op">join</span>
+        <span class="b b-var">score</span>
+      </div>
+    </div>
+    <div class="callout c-tip">
+      <div class="callout-icon">💡</div>
+      <div><strong>The join block</strong> (in Operators) lets you combine text and a variable into one message. <code style="color:var(--cyan)">join "Score: " score</code> will display something like <em>Score: 7</em>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ DEBUG CHALLENGE ══════════ -->
+<div class="sec">
+  <div class="sec-num">STEP 04</div>
+  <h2>Test & Debug</h2>
+  <div class="sec-line"></div>
+</div>
+
+<div class="debug-box">
+  <h3>🐛 Common Bugs — Can You Find the Fix?</h3>
+  <div class="bug">
+    <div class="bug-num">BUG 1</div>
+    <div class="bug-text">Slimes appear but <strong>don't move</strong>. The clone script runs but the y coordinate never changes. What block is probably missing or wrong?</div>
+  </div>
+  <div class="bug">
+    <div class="bug-num">BUG 2</div>
+    <div class="bug-text">The game <strong>never ends</strong> even when you get hit many times. Lives keeps going negative (-1, -2, -3…). Which script is supposed to stop this, and what condition might be wrong?</div>
+  </div>
+  <div class="bug">
+    <div class="bug-num">BUG 3</div>
+    <div class="bug-text">After game over, <strong>new slimes keep falling</strong> even though broadcasting "game over." What variable is supposed to stop the spawner loops, and was it set correctly?</div>
+  </div>
+  <div class="bug">
+    <div class="bug-num">BUG 4</div>
+    <div class="bug-text">The player <strong>walks off the screen</strong> to the left. The wall on the right works, but not the left. Look at Script 2 — what is likely wrong with the left wall condition?</div>
+  </div>
+</div>
+
+<!-- ══════════ EXTENSIONS ══════════ -->
+<div class="sec">
+  <div class="sec-num">STEP 05</div>
+  <h2>Go Further — Extensions</h2>
+  <div class="sec-line"></div>
+</div>
+
+<div class="ext-grid">
+  <div class="ext-card">
+    <div class="ext-level" style="color:var(--neon)">⭐ Easy</div>
+    <h4>High Score</h4>
+    <p>Create a <strong>high score</strong> variable. At game over, check if score > high score, and if so, update it. The high score survives between rounds.</p>
+    <div class="concept">+ if/else · variables</div>
+  </div>
+  <div class="ext-card">
+    <div class="ext-level" style="color:var(--cyan)">⭐⭐ Medium</div>
+    <h4>Costume Flash</h4>
+    <p>When the player gets hit, make it flash red 3 times using <strong>costume switching</strong> and a short loop. Add brief invincibility during the flash.</p>
+    <div class="concept">+ costumes · loops · timing</div>
+  </div>
+  <div class="ext-card">
+    <div class="ext-level" style="color:var(--gold)">⭐⭐ Medium</div>
+    <h4>Power-Up Bomb</h4>
+    <p>Add a third falling object — a bomb. If caught, it <strong>deletes all current slime clones</strong> on screen. Hint: use a broadcast that slimes listen for.</p>
+    <div class="concept">+ broadcast · delete clone</div>
+  </div>
+  <div class="ext-card">
+    <div class="ext-level" style="color:var(--hot)">⭐⭐⭐ Hard</div>
+    <h4>Restart Button</h4>
+    <p>Add a button that resets all variables and restarts the game without pressing the green flag. It must also <strong>delete all existing clones</strong>. This is trickier than it sounds.</p>
+    <div class="concept">+ broadcast · stop scripts</div>
+  </div>
+  <div class="ext-card">
+    <div class="ext-level" style="color:var(--purple)">⭐⭐⭐ Hard</div>
+    <h4>Slime Boss</h4>
+    <p>Every time the score is a multiple of 10, spawn a <strong>giant slime</strong> (larger size, half the fall speed, 3× the size). Use <strong>operators</strong> to detect multiples: <code>score mod 10 = 0</code>.</p>
+    <div class="concept">+ modulo operator · size · conditions</div>
+  </div>
+  <div class="ext-card">
+    <div class="ext-level" style="color:var(--hot)">🔥 Ultimate</div>
+    <h4>Two-Player Mode</h4>
+    <p>Add a second player controlled by <strong>W/A/S/D keys</strong>. Each player has their own lives. The game ends when <em>both</em> players reach 0 lives. Display both scores at game over.</p>
+    <div class="concept">+ multi-sprite · W/A/S/D keys</div>
+  </div>
+</div>
+
+<div class="callout c-star" style="margin-top:20px;">
+  <div class="callout-icon">🔥</div>
+  <div><strong>Share your game!</strong> When you're done, click <em>Share</em> on Scratch and post the link in the class. Who gets the highest score? Try someone else's version — can you spot how they built it differently?</div>
+</div>
+
+</div><!-- end wrap -->
+<footer>SCRATCH GAME PROJECT · GRADE 7 · SLIME RAIN SURVIVAL · Variables · Clones · Broadcast · Collision</footer>
+</body>
+</html>

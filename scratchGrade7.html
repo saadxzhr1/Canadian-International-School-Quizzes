@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scratch – Cosmic Catch · Grade 7</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@400;600;700;800;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #16162A;
+    --panel: #1E1E36;
+    --border: #2E2E50;
+    --neon: #00FF88;
+    --hot: #FF3366;
+    --cyan: #00D4FF;
+    --gold: #FFD600;
+    --purple: #BF5FFF;
+    --text: #EEEEFF;
+    --sub: #A0A0C8;
+    --mono: 'Share Tech Mono', monospace;
+    --body: 'Barlow', sans-serif;
+    --display: 'Barlow Condensed', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--body);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 18px;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 50% 40% at 10% 5%,  rgba(0,255,136,.07) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 30% at 90% 90%, rgba(0,212,255,.07) 0%, transparent 60%);
+    pointer-events: none; z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,.04) 3px, rgba(0,0,0,.04) 4px);
+    pointer-events: none; z-index: 100;
+  }
+  .wrap { width: 75vw; margin: 0 auto; padding: 0 0 60px; position: relative; z-index: 1; }
+  @media(max-width:900px){ .wrap { width: 100%; padding: 0 20px 60px; } }
+
+  /* HERO */
+  .hero { padding: 36px 0 22px; border-bottom: 2px solid var(--border); margin-bottom: 24px; }
+  .tags { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+  .tag {
+    font-family: var(--mono); font-size: 14px; letter-spacing: 1.5px;
+    text-transform: uppercase; padding: 6px 16px; border-radius: 4px;
+  }
+  .t-green  { background: rgba(0,255,136,.15);  color: var(--neon);   border: 1px solid rgba(0,255,136,.35); }
+  .t-cyan   { background: rgba(0,212,255,.15);  color: var(--cyan);   border: 1px solid rgba(0,212,255,.35); }
+  .t-gold   { background: rgba(255,214,0,.15);  color: var(--gold);   border: 1px solid rgba(255,214,0,.35); }
+  .t-dim    { background: rgba(255,255,255,.07); color: var(--sub);   border: 1px solid var(--border); }
+  .hero h1 {
+    font-family: var(--display);
+    font-size: clamp(3.5rem, 7vw, 6rem);
+    font-weight: 900; text-transform: uppercase; line-height: .95;
+    letter-spacing: -1px; margin-bottom: 14px;
+  }
+  .hero h1 em { color: var(--neon); font-style: normal; text-shadow: 0 0 28px rgba(0,255,136,.5); }
+  .hero h1 span { color: white; }
+  .hero p { font-size: 1.15rem; color: var(--sub); max-width: 600px; line-height: 1.7; margin-bottom: 20px; }
+  .stat-bar { display: flex; width: fit-content; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .stat { padding: 12px 24px; border-right: 1px solid var(--border); font-family: var(--mono); }
+  .stat:last-child { border-right: none; }
+  .stat-l { font-size: 12px; color: var(--sub); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+  .stat-v { font-size: 1.2rem; font-weight: 700; }
+
+  /* GAME MOCK */
+  .mock-wrap {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 16px;
+    padding: 22px; margin-bottom: 28px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: start;
+  }
+  @media(max-width:600px){ .mock-wrap { grid-template-columns: 1fr; } }
+  .mock-wrap h2 {
+    font-family: var(--display); font-size: 2rem; font-weight: 900;
+    text-transform: uppercase; color: white; margin-bottom: 12px;
+    grid-column: 1 / -1;
+  }
+  .mock-wrap h2 em { color: var(--neon); font-style: normal; }
+  .screen {
+    background: #000; border: 2px solid rgba(0,255,136,.5); border-radius: 10px;
+    aspect-ratio: 4/3; position: relative; overflow: hidden;
+    box-shadow: 0 0 28px rgba(0,255,136,.15);
+  }
+  .screen-bg { position: absolute; inset: 0; background: linear-gradient(180deg, #050518 0%, #0a0520 100%); }
+  .screen-bg::before {
+    content: '✦ ✧ ✦ ✦ ✧ ✦ ✧ ✦ ✦ ✧';
+    position: absolute; top: 10%; left: 5%; right: 5%;
+    font-size: 8px; color: rgba(255,255,255,.2);
+    letter-spacing: 12px; word-spacing: 8px;
+  }
+  .s-hud { position: absolute; top: 8px; left: 10px; right: 10px; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 12px; }
+  .s-score { color: var(--gold); }
+  .s-lives { color: var(--hot); }
+  .s-meteor { position: absolute; left: 30%; top: 15%; font-size: 26px; animation: sdrop 2s linear infinite; }
+  .s-gem    { position: absolute; left: 65%; top: 5%;  font-size: 22px; animation: sdrop 2.8s linear infinite .8s; }
+  @keyframes sdrop { from { top: -10%; } to { top: 110%; } }
+  .s-player { position: absolute; bottom: 10%; left: 42%; font-size: 30px; filter: drop-shadow(0 0 6px var(--cyan)); }
+  .mechanics h3 { font-family: var(--mono); font-size: 13px; letter-spacing: 2px; color: var(--sub); text-transform: uppercase; margin-bottom: 12px; }
+  .mech { display: flex; gap: 12px; margin-bottom: 12px; font-size: 1.1rem; line-height: 1.5; color: var(--text); }
+  .mech-icon { font-size: 1.2rem; flex-shrink: 0; }
+  .mech strong { color: white; }
+
+  /* SECTION */
+  .sec { display: flex; align-items: center; gap: 14px; margin: 30px 0 16px; }
+  .sec-n { font-family: var(--mono); font-size: 13px; color: var(--sub); padding: 4px 12px; border: 1px solid var(--border); border-radius: 4px; white-space: nowrap; }
+  .sec h2 { font-family: var(--display); font-size: 1.8rem; font-weight: 900; text-transform: uppercase; color: white; }
+  .sec-line { flex: 1; height: 1px; background: var(--border); }
+
+  /* SPRITES — always 4 columns on wide screens */
+  .sprite-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 8px; }
+  @media(max-width:700px){ .sprite-row { grid-template-columns: repeat(2,1fr); } }
+  .sp-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+  .sp-card:hover { border-color: rgba(0,255,136,.4); }
+  .sp-emoji { font-size: 2.2rem; margin-bottom: 8px; }
+  .sp-name { font-family: var(--mono); font-size: 1rem; color: white; font-weight: 700; margin-bottom: 6px; }
+  .sp-desc { font-size: 1rem; color: var(--sub); line-height: 1.55; }
+
+  /* VARIABLES */
+  .var-table { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 10px; }
+  .vr { display: grid; grid-template-columns: 160px 90px 1fr; border-bottom: 1px solid var(--border); }
+  .vr:last-child { border-bottom: none; }
+  .vr.hd { background: rgba(255,255,255,.03); font-family: var(--mono); font-size: 12px; color: var(--sub); letter-spacing: 2px; text-transform: uppercase; }
+  .vc { padding: 14px 18px; font-size: 1.05rem; }
+  .vn { font-family: var(--mono); color: var(--gold); font-weight: 700; }
+  .vs { font-family: var(--mono); color: var(--cyan); }
+  .vd { color: var(--sub); line-height: 1.5; }
+
+  /* SCRIPT CARDS */
+  .sc { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 18px; overflow: hidden; }
+  .sc-top {
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    padding: 14px 22px; border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,.02);
+  }
+  .who { font-family: var(--mono); font-size: 12px; letter-spacing: 1px; text-transform: uppercase; padding: 4px 12px; border-radius: 4px; }
+  .sc-title { font-family: var(--display); font-size: 1.4rem; font-weight: 700; color: white; flex: 1; }
+  .sc-body { padding: 18px 22px; }
+  .sc-note { font-size: 1.05rem; color: var(--sub); line-height: 1.75; margin-bottom: 16px; border-left: 3px solid var(--border); padding-left: 14px; }
+  .sc-note strong { color: var(--text); }
+
+  /* BLOCKS */
+  .blocks {
+    background: #111126; border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px 18px; font-family: var(--mono); font-size: 14px; line-height: 2.2;
+  }
+  .br { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
+  .b {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 13px; border-radius: 6px; font-size: 14px;
+    font-family: var(--mono); white-space: nowrap; vertical-align: middle;
+  }
+  .bh { background:#3d2600; color:#FFAB19; border:1px solid #6a4200; }
+  .bc { background:#2a1a45; color:#CF8FFF; border:1px solid #4a2e80; }
+  .bm { background:#0c2540; color:#6AADFF; border:1px solid #1a4070; }
+  .bl { background:#241540; color:#AA88FF; border:1px solid #3a2068; }
+  .bs { background:#0c2e22; color:#7ACFE6; border:1px solid #1a5040; }
+  .bo { background:#162816; color:#7AD87A; border:1px solid #285028; }
+  .bv { background:#332000; color:#FF9C2A; border:1px solid #5a3800; }
+  .bb { background:#332800; color:#FFBB2A; border:1px solid #5a4400; }
+  .bx { background:rgba(255,255,255,.08); color:rgba(255,255,255,.9); border:1px solid rgba(255,255,255,.18); }
+
+  .ind { display: block; padding-left: 28px; border-left: 2px solid rgba(191,95,255,.25); margin-left: 14px; }
+  .cm { font-size: 12px; color: var(--sub); padding-left: 8px; font-style: italic; }
+
+  /* CALLOUTS */
+  .co { display: flex; gap: 14px; border-radius: 10px; padding: 14px 18px; margin-top: 14px; font-size: 1.05rem; line-height: 1.75; }
+  .co-icon { font-size: 1.3rem; flex-shrink: 0; }
+  .tip  { background: rgba(0,212,255,.09);  border: 1px solid rgba(0,212,255,.3);  color: #B8E8FF; }
+  .tip strong  { color: var(--cyan); }
+  .warn { background: rgba(255,214,0,.09);  border: 1px solid rgba(255,214,0,.3);  color: #FFF0B0; }
+  .warn strong { color: var(--gold); }
+  .star { background: rgba(255,50,100,.09); border: 1px solid rgba(255,50,100,.3); color: #FFB8CC; }
+  .star strong { color: var(--hot); }
+
+  /* DEBUG */
+  .debug { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 22px 26px; margin-bottom: 18px; }
+  .debug h3 { font-family: var(--display); font-size: 1.6rem; font-weight: 900; text-transform: uppercase; color: var(--purple); margin-bottom: 16px; }
+  .bug { display: flex; gap: 14px; margin-bottom: 14px; font-size: 1.05rem; align-items: flex-start; }
+  .bug-n { font-family: var(--mono); font-size: 12px; padding: 3px 10px; border-radius: 4px; background: rgba(191,95,255,.18); color: #CF8FFF; border: 1px solid rgba(191,95,255,.4); flex-shrink: 0; margin-top: 3px; }
+  .bug-t { color: var(--sub); line-height: 1.65; }
+  .bug-t strong { color: var(--text); }
+
+  /* EXTENSIONS */
+  .ext-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 14px; }
+  .ext { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .ext-lv { font-family: var(--mono); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
+  .ext h4 { font-family: var(--display); font-size: 1.3rem; font-weight: 900; text-transform: uppercase; color: white; margin-bottom: 8px; }
+  .ext p { font-size: 1.05rem; color: var(--sub); line-height: 1.6; }
+  .ext .tag2 { margin-top: 12px; font-family: var(--mono); font-size: 12px; color: var(--neon); }
+
+  footer { border-top: 1px solid var(--border); padding: 18px 0; text-align: center; font-family: var(--mono); font-size: 13px; color: var(--sub); letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="tags">
+    <span class="tag t-green">Grade 7</span>
+    <span class="tag t-cyan">Scratch 3</span>
+    <span class="tag t-gold">~60 min</span>
+    <span class="tag t-dim">Variables · Loops · Collision · Broadcast</span>
+  </div>
+  <h1><em>COSMIC</em><br><span>CATCH</span></h1>
+  <p>Dodge meteors, catch gems, survive as long as you can. A full arcade game built with just the essentials — no clones, no fancy tricks, just solid logic.</p>
+  <div class="stat-bar">
+    <div class="stat"><div class="stat-l">Sprites</div><div class="stat-v" style="color:var(--cyan)">4</div></div>
+    <div class="stat"><div class="stat-l">Variables</div><div class="stat-v" style="color:var(--gold)">2</div></div>
+    <div class="stat"><div class="stat-l">Scripts</div><div class="stat-v" style="color:var(--neon)">6</div></div>
+  </div>
+</div>
+
+<!-- MOCK -->
+<div class="mock-wrap">
+  <h2>What you'll <em>build</em></h2>
+  <div class="screen">
+    <div class="screen-bg"></div>
+    <div class="s-hud"><span class="s-score">💎 04</span><span class="s-lives">❤️❤️❤️</span></div>
+    <div class="s-meteor">☄️</div>
+    <div class="s-gem">💎</div>
+    <div class="s-player">🧺</div>
+  </div>
+  <div class="mechanics">
+    <h3>// how it works</h3>
+    <div class="mech"><div class="mech-icon">🕹️</div><div><strong>Left/Right arrows</strong> move the player along the bottom.</div></div>
+    <div class="mech"><div class="mech-icon">☄️</div><div>A <strong>meteor</strong> falls from a random position. Touch it → lose a life.</div></div>
+    <div class="mech"><div class="mech-icon">💎</div><div>A <strong>gem</strong> falls at the same time. Catch it → +1 score.</div></div>
+    <div class="mech"><div class="mech-icon">❤️</div><div><strong>3 lives.</strong> Reach 0 → Game Over with your score.</div></div>
+  </div>
+</div>
+
+<!-- STEP 1: SPRITES -->
+<div class="sec"><div class="sec-n">STEP 01</div><h2>Create Your Sprites</h2><div class="sec-line"></div></div>
+
+<div class="sprite-row">
+  <div class="sp-card">
+    <div class="sp-emoji">🧺</div>
+    <div class="sp-name">PLAYER (BASKET)</div>
+    <div class="sp-desc">Draw a simple basket or bowl shape, or use the bucket sprite from the library. Position at bottom centre. Controlled by arrow keys.</div>
+  </div>
+  <div class="sp-card">
+    <div class="sp-emoji">☄️</div>
+    <div class="sp-name">METEOR</div>
+    <div class="sp-desc">The enemy. Falls from a random x at the top, resets when it reaches the bottom or hits the player.</div>
+  </div>
+  <div class="sp-card">
+    <div class="sp-emoji">💎</div>
+    <div class="sp-name">GEM</div>
+    <div class="sp-desc">The reward. Falls like the meteor but catching it adds 1 to the score.</div>
+  </div>
+  <div class="sp-card">
+    <div class="sp-emoji">🏁</div>
+    <div class="sp-name">GAME OVER</div>
+    <div class="sp-desc">Text sprite. Hidden during play, appears when the game ends with the final score.</div>
+  </div>
+</div>
+
+<!-- STEP 2: VARIABLES -->
+<div class="sec"><div class="sec-n">STEP 02</div><h2>Create 2 Variables</h2><div class="sec-line"></div></div>
+
+<p style="font-size:.88rem;color:var(--sub);margin-bottom:14px;">Variables → Make a Variable. Both apply to all sprites.</p>
+<div class="var-table">
+  <div class="vr hd"><div class="vc">Variable</div><div class="vc">Starts at</div><div class="vc">What it tracks</div></div>
+  <div class="vr"><div class="vc vn">score</div><div class="vc vs">0</div><div class="vc vd">Increases by 1 each time the player catches a gem</div></div>
+  <div class="vr"><div class="vc vn">lives</div><div class="vc vs">3</div><div class="vc vd">Decreases by 1 each time a meteor hits the player. Game over at 0.</div></div>
+</div>
+
+<!-- STEP 3: SCRIPTS -->
+<div class="sec"><div class="sec-n">STEP 03</div><h2>Build the Scripts</h2><div class="sec-line"></div></div>
+
+<!-- SCRIPT 1 -->
+<div class="sc">
+  <div class="sc-top">
+    <span class="who" style="background:rgba(0,255,136,.1);color:var(--neon);border:1px solid rgba(0,255,136,.25);">PLAYER</span>
+    <div class="sc-title">Script 1 — Setup</div>
+  </div>
+  <div class="sc-body">
+    <div class="sc-note">Runs once at the start. Resets both variables and puts the player in position. Always build this first.</div>
+    <div class="blocks">
+      <div class="br"><span class="b bh">🚩 when green flag clicked</span></div>
+      <div class="br"><span class="b bv">set</span><span class="b bx">score</span><span class="b bv">to</span><span class="b bx">0</span></div>
+      <div class="br"><span class="b bv">set</span><span class="b bx">lives</span><span class="b bv">to</span><span class="b bx">3</span></div>
+      <div class="br"><span class="b bm">go to x:</span><span class="b bx">0</span><span class="b bm">y:</span><span class="b bx">-150</span><span class="cm">// bottom centre</span></div>
+      <div class="br"><span class="b bl">show</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPT 2 -->
+<div class="sc">
+  <div class="sc-top">
+    <span class="who" style="background:rgba(0,255,136,.1);color:var(--neon);border:1px solid rgba(0,255,136,.25);">PLAYER</span>
+    <div class="sc-title">Script 2 — Movement</div>
+  </div>
+  <div class="sc-body">
+    <div class="sc-note">A <strong>forever loop</strong> checks the keyboard every frame. Move left or right depending on which arrow is held.</div>
+    <div class="blocks">
+      <div class="br"><span class="b bh">🚩 when green flag clicked</span></div>
+      <div class="br"><span class="b bc">forever</span></div>
+      <span class="ind">
+        <div class="br"><span class="b bc">if</span><span class="b bs">key [← left arrow] pressed?</span><span class="b bc">then</span></div>
+        <span class="ind"><div class="br"><span class="b bm">change x by</span><span class="b bx">-12</span></div></span>
+        <div class="br"><span class="b bc">end</span></div>
+        <div class="br"><span class="b bc">if</span><span class="b bs">key [→ right arrow] pressed?</span><span class="b bc">then</span></div>
+        <span class="ind"><div class="br"><span class="b bm">change x by</span><span class="b bx">12</span></div></span>
+        <div class="br"><span class="b bc">end</span></div>
+      </span>
+      <div class="br"><span class="b bc">end</span></div>
+    </div>
+    <div class="co tip">
+      <div class="co-icon">💡</div>
+      <div><strong>Tip:</strong> Want to stop the player from going off-screen? Add a third <code>if</code> after both: check <code>if x position > 200</code> then <code>set x to 200</code>. Same for the left side with -200. Try it as a bonus.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPT 3 -->
+<div class="sc">
+  <div class="sc-top">
+    <span class="who" style="background:rgba(255,50,100,.1);color:var(--hot);border:1px solid rgba(255,50,100,.25);">METEOR</span>
+    <div class="sc-title">Script 3 — Meteor Falls</div>
+  </div>
+  <div class="sc-body">
+    <div class="sc-note">The meteor loops forever. Each loop: jump to a <strong>random x</strong> at the top, then <strong>glide</strong> down to the bottom. The glide time uses a <strong>formula based on score</strong> — the more gems you catch, the faster the meteor falls. If it touches the player on the way down, lose a life and reset immediately.</div>
+    <div class="blocks">
+      <div class="br"><span class="b bh">🚩 when green flag clicked</span></div>
+      <div class="br"><span class="b bc">forever</span></div>
+      <span class="ind">
+        <div class="br">
+          <span class="b bm">go to x:</span>
+          <span class="b bo">pick random</span><span class="b bx">-200</span><span class="b bo">to</span><span class="b bx">200</span>
+          <span class="b bm">y:</span><span class="b bx">180</span>
+        </div>
+        <div class="br">
+          <span class="b bm">glide</span>
+          <span class="b bo">(</span><span class="b bx">2</span><span class="b bo">–</span><span class="b bo">(</span><span class="b bv">score</span><span class="b bo">÷</span><span class="b bx">10</span><span class="b bo">)</span><span class="b bo">)</span>
+          <span class="b bm">secs to x:</span><span class="b bs">x position</span><span class="b bm">y:</span><span class="b bx">-180</span>
+          <span class="cm">// score 0→2s, score 10→1s, score 20→0s… add a max below!</span>
+        </div>
+        <div class="br"><span class="b bc">if</span><span class="b bs">touching [Player]?</span><span class="b bc">then</span></div>
+        <span class="ind">
+          <div class="br"><span class="b bv">change</span><span class="b bx">lives</span><span class="b bv">by</span><span class="b bx">-1</span></div>
+        </span>
+        <div class="br"><span class="b bc">end</span></div>
+        <span class="cm" style="display:block;padding-left:0;">// loop back to top regardless — resets automatically</span>
+      </span>
+      <div class="br"><span class="b bc">end</span></div>
+    </div>
+    <div class="co tip">
+      <div class="co-icon">💡</div>
+      <div><strong>How the formula works:</strong> At score 0 → glide takes 2 seconds (slow). At score 5 → 1.5 seconds. At score 10 → 1 second. The speed rises <em>smoothly</em> as you score more, not in sudden jumps. Use the <span class="b bo" style="font-size:11px;">–</span> and <span class="b bo" style="font-size:11px;">÷</span> blocks from the Operators tab to build it.</div>
+    </div>
+    <div class="co warn">
+      <div class="co-icon">⚠️</div>
+      <div><strong>Add a minimum!</strong> At score 20 the formula gives 0 seconds — instant teleport. Wrap the whole glide time in a <span class="b bo" style="font-size:11px;">max ( … ) (0.5)</span> operator so it never goes below 0.5 seconds. Find <code>max</code> in the Operators tab.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPT 4 -->
+<div class="sc">
+  <div class="sc-top">
+    <span class="who" style="background:rgba(255,214,0,.1);color:var(--gold);border:1px solid rgba(255,214,0,.25);">GEM</span>
+    <div class="sc-title">Script 4 — Gem Falls</div>
+  </div>
+  <div class="sc-body">
+    <div class="sc-note">Exactly the same structure as the meteor, but touching the player means <strong>+1 score</strong> instead of losing a life. Build this by copying the meteor script and changing two things.</div>
+    <div class="blocks">
+      <div class="br"><span class="b bh">🚩 when green flag clicked</span></div>
+      <div class="br"><span class="b bc">forever</span></div>
+      <span class="ind">
+        <div class="br">
+          <span class="b bm">go to x:</span>
+          <span class="b bo">pick random</span><span class="b bx">-200</span><span class="b bo">to</span><span class="b bx">200</span>
+          <span class="b bm">y:</span><span class="b bx">180</span>
+        </div>
+        <div class="br"><span class="b bm">glide</span><span class="b bo">(</span><span class="b bx">2.5</span><span class="b bo">–</span><span class="b bo">(</span><span class="b bv">score</span><span class="b bo">÷</span><span class="b bx">10</span><span class="b bo">)</span><span class="b bo">)</span><span class="b bm">secs to x:</span><span class="b bs">x position</span><span class="b bm">y:</span><span class="b bx">-180</span><span class="cm">// gems always 0.5s slower than meteor</span></div>
+        <div class="br"><span class="b bc">if</span><span class="b bs">touching [Player]?</span><span class="b bc">then</span></div>
+        <span class="ind">
+          <div class="br"><span class="b bv">change</span><span class="b bx">score</span><span class="b bv">by</span><span class="b bx">1</span></div>
+        </span>
+        <div class="br"><span class="b bc">end</span></div>
+      </span>
+      <div class="br"><span class="b bc">end</span></div>
+    </div>
+    <div class="co tip">
+      <div class="co-icon">💡</div>
+      <div><strong>Two things to change vs. meteor:</strong> (1) the glide time — make gems slightly slower so they're easier to catch. (2) The result of touching — <code>change score by 1</code> instead of <code>change lives by -1</code>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPT 5 -->
+<div class="sc">
+  <div class="sc-top">
+    <span class="who" style="background:rgba(0,255,136,.1);color:var(--neon);border:1px solid rgba(0,255,136,.25);">PLAYER</span>
+    <div class="sc-title">Script 5 — Watch for Game Over</div>
+  </div>
+  <div class="sc-body">
+    <div class="sc-note">A third script on the Player runs alongside movement. It watches the <strong>lives</strong> variable and as soon as it hits 0, broadcasts <strong>"game over"</strong> and stops everything.</div>
+    <div class="blocks">
+      <div class="br"><span class="b bh">🚩 when green flag clicked</span></div>
+      <div class="br"><span class="b bc">repeat until</span><span class="b bo">lives ≤ 0</span></div>
+      <span class="ind">
+        <div class="br"><span class="b bc">wait</span><span class="b bx">0.1</span><span class="b bc">seconds</span><span class="cm">// checks 10× per second</span></div>
+      </span>
+      <div class="br"><span class="b bc">end</span></div>
+      <div class="br"><span class="b bb">broadcast</span><span class="b bx">game over</span></div>
+      <div class="br"><span class="b bc">stop</span><span class="b bx">all</span></div>
+    </div>
+    <div class="co tip">
+      <div class="co-icon">💡</div>
+      <div><strong>Why <code>stop all</code>?</strong> It freezes every script in the project instantly — the meteor stops falling, the gem stops gliding, movement stops. The Game Over sprite still gets to appear because its script is triggered by the broadcast, which fires just before the stop.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPT 6 -->
+<div class="sc">
+  <div class="sc-top">
+    <span class="who" style="background:rgba(191,95,255,.1);color:var(--purple);border:1px solid rgba(191,95,255,.25);">GAME OVER</span>
+    <div class="sc-title">Script 6 — Show the Result</div>
+  </div>
+  <div class="sc-body">
+    <div class="sc-note">Hidden at the start. Appears the moment it receives the broadcast. Uses <strong>join</strong> to display the score inside the message.</div>
+    <div class="blocks">
+      <div class="br"><span class="b bh">🚩 when green flag clicked</span></div>
+      <div class="br"><span class="b bl">hide</span></div>
+      <div style="height:8px"></div>
+      <div class="br"><span class="b bh">📨 when I receive</span><span class="b bx">game over</span></div>
+      <div class="br"><span class="b bl">show</span></div>
+      <div class="br">
+        <span class="b bl">say</span>
+        <span class="b bo">join</span>
+        <span class="b bx">"Game Over! Score: "</span>
+        <span class="b bv">score</span>
+      </div>
+    </div>
+    <div class="co tip">
+      <div class="co-icon">💡</div>
+      <div><strong>The join block</strong> (inside Operators) glues two pieces together. <code>join "Game Over! Score: " score</code> produces something like <em>Game Over! Score: 5</em>. No maths needed — it just connects text and a variable.</div>
+    </div>
+  </div>
+</div>
+
+<!-- DEBUG -->
+<div class="sec"><div class="sec-n">STEP 04</div><h2>Test & Debug</h2><div class="sec-line"></div></div>
+<div class="debug">
+  <h3>🐛 Three bugs to find</h3>
+  <div class="bug">
+    <div class="bug-n">BUG 1</div>
+    <div class="bug-t">The meteor falls but <strong>lives never go down</strong> even when it clearly lands on the player. Which block detects contact, and what name must it match exactly?</div>
+  </div>
+  <div class="bug">
+    <div class="bug-n">BUG 2</div>
+    <div class="bug-t">The game <strong>never ends</strong> — even at 0 lives the game keeps going. Script 5 is supposed to stop it. What condition might be wrong: <code>lives = 0</code> vs <code>lives ≤ 0</code>, and why does it matter?</div>
+  </div>
+  <div class="bug">
+    <div class="bug-n">BUG 3</div>
+    <div class="bug-t">The Game Over sprite <strong>appears immediately</strong> when the green flag is clicked. Which block is missing from its setup script?</div>
+  </div>
+</div>
+
+<!-- EXTENSIONS -->
+<div class="sec"><div class="sec-n">STEP 05</div><h2>Go Further</h2><div class="sec-line"></div></div>
+<div class="ext-grid">
+  <div class="ext">
+    <div class="ext-lv" style="color:var(--neon)">⭐ Easy</div>
+    <h4>Speed Cap</h4>
+    <p>The formula <code>2 – (score ÷ 10)</code> hits 0 at score 20. Use the <code>max</code> operator to clamp the glide time to a minimum of 0.5 seconds so it never breaks.</p>
+    <div class="tag2">+ operators · max</div>
+  </div>
+  <div class="ext">
+    <div class="ext-lv" style="color:var(--cyan)">⭐⭐ Medium</div>
+    <h4>Mid-Fall Detection</h4>
+    <p>Replace the <code>glide</code> block with a <code>repeat until y &lt; -180</code> loop that moves the meteor down step by step. Now collision is checked continuously during the fall.</p>
+    <div class="tag2">+ loop · change y</div>
+  </div>
+  <div class="ext">
+    <div class="ext-lv" style="color:var(--gold)">⭐⭐ Medium</div>
+    <h4>Second Meteor</h4>
+    <p>Duplicate the meteor sprite. Give it a different fall speed and starting delay (<code>wait 1 second</code> before its loop). Now two meteors fall at once.</p>
+    <div class="tag2">+ duplicate · timing</div>
+  </div>
+  <div class="ext">
+    <div class="ext-lv" style="color:var(--hot)">⭐⭐⭐ Hard</div>
+    <h4>Life Flash</h4>
+    <p>When the player gets hit, make it flash by switching between two costumes 3 times. During the flash, disable collision so the player can't lose two lives at once.</p>
+    <div class="tag2">+ costumes · flag variable</div>
+  </div>
+</div>
+
+<div class="co star" style="margin-top:18px;">
+  <div class="co-icon">🏆</div>
+  <div><strong>Challenge your class:</strong> Share your game, play everyone else's, and compare scores. Then look at a classmate's scripts — can you spot one thing they did differently from you?</div>
+</div>
+
+</div>
+<footer>COSMIC CATCH · SCRATCH GAME PROJECT · GRADE 7 · Variables · Loops · Collision · Broadcast</footer>
+</body>
+</html>
