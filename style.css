@@ -312,7 +312,7 @@ body::after {
 .card-label { font-family: var(--font-display); font-size: 1.7rem; font-weight: 800; color: var(--text); letter-spacing: 1px; }
 .card-tagline { font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono); letter-spacing: 1px; }
 .card-count { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-dim); }
-.card-arrow { font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent); opacity: 0; transition: opacity var(--transition), transform var(--transition); letter-spacing: 2px; }
+.card-arrow { font-family: var(--font-mono); font-size: 2rem; color: var(--accent); opacity: 0; transition: opacity var(--transition), transform var(--transition); letter-spacing: 2px; }
 .card:hover .card-arrow { opacity: 1; transform: translateX(4px); }
 
 /* UNIT CARDS */
