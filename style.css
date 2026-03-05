@@ -257,7 +257,7 @@ body::after {
   position: relative;
   z-index: 1;
 }
-.cards-grid.tight { max-width: 860px; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+.cards-grid.tight {grid-template-columns: repeat(auto-fit, minmax(20em, 1fr)); }
 
 /* CARD BASE */
 .card {
@@ -318,7 +318,7 @@ body::after {
 /* UNIT CARDS */
 .unit-card { min-height: 160px; justify-content: space-between; }
 .unit-icon { font-size: 1.8rem; }
-.unit-num { font-family: var(--font-mono); font-size: 0.62rem; color: var(--blue); letter-spacing: 3px; text-transform: uppercase; }
+.unit-num { font-family: var(--font-mono); font-size: 0.82rem; color: var(--blue); letter-spacing: 3px; text-transform: uppercase; }
 .unit-title { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; }
 .unit-card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
 .unit-lessons-count { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-muted); }
