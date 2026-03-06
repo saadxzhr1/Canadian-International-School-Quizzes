@@ -6,10 +6,7 @@
   <title>QuizClass — Lessons</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    .lesson-card {
-      min-height: 160px;
-      gap: 10px;
-    }
+
 
     .lesson-card:hover {
       box-shadow: 0 0 24px rgba(247,37,133,0.18);
@@ -17,7 +14,9 @@
     }
 
     .lesson-card {
+      gap: 10px;
       opacity: 0;
+      justify-content: space-between;
       animation: slideUp 0.4s ease forwards;
     }
 
@@ -154,9 +153,11 @@
     }
 
     .lesson-select option { background: #0d1130; }
+
   </style>
 </head>
 <body>
+  
   <a class="page-nav nav-left" id="navBack" href="#">
   <div class="nav-arrow">
     <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
@@ -165,8 +166,8 @@
 </a>
   <header class="site-header">
     <div class="logo-wrap">
-      <a href="index.html" class="logo">⚡ QuizClass</a>
-      <span class="logo-by">By Saad Zahraoui</span>
+      <a href="index.html" class="logo">⚡ SZ-Quizzes</a>
+      <span class="logo-by">By Zahraoui Saad</span>
     </div>
     <nav class="breadcrumb" id="breadcrumb">
       <a href="index.html">Home</a>
@@ -216,6 +217,7 @@
     </aside>
   </div>
 
+  <script src="footer.js"></script>
   <script src="data.js"></script>
   <script>
     const { grade: gradeId, unit: unitId } = getParams();
@@ -324,5 +326,7 @@
     }
     document.getElementById('navBack').href = `units.html?grade=${gradeId}`;
   </script>
+  
 </body>
+
 </html>

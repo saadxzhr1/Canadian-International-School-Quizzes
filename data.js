@@ -218,7 +218,7 @@ const CURRICULUM = {
           icon: "🏗️",
           lessons: [
               {
-  id: "l_java_decisions",
+  id: "ifelse",
   title: "Lesson 1",
   description: "if, else, and else if statements in Java",
   qcm: [
@@ -718,3 +718,21 @@ function addStudent(gradeId, unitId, lessonId, name, attempts, total) {
   students.push({ name, attempts, total, date: new Date().toLocaleDateString() });
   localStorage.setItem(key, JSON.stringify(students.slice(0, 50)));
 }
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const footer = document.createElement('footer');
+  footer.className = 'site-footer';
+  footer.innerHTML = `
+    <div class="footer-inner">
+      <div class="footer-copy">
+        <strong>© 2026 — Zahraoui Saad</strong>
+      </div>
+      <div class="footer-contact">
+        📞 +212 663650770<br>
+        ✉️ <a href="mailto:saadxzhr@gmail.com">saadxzhr@gmail.com</a>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(footer);
+});
