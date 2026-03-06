@@ -329,12 +329,11 @@ body::after {
 .lessons-layout {
   display: grid;
   grid-template-rows: auto 1fr; 
-
   grid-template-columns: 1fr 20em;
   gap: 20px;
   padding: 20px 40px 60px;
-  max-width: 75%;
-  margin: 0 auto;
+  min-width: 75%;
+  margin: auto;
   align-items: stretch;
   position: relative;
   z-index: 1;
