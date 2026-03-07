@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css" />
+  <title>Scratch Exercises — Grade 6</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Exo+2:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0B1A2C;
+      --card: #0F2236;
+      --border: #1E6FA8;
+      --teal: #00BCD4;
+      --teal-lt: #80DEEA;
+      --blue: #29B6F6;
+      --text: #DCF0FF;
+      --subtext: #7BAED4;
+      --code-bg: #0A1E30;
+      --step-bg: #1565C0;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 18px; }
+    body {
+      font-family: 'Exo 2', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 0.75rem 1rem;
+      overflow-x: hidden;
+    }
+    .page { max-width: 75vw; margin: 0 auto; }
+    @media (max-width: 768px) { .page { max-width: 100%; } }
+
+    .page-header {
+      background: linear-gradient(120deg, #0D3B6E 0%, #0A4B5C 100%);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 0.55rem 1rem;
+      margin-bottom: 0.75rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+    }
+    .page-header h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.15rem; font-weight: 900; color: #fff; letter-spacing: 1px;
+      overflow-wrap: break-word; min-width: 0;
+    }
+    .grade-badge {
+      background: var(--teal); color: #001A20; font-weight: 700; font-size: 0.78rem;
+      padding: 0.18rem 0.65rem; border-radius: 20px;
+      font-family: 'Orbitron', sans-serif; white-space: nowrap;
+    }
+
+    .exercise {
+      background: var(--card); border: 1.5px solid var(--border);
+      border-radius: 10px; overflow: hidden; margin-bottom: 0.7rem;
+    }
+    .ex-header {
+      background: linear-gradient(90deg, #0D3B6E, #004D6E);
+      padding: 0.35rem 0.85rem;
+      display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+    }
+    .ex-num {
+      font-family: 'Orbitron', sans-serif; font-size: 0.82rem; font-weight: 900;
+      background: var(--teal); color: #001A20;
+      width: 1.5rem; height: 1.5rem; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .ex-title {
+      font-family: 'Orbitron', sans-serif; font-size: 0.88rem; font-weight: 700;
+      color: #fff; letter-spacing: 0.5px;
+      overflow-wrap: break-word; word-break: break-word; min-width: 0;
+    }
+    .tags { display: flex; gap: 0.3rem; margin-left: auto; flex-wrap: wrap; }
+    .tag {
+      background: rgba(255,255,255,0.12); color: var(--teal-lt);
+      font-size: 0.58rem; font-weight: 700; padding: 0.1rem 0.4rem;
+      border-radius: 10px; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
+    }
+
+    .ex-body { padding: 0.5rem 0.85rem 0.6rem; }
+
+    .goal {
+      font-size: 0.88rem; color: var(--subtext); margin-bottom: 0.45rem;
+      font-style: italic; overflow-wrap: break-word;
+    }
+    .goal strong { color: var(--teal); font-style: normal; }
+
+    .section-label {
+      font-size: 0.62rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1px; color: var(--blue); margin-bottom: 0.25rem;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .sprite-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0.3rem; margin-bottom: 0.5rem;
+    }
+    .sprite-card {
+      background: #0A1E30; border: 1.5px solid #1B4F72;
+      border-radius: 7px; padding: 0.28rem 0.22rem; text-align: center; min-width: 0;
+    }
+    .sprite-emoji { font-size: 1.15rem; display: block; line-height: 1.25; }
+    .sprite-name {
+      font-size: 0.65rem; font-weight: 700; color: var(--teal-lt); display: block;
+      overflow-wrap: break-word; word-break: break-word;
+    }
+    .sprite-pos {
+      font-size: 0.57rem; color: #4A8FAD; display: block;
+      line-height: 1.3; overflow-wrap: break-word;
+    }
+    .sprite-state {
+      display: inline-block; margin-top: 0.1rem; font-size: 0.53rem; font-weight: 700;
+      padding: 0.05rem 0.28rem; border-radius: 8px; text-transform: uppercase; letter-spacing: 0.3px;
+    }
+    .state-visible { background: #0D3B2A; color: #64FFDA; }
+    .state-hidden  { background: #263238; color: #78909C; }
+
+    .steps { list-style: none; margin-bottom: 0.45rem; }
+    .steps li {
+      display: flex; align-items: flex-start; gap: 0.45rem;
+      font-size: 1rem; line-height: 1.38; margin-bottom: 0.22rem;
+      overflow-wrap: break-word; word-break: break-word; min-width: 0;
+    }
+    .sn {
+      background: var(--step-bg); color: white; font-size: 0.63rem; font-weight: 700;
+      min-width: 1.25rem; height: 1.25rem; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 0.1rem; font-family: 'Orbitron', sans-serif;
+    }
+    .step-text { min-width: 0; overflow-wrap: break-word; word-break: break-word; flex: 1; }
+
+    code {
+      font-family: 'Courier New', monospace; font-size: 0.9rem;
+      background: var(--code-bg); padding: 0.03rem 0.3rem; border-radius: 4px;
+      color: #4DD0E1; font-weight: 600;
+      overflow-wrap: break-word; word-break: break-all;
+    }
+    .bcat {
+      font-size: 0.68rem; font-weight: 700; padding: 0.04rem 0.32rem;
+      border-radius: 4px; display: inline-block; vertical-align: middle; white-space: nowrap;
+    }
+    .bcat-motion  { background: #4C97FF; color: #fff; }
+    .bcat-control { background: #FFAB19; color: #1A0A00; }
+    .bcat-events  { background: #FFBF00; color: #1A0E00; }
+    .bcat-looks   { background: #9966FF; color: #fff; }
+    .bcat-sensing { background: #5CB1D6; color: #fff; }
+
+    .challenge {
+      background: #051520; border-left: 3px solid var(--teal);
+      border-radius: 0 6px 6px 0; padding: 0.3rem 0.65rem; overflow-wrap: break-word;
+    }
+    .ch-title {
+      font-weight: 700; color: var(--teal); font-size: 0.67rem;
+      text-transform: uppercase; letter-spacing: 0.5px; font-family: 'Orbitron', sans-serif;
+    }
+    .challenge p { font-size: 0.88rem; color: #80CBC4; margin-top: 0.08rem; overflow-wrap: break-word; }
+
+    .note {
+      font-size: 0.76rem; color: var(--subtext); background: #071828;
+      border: 1px solid #1B4F72; border-radius: 5px;
+      padding: 0.22rem 0.55rem; margin-bottom: 0.4rem; overflow-wrap: break-word;
+    }
+
+    /* ═══════════ ANIMATIONS ═══════════ */
+    .anim-box {
+      background: #071422; border: 1px solid #1B4F72;
+      border-radius: 7px; height: 72px;
+      position: relative; overflow: hidden; margin-bottom: 0.45rem;
+    }
+
+    /* EX 1 — keys lighting up, rocket pulsing */
+    @keyframes rkt-pulse { 0%,100%{transform:translateY(-50%) scale(1);} 50%{transform:translateY(-50%) scale(1.15);} }
+    @keyframes key-press {
+      0%,100% { opacity: 0.25; background: #0A3050; }
+      25%     { opacity: 1;    background: #1565C0; }
+    }
+    .anim-keys {
+      position: absolute; top: 50%; left: 38%; transform: translate(-50%, -50%);
+      display: grid; grid-template-columns: repeat(3, 20px); grid-template-rows: repeat(2, 20px); gap: 3px;
+    }
+    .key {
+      background: #0A3050; border: 1px solid #1E6FA8; border-radius: 3px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.55rem; color: #80DEEA; font-weight: 700;
+      animation: key-press 2.4s ease-in-out infinite;
+    }
+    .key-up    { grid-column:2; grid-row:1; animation-delay: 0s; }
+    .key-left  { grid-column:1; grid-row:2; animation-delay: 0.6s; }
+    .key-down  { grid-column:2; grid-row:2; animation-delay: 1.2s; }
+    .key-right { grid-column:3; grid-row:2; animation-delay: 1.8s; }
+    .anim-rocket {
+      position: absolute; font-size: 1.6rem; right: 18%; top: 50%;
+      transform: translateY(-50%);
+      animation: rkt-pulse 2s ease-in-out infinite;
+    }
+    .anim-star-ex1 { position: absolute; font-size: 0.9rem; right: 8%; bottom: 8px; opacity: 0.7; }
+    .anim-bat-ex1  { position: absolute; font-size: 0.85rem; left: 8%; top: 8px; opacity: 0.55; }
+
+    /* EX 2 — jellyfish drifts, color-shifts when near fish */
+    @keyframes jf-drift {
+      0%   { left:6%;  transform:scaleX(1); }
+      49%  { left:72%; transform:scaleX(1); }
+      50%  { left:72%; transform:scaleX(-1); }
+      99%  { left:6%;  transform:scaleX(-1); }
+      100% { left:6%;  transform:scaleX(1); }
+    }
+    @keyframes jf-hue   { from{filter:hue-rotate(0deg);} to{filter:hue-rotate(360deg);} }
+    @keyframes fish-bob { 0%,100%{left:55%; transform:scaleX(-1);} 50%{left:62%; transform:scaleX(-1);} }
+    @keyframes crab-creep { 0%{left:10%;} 100%{left:28%;} }
+    .anim-jf {
+      position:absolute; font-size:1.5rem; top:10px;
+      animation: jf-drift 4.5s linear infinite, jf-hue 3s linear infinite;
+    }
+    .anim-fish {
+      position:absolute; font-size:1.1rem; bottom:10px;
+      animation: fish-bob 2s ease-in-out infinite;
+    }
+    .anim-crab {
+      position:absolute; font-size:1rem; bottom:8px;
+      animation: crab-creep 8s linear infinite alternate;
+    }
+    .anim-starfish-deco { position:absolute; font-size:0.85rem; right:10%; top:12px; opacity:0.6; }
+    .anim-box::before {
+      content:''; position:absolute; bottom:0; left:0; right:0; height:16px;
+      background: repeating-linear-gradient(90deg,#0A4060 0,#0D5070 8px,#0A4060 16px);
+      opacity:0.45;
+    }
+
+    /* EX 3 — robot patrols, apple random, hero moves, star waits */
+    @keyframes bot-patrol {
+      0%   { left:8%;  transform:scaleX(1); }
+      49%  { left:68%; transform:scaleX(1); }
+      50%  { left:68%; transform:scaleX(-1); }
+      99%  { left:8%;  transform:scaleX(-1); }
+      100% { left:8%;  transform:scaleX(1); }
+    }
+    @keyframes bot-flash { 0%,100%{filter:hue-rotate(0deg);} 50%{filter:hue-rotate(80deg) brightness(1.3);} }
+    @keyframes hero-nudge { 0%,100%{right:8%; bottom:10px;} 33%{right:16%; bottom:18px;} 66%{right:10%; bottom:28px;} }
+    @keyframes apple-pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.2);} }
+    .anim-bot {
+      position:absolute; font-size:1.4rem; top:10px;
+      animation: bot-patrol 3s linear infinite, bot-flash 1.5s ease-in-out infinite;
+    }
+    .anim-hero-ex3 {
+      position:absolute; font-size:1.15rem;
+      animation: hero-nudge 3s ease-in-out infinite;
+    }
+    .anim-apple {
+      position:absolute; font-size:1rem; left:42%; bottom:14px;
+      animation: apple-pulse 1s ease-in-out infinite;
+    }
+    .anim-star-ex3 { position:absolute; font-size:1rem; left:8%; bottom:8px; opacity:0.9; }
+    .anim-track {
+      position:absolute; top:32px; left:6%; right:6%; height:2px;
+      background:repeating-linear-gradient(90deg,#1E6FA8 0,#1E6FA8 5px,transparent 5px,transparent 10px);
+      opacity:0.35;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+      <div class="logo-wrap">
+        <a href="index.html" class="logo">⚡ SZ-Quizzes</a>
+        <span class="logo-by">By Zahraoui Saad</span>
+      </div>
+      <nav class="breadcrumb">
+        <a href="index.html">Home</a>
+      </nav>
+    </header>
+<div class="page">
+
+  <div class="page-header">
+    <h1>🐱 Scratch Exercises</h1>
+    <span class="grade-badge">Grade 6</span>
+  </div>
+
+  <!-- ══════════════════════════════════ EX 1 — keyboard input (simpler, first) -->
+  <div class="exercise">
+    <div class="ex-header">
+      <div class="ex-num">1</div>
+      <span class="ex-title">Space Pilot</span>
+      <div class="tags">
+        <span class="tag">Events</span>
+        <span class="tag">Keyboard Input</span>
+        <span class="tag">Motion</span>
+      </div>
+    </div>
+    <div class="ex-body">
+      <p class="goal"><strong>Goal:</strong> Control Rocketship in all four directions using the arrow keys — fly past Bat and Bee to reach the Star!</p>
+
+      <div class="anim-box">
+        <div class="anim-keys">
+          <div class="key key-up">▲</div>
+          <div class="key key-left">◄</div>
+          <div class="key key-down">▼</div>
+          <div class="key key-right">►</div>
+        </div>
+        <div class="anim-rocket">🚀</div>
+        <div class="anim-star-ex1">⭐</div>
+        <div class="anim-bat-ex1">🦇</div>
+      </div>
+
+      <p class="section-label">🎭 Sprites &amp; Starting Positions</p>
+      <div class="sprite-grid">
+        <div class="sprite-card">
+          <span class="sprite-emoji">🚀</span>
+          <span class="sprite-name">Rocketship</span>
+          <span class="sprite-pos">Center: x:0 y:0</span>
+          <span class="sprite-state state-visible">Visible, size 80</span>
+        </div>
+        <div class="sprite-card">
+          <span class="sprite-emoji">🦇</span>
+          <span class="sprite-name">Bat</span>
+          <span class="sprite-pos">Left side: x:-80 y:50</span>
+          <span class="sprite-state state-visible">Visible, size 60</span>
+        </div>
+        <div class="sprite-card">
+          <span class="sprite-emoji">🐝</span>
+          <span class="sprite-name">Bee</span>
+          <span class="sprite-pos">Top: x:60 y:100</span>
+          <span class="sprite-state state-visible">Visible, size 60</span>
+        </div>
+        <div class="sprite-card">
+          <span class="sprite-emoji">⭐</span>
+          <span class="sprite-name">Star</span>
+          <span class="sprite-pos">Far right: x:170 y:-80</span>
+          <span class="sprite-state state-visible">Visible, size 80</span>
+        </div>
+      </div>
+      <p class="note">ℹ️ "Rocketship" is in the <strong>Space</strong> category of the Scratch sprite library. Bat and Bee are obstacles — they don't move, just block the path.</p>
+
+      <p class="section-label">📋 Steps</p>
+      <ol class="steps">
+        <li><span class="sn">1</span><span class="step-text">Click <strong>Rocketship</strong>. From <span class="bcat bcat-events">Events</span>, drag <code>when [right arrow] key pressed</code> onto the scripts area. From <span class="bcat bcat-motion">Motion</span>, attach <code>change x by (10)</code> below it.</span></li>
+        <li><span class="sn">2</span><span class="step-text">Drag a new <code>when [left arrow] key pressed</code> block. Attach <code>change x by (-10)</code>. Moving left means negative x.</span></li>
+        <li><span class="sn">3</span><span class="step-text">Drag <code>when [up arrow] key pressed</code>. Attach <code>change y by (10)</code>.</span></li>
+        <li><span class="sn">4</span><span class="step-text">Drag <code>when [down arrow] key pressed</code>. Attach <code>change y by (-10)</code>. You now have 4 separate scripts — one per arrow key.</span></li>
+        <li><span class="sn">5</span><span class="step-text">Click the green flag. Use the arrow keys to fly Rocketship past Bat and Bee to reach the Star in the bottom-right!</span></li>
+      </ol>
+
+      <div class="challenge">
+        <div class="ch-title">⭐ Challenge</div>
+        <p>Change all four <code>10</code> values to <code>20</code> for turbo speed. Then add a 5th script: <code>when [space] key pressed</code> → <code>go to x:(0) y:(0)</code> — space bar teleports Rocketship back to the center.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════ EX 2 — forever loop + if touching -->
+  <div class="exercise">
+    <div class="ex-header">
+      <div class="ex-num">2</div>
+      <span class="ex-title">The Glowing Deep</span>
+      <div class="tags">
+        <span class="tag">Forever Loop</span>
+        <span class="tag">Bounce</span>
+        <span class="tag">If Touching</span>
+      </div>
+    </div>
+    <div class="ex-body">
+      <p class="goal"><strong>Goal:</strong> Jellyfish bounces and glows when it touches Fish — Fish flips direction when it touches Crab!</p>
+
+      <div class="anim-box">
+        <div class="anim-jf">🪼</div>
+        <div class="anim-fish">🐟</div>
+        <div class="anim-crab">🦀</div>
+        <div class="anim-starfish-deco">⭐</div>
+      </div>
+
+      <p class="section-label">🎭 Sprites &amp; Starting Positions</p>
+      <div class="sprite-grid">
+        <div class="sprite-card">
+          <span class="sprite-emoji">🪼</span>
+          <span class="sprite-name">Jellyfish</span>
+          <span class="sprite-pos">Center: x:0 y:30</span>
+          <span class="sprite-state state-visible">Visible, size 100</span>
+        </div>
+        <div class="sprite-card">
+          <span class="sprite-emoji">🐟</span>
+          <span class="sprite-name">Fish</span>
+          <span class="sprite-pos">Right side: x:100 y:-30</span>
+          <span class="sprite-state state-visible">Visible, size 80</span>
+        </div>
+        <div class="sprite-card">
+          <span class="sprite-emoji">🦀</span>
+          <span class="sprite-name">Crab</span>
+          <span class="sprite-pos">Bottom-left: x:-120 y:-130</span>
+          <span class="sprite-state state-visible">Visible, size 70</span>
+        </div>
+        <div class="sprite-card">
+          <span class="sprite-emoji">⭐</span>
+          <span class="sprite-name">Starfish</span>
+          <span class="sprite-pos">Top-right: x:150 y:120</span>
+          <span class="sprite-state state-visible">Visible, size 60</span>
+        </div>
+      </div>
+      <p class="note">ℹ️ <code>if &lt;touching [Sprite]&gt; then</code> is in <span class="bcat bcat-control">Control</span> + <span class="bcat bcat-sensing">Sensing</span>. Drag the <code>touching</code> oval from Sensing into the <code>if</code> slot. <strong>Starfish</strong> is decorative — no script needed.</p>
+
+      <p class="section-label">📋 Steps</p>
+      <ol class="steps">
+        <li><span class="sn">1</span><span class="step-text">Click <strong>Jellyfish</strong>. Add <code>when 🏴 clicked</code> → <code>set rotation style [left-right]</code> from <span class="bcat bcat-motion">Motion</span>. Then attach a <code>forever</code> loop from <span class="bcat bcat-control">Control</span>.</span></li>
+        <li><span class="sn">2</span><span class="step-text">Inside Jellyfish's <code>forever</code>: add <code>move (5) steps</code> + <code>if on edge, bounce</code>. Then add <code>if &lt;touching [Fish]&gt; then</code> → <code>change [color] effect by (25)</code> from <span class="bcat bcat-looks">Looks</span>. Jellyfish glows every time it hits Fish!</span></li>
+        <li><span class="sn">3</span><span class="step-text">Click <strong>Fish</strong>. Add <code>when 🏴 clicked</code> → <code>set rotation style [left-right]</code> → <code>forever</code>. Inside: <code>move (3) steps</code> + <code>if on edge, bounce</code>.</span></li>
+        <li><span class="sn">4</span><span class="step-text">Still inside Fish's <code>forever</code>: add <code>if &lt;touching [Crab]&gt; then</code> → <code>turn (180) degrees</code> from <span class="bcat bcat-motion">Motion</span>. Fish flips direction each time it hits Crab!</span></li>
+        <li><span class="sn">5</span><span class="step-text">Click <strong>Crab</strong>. Add <code>when 🏴 clicked</code> → <code>set rotation style [left-right]</code> → <code>forever</code> → <code>move (1) steps</code> + <code>if on edge, bounce</code>. Crab barely creeps. Click the green flag!</span></li>
+      </ol>
+
+      <div class="challenge">
+        <div class="ch-title">⭐ Challenge</div>
+        <p>Add a second <code>if &lt;touching [Jellyfish]&gt; then</code> inside Fish's <code>forever</code>: make Fish also <code>change [color] effect by (20)</code> when Jellyfish hits it — the glow goes both ways. Then change Crab's speed from <code>1</code> to <code>3</code> and see how it changes the chaos.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════ EX 3 — collect + dodge + say -->
+  <div class="exercise">
+    <div class="ex-header">
+      <div class="ex-num">3</div>
+      <span class="ex-title">Dodge, Grab &amp; Run!</span>
+      <div class="tags">
+        <span class="tag">Random Position</span>
+        <span class="tag">If Touching</span>
+        <span class="tag">Say Block</span>
+      </div>
+    </div>
+    <div class="ex-body">
+      <p class="goal"><strong>Goal:</strong> Apple spawns at a random spot — grab it while dodging the Robot — then race to the Star and shout "Made it!!"</p>
+
+      <div class="anim-box">
+        <div class="anim-track"></div>
+        <div class="anim-bot">🤖</div>
+        <div class="anim-apple">🍎</div>
+        <div class="anim-hero-ex3">🧒</div>
+        <div class="anim-star-ex3">⭐</div>
+      </div>
+
+      <p class="section-label">🎭 Sprites &amp; Starting Positions</p>
+      <div class="sprite-grid">
+        <div class="sprite-card">
+          <span class="sprite-emoji">🧒</span>
+          <span class="sprite-name">Avery</span>
+          <span class="sprite-pos">Top-right: x:170 y:120</span>
+          <span class="sprite-state state-visible">Visible, size 80</span>
+        </div>
+        <div class="sprite-card">
+          <span class="sprite-emoji">🤖</span>
+          <span class="sprite-name">Robot</span>
+          <span class="sprite-pos">Center: x:0 y:0</span>
+          <span class="sprite-state state-visible">Visible, size 100</span>
+        </div>
+        <div class="sprite-card">
+          <span class="sprite-emoji">🍎</span>
+          <span class="sprite-name">Apple</span>
+          <span class="sprite-pos">Random — set by script</span>
+          <span class="sprite-state state-visible">Visible, size 70</span>
+        </div>
+        <div class="sprite-card">
+          <span class="sprite-emoji">⭐</span>
+          <span class="sprite-name">Star</span>
+          <span class="sprite-pos">Bottom-left: x:-170 y:-110</span>
+          <span class="sprite-state state-visible">Visible, size 80</span>
+        </div>
+      </div>
+      <p class="note">ℹ️ <code>go to (random position)</code> is in <span class="bcat bcat-motion">Motion</span>. <code>hide</code> and <code>show</code> are in <span class="bcat bcat-looks">Looks</span>. <code>say [ ] (2) secs</code> is also in <span class="bcat bcat-looks">Looks</span>.</p>
+
+      <p class="section-label">📋 Steps</p>
+      <ol class="steps">
+        <li><span class="sn">1</span><span class="step-text">Click <strong>Robot</strong>. Add <code>when 🏴 clicked</code> → <code>set rotation style [left-right]</code> → <code>forever</code> → <code>move (5) steps</code> + <code>if on edge, bounce</code>. Robot patrols left and right forever.</span></li>
+        <li><span class="sn">2</span><span class="step-text">Click <strong>Apple</strong>. Add <code>when 🏴 clicked</code> → <code>show</code> → <code>go to (random position)</code>. Apple appears somewhere different every game! Then add a <code>forever</code> → <code>if &lt;touching [Avery]&gt; then</code> → <code>hide</code>. Apple disappears when Avery grabs it.</span></li>
+        <li><span class="sn">3</span><span class="step-text">Click <strong>Avery</strong>. Build the same 4 arrow-key scripts from Exercise 1 — right/left/up/down — each with <code>change x/y by (15)</code>.</span></li>
+        <li><span class="sn">4</span><span class="step-text">Add a second <code>when 🏴 clicked</code> to <strong>Avery</strong> → <code>forever</code> → <code>if &lt;touching [Star]&gt; then</code> → <code>say [Made it!!] (2) secs</code>. Avery cheers when reaching the Star!</span></li>
+        <li><span class="sn">5</span><span class="step-text">Click the green flag. Apple spawns randomly — navigate Avery to grab it first, dodge Robot, then reach the Star at bottom-left. Every restart, Apple is somewhere new!</span></li>
+      </ol>
+
+      <div class="challenge">
+        <div class="ch-title">⭐ Challenge</div>
+        <p>Speed up Robot: change <code>move (5) steps</code> to <code>move (9) steps</code>. Then add a second <code>forever</code> on Robot: <code>change [color] effect by (15)</code> — it flashes as it hunts. Change Avery's <code>say</code> text to something you actually want to shout.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+<script src="footer.js"></script>
+<script src="data.js"></script>
+</html>

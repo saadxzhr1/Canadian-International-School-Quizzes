@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css" />
+  <title>ScratchJr Exercises — Grade 5</title>
+  <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    
+    :root {
+      --bg: #1A1030;
+      --card: #241847;
+      --border: #7C4DFF;
+      --purple: #7C4DFF;
+      --purple-lt: #B388FF;
+      --green: #00E676;
+      --text: #EDE7FF;
+      --subtext: #A89CC8;
+      --code-bg: #2E1F5E;
+      --step-bg: #7C4DFF;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 18px; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 0.75rem 1rem;
+      overflow-x: hidden;
+    }
+    .page { max-width: 75vw; margin: 0 auto; }
+    @media (max-width: 768px) { .page { max-width: 100%; } }
+
+    .page-header {
+      background: linear-gradient(120deg, #4A148C 0%, #311B92 60%, #1A237E 100%);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 0.55rem 1rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .page-header h1 {
+      font-family: 'Boogaloo', cursive;
+      font-size: 1.4rem;
+      color: #fff;
+    }
+    .grade-badge {
+      background: var(--green);
+      color: #00251A;
+      font-weight: 700;
+      font-size: 0.78rem;
+      padding: 0.18rem 0.65rem;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .exercise {
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 0.7rem;
+    }
+    .ex-header {
+      background: linear-gradient(90deg, #4A148C, #6200EA);
+      padding: 0.35rem 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .ex-num {
+      font-family: 'Boogaloo', cursive;
+      font-size: 1rem;
+      background: var(--green);
+      color: #00251A;
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .ex-title {
+      font-family: 'Boogaloo', cursive;
+      font-size: 1.1rem;
+      color: #fff;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      min-width: 0;
+    }
+    .tags {
+      display: flex;
+      gap: 0.3rem;
+      margin-left: auto;
+      flex-wrap: wrap;
+    }
+    .tag {
+      background: rgba(255,255,255,0.15);
+      color: #E8D5FF;
+      font-size: 0.6rem;
+      font-weight: 700;
+      padding: 0.12rem 0.45rem;
+      border-radius: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .ex-body { padding: 0.5rem 0.85rem 0.6rem; }
+
+    .goal {
+      font-size: 0.88rem;
+      color: #93ced8;;
+      margin-bottom: 0.45rem;
+      font-style: italic;
+      overflow-wrap: break-word;
+    }
+    .goal strong { color: var(--green); font-style: normal; }
+
+    .section-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--purple-lt);
+      margin-bottom: 0.25rem;
+    }
+
+    /* SPRITE GRID — 4 cols, each card shows name + position + state */
+    .sprite-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.3rem;
+      margin-bottom: 0.5rem;
+    }
+    .sprite-card {
+      background: #2E1F5E;
+      border: 1.5px solid #5E35B1;
+      border-radius: 7px;
+      padding: 0.28rem 0.25rem;
+      text-align: center;
+      min-width: 0;
+    }
+    .sprite-emoji { font-size: 1.15rem; display: block; line-height: 1.25; }
+    .sprite-name {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--purple-lt);
+      display: block;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+    .sprite-pos {
+      font-size: 0.58rem;
+      color: #c8bede;
+      display: block;
+      line-height: 1.7;
+      overflow-wrap: break-word;
+    }
+    .sprite-state {
+      display: inline-block;
+      margin-top: 0.1rem;
+      font-size: 0.55rem;
+      font-weight: 700;
+      padding: 0.06rem 0.3rem;
+      border-radius: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .state-visible { background: #1B5E20; color: #A5D6A7; }
+    .state-hidden  { background: #37474F; color: #90A4AE; }
+
+    /* STEPS */
+    .steps { list-style: none; margin-bottom: 0.45rem; }
+    .steps li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.45rem;
+      font-size: 1rem;
+      line-height: 1.38;
+      margin-bottom: 0.22rem;
+      color: var(--text);
+      overflow-wrap: break-word;
+      word-break: break-word;
+      min-width: 0;
+    }
+    .steps li > span.sn { flex-shrink: 0; }
+    .steps li > span.step-text { min-width: 0; overflow-wrap: break-word; word-break: break-word; flex: 1; }
+    .sn {
+      background: var(--step-bg);
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 700;
+      min-width: 1.25rem;
+      height: 1.25rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      background: var(--code-bg);
+      padding: 0.03rem 0.3rem;
+      border-radius: 4px;
+      color: #CE93D8;
+      font-weight: 600;
+      overflow-wrap: break-word;
+      word-break: break-all;
+    }
+
+    .challenge {
+      background: #0A1F0A;
+      border-left: 3px solid var(--green);
+      border-radius: 0 6px 6px 0;
+      padding: 0.3rem 0.65rem;
+      overflow-wrap: break-word;
+    }
+    .ch-title {
+      font-weight: 700;
+      color: var(--green);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .challenge p {
+      font-size: 0.88rem;
+      color: #B2DFDB;
+      margin-top: 0.08rem;
+      overflow-wrap: break-word;
+    }
+
+    .note {
+      font-size: 0.76rem;
+      color: #93ced8;
+      background: #1C1540;
+      border: 1px solid #4A3880;
+      border-radius: 5px;
+      padding: 0.22rem 0.55rem;
+      margin-bottom: 0.4rem;
+      overflow-wrap: break-word;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+      <div class="logo-wrap">
+        <a href="index.html" class="logo">⚡ SZ-Quizzes</a>
+        <span class="logo-by">By Zahraoui Saad</span>
+      </div>
+      <nav class="breadcrumb">
+        <a href="index.html">Home</a>
+      </nav>
+    </header>
+<div class="page">
+
+  <div class="page-header">
+    <h1>🐱 ScratchJr Exercises</h1>
+    <span class="grade-badge">Grade 5</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ EX 1 -->
+  <div class="exercise">
+    <div class="ex-header">
+      <div class="ex-num">1</div>
+      <span class="ex-title">The Heist 🏃</span>
+      <div class="tags">
+        <span class="tag">Sequences</span>
+        <span class="tag">Messages</span>
+        <span class="tag">Multiple Sprites</span>
+      </div>
+    </div>
+    <div class="ex-body">
+      <p class="goal"><strong>Goal:</strong> Thief grabs the gem and runs — Guard chases — Dog blocks the escape!</p>
+
+      <p class="section-label">🎭 Sprites &amp; Starting Positions</p>
+      <div class="sprite-grid">
+        <div class="sprite-card">
+          <span class="sprite-emoji">🧒</span>
+          <span class="sprite-name">Thief</span>
+          <span class="sprite-pos">Left edge, middle height</span>
+          <span class="sprite-state state-visible">Visible</span>
+        </div>
+        <div class="sprite-card">
+          <span class="sprite-emoji">👮</span>
+          <span class="sprite-name">Guard</span>
+          <span class="sprite-pos">Far left, below Thief</span>
+          <span class="sprite-state state-visible">Visible</span>
+        </div>
+        <div class="sprite-card">
+          <span class="sprite-emoji">🐕</span>
+          <span class="sprite-name">Dog</span>
+          <span class="sprite-pos">Right edge, off-screen</span>
+          <span class="sprite-state state-visible">Visible</span>
+        </div>
+        <div class="sprite-card">
+          <span class="sprite-emoji">⭐</span>
+          <span class="sprite-name">Gem (Star)</span>
+          <span class="sprite-pos">Center-right of scene</span>
+          <span class="sprite-state state-visible">Visible, normal size</span>
+        </div>
+      </div>
+
+      <p class="section-label">📋 Steps</p>
+      <ol class="steps">
+        <li><span class="sn">1</span><span class="step-text">Tap <strong>Thief</strong>. Add <code>🏴 Green Flag</code> → <code>Move right 5</code> × 3. At the end, add <code>Send message 🔴</code>. Thief runs toward the gem.</span></li>
+        <li><span class="sn">2</span><span class="step-text">Tap <strong>Gem</strong>. Add <code>When I receive 🔴</code> → <code>Hide</code>. Gem disappears the moment Thief arrives.</span></li>
+        <li><span class="sn">3</span><span class="step-text">Tap <strong>Guard</strong>. Add <code>When I receive 🔴</code> → <code>Move right 4</code> × 4. Guard starts chasing right after the gem vanishes.</span></li>
+        <li><span class="sn">4</span><span class="step-text">Tap <strong>Dog</strong>. Add <code>🏴 Green Flag</code> → <code>Wait 2</code> → <code>Move left 5</code> × 2 → <code>Send message 🔵</code>. Dog charges in from the right after 2 seconds.</span></li>
+        <li><span class="sn">5</span><span class="step-text">Tap <strong>Thief</strong> again. Add <code>When I receive 🔵</code> → <code>Jump</code> → <code>Jump</code>. Thief is trapped between Guard and Dog — panic!</span></li>
+      </ol>
+
+      <div class="challenge">
+        <div class="ch-title">⭐ Challenge</div>
+        <p>After Thief's second jump, add <code>Move left 4</code> × 2 — Thief tries to run back. Reposition Guard so they collide in the middle. Who reaches who first?</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ EX 2 (was Ex 3, optimized) -->
+  <div class="exercise">
+    <div class="ex-header">
+      <div class="ex-num">2</div>
+      <span class="ex-title">The Haunted House 🦇</span>
+      <div class="tags">
+        <span class="tag">Tap Interactions</span>
+        <span class="tag">Scene Changes</span>
+        <span class="tag">Hide</span>
+      </div>
+    </div>
+    <div class="ex-body">
+      <p class="goal"><strong>Goal:</strong> Tap the bat to trigger a jump-scare — then get warped to the next haunted room!</p>
+
+      <p class="section-label">🎭 Sprites &amp; Starting Positions</p>
+      <div class="sprite-grid">
+        <div class="sprite-card">
+          <span class="sprite-emoji">👦</span>
+          <span class="sprite-name">Avery</span>
+          <span class="sprite-pos">Left side, center height</span>
+          <span class="sprite-state state-visible">Visible, normal size</span>
+        </div>
+        <div class="sprite-card">
+          <span class="sprite-emoji">🐕</span>
+          <span class="sprite-name">Dog</span>
+          <span class="sprite-pos">Right edge, off-screen</span>
+          <span class="sprite-state state-visible">Visible, normal size</span>
+        </div>
+        <div class="sprite-card">
+          <span class="sprite-emoji">🐈</span>
+          <span class="sprite-name">Cat</span>
+          <span class="sprite-pos">Scene 2 — center</span>
+          <span class="sprite-state state-visible">Visible, normal size</span>
+        </div>
+        <div class="sprite-card">
+          <span class="sprite-emoji">🦇</span>
+          <span class="sprite-name">Bat</span>
+          <span class="sprite-pos">Center of Scene 1</span>
+          <span class="sprite-state state-visible">Visible, normal size</span>
+        </div>
+      </div>
+      <p class="note">⚠️ No ghost in ScratchJr — use <strong>Bat</strong> (Animals category) as the scary sprite. Cat and Dog belong in Scene 2 only.</p>
+
+      <p class="section-label">📋 Steps</p>
+      <ol class="steps">
+        <li><span class="sn">1</span><span class="step-text">Tap the <code>+</code> scene button (bottom of screen) to create <strong>Scene 2</strong>. Add Cat and Dog there. Go back to Scene 1 to continue.</span></li>
+        <li><span class="sn">2</span><span class="step-text">Tap <strong>Bat</strong>. Add <code>👆 When tapped</code> → <code>Grow 5</code> → <code>Shrink 5</code> → <code>Send message 🔴</code>. Bat lunges forward when tapped.</span></li>
+        <li><span class="sn">3</span><span class="step-text">Tap <strong>Avery</strong>. Add <code>When I receive 🔴</code> → <code>Jump</code> → <code>Jump</code> → <code>Move left 3</code>. Avery jumps twice and stumbles back.</span></li>
+        <li><span class="sn">4</span><span class="step-text">After Avery's moves, add <code>Wait 1</code> → <code>Change scene →</code>. One second after the scare, everyone warps to Scene 2.</span></li>
+        <li><span class="sn">5</span><span class="step-text">In Scene 2, tap <strong>Cat</strong>. Add <code>🏴 Green Flag</code> → <code>Grow 4</code> → <code>Shrink 4</code>. Cat was waiting there all along. Tap the bat to start!</span></li>
+      </ol>
+
+      <div class="challenge">
+        <div class="ch-title">⭐ Challenge</div>
+        <p>In Scene 1, Dog is hidden off the right edge. Add <code>When I receive 🔴</code> → <code>Move left 7</code> × 2. Dog charges in from off-screen at the same moment Bat lunges. Two jump-scares at once.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ EX 3 (NEW — Say block) -->
+  <div class="exercise">
+    <div class="ex-header">
+      <div class="ex-num">3</div>
+      <span class="ex-title">The Ambush 😱</span>
+      <div class="tags">
+        <span class="tag">Say Block</span>
+        <span class="tag">Messages</span>
+        <span class="tag">Loops</span>
+      </div>
+    </div>
+    <div class="ex-body">
+      <p class="goal"><strong>Goal:</strong> Avery walks into a trap — a dinosaur leaps out — Avery jumps and shouts in fear!</p>
+
+      <p class="section-label">🎭 Sprites &amp; Starting Positions</p>
+      <div class="sprite-grid">
+        <div class="sprite-card">
+          <span class="sprite-emoji">👦</span>
+          <span class="sprite-name">Avery</span>
+          <span class="sprite-pos">Far left, center height</span>
+          <span class="sprite-state state-visible">Visible, normal size</span>
+        </div>
+        <div class="sprite-card">
+          <span class="sprite-emoji">🦕</span>
+          <span class="sprite-name">Dino</span>
+          <span class="sprite-pos">Right side, off-screen bottom</span>
+          <span class="sprite-state state-hidden">Hidden at start</span>
+        </div>
+        <div class="sprite-card">
+          <span class="sprite-emoji">🐈</span>
+          <span class="sprite-name">Cat</span>
+          <span class="sprite-pos">Center-right, above Dino</span>
+          <span class="sprite-state state-visible">Visible, normal size</span>
+        </div>
+        <div class="sprite-card">
+          <span class="sprite-emoji">🐦</span>
+          <span class="sprite-name">Bird</span>
+          <span class="sprite-pos">Top-right corner</span>
+          <span class="sprite-state state-visible">Visible, normal size</span>
+        </div>
+      </div>
+      <p class="note">ℹ️ The <strong>Say</strong> block (💬) is in the yellow Looks blocks — it shows a speech bubble above the sprite. Tap it to type your message.</p>
+
+      <p class="section-label">📋 Steps</p>
+      <ol class="steps">
+        <li><span class="sn">1</span><span class="step-text">Tap <strong>Dino</strong>. Since it starts hidden, first add <code>🏴 Green Flag</code> → <code>Hide</code> to lock its starting state.</span></li>
+        <li><span class="sn">2</span><span class="step-text">Tap <strong>Avery</strong>. Add <code>🏴 Green Flag</code> → <code>Move right 4</code> × 4. At the end, add <code>Send message 🔴</code>. Avery walks toward the trap.</span></li>
+        <li><span class="sn">3</span><span class="step-text">Tap <strong>Dino</strong>. Add <code>When I receive 🔴</code> → <code>Show</code> → <code>Grow 4</code> → <code>Send message 🔵</code>. Dino appears and grows when Avery arrives.</span></li>
+        <li><span class="sn">4</span><span class="step-text">Tap <strong>Avery</strong>. Add <code>When I receive 🔵</code> → <code>Jump</code> → <code>Say "AHHH!!"</code> → <code>Jump</code> → <code>Say "HELP!!"</code> → <code>Move left 5</code>. Avery shouts while jumping and runs!</span></li>
+        <li><span class="sn">5</span><span class="step-text">Tap <strong>Cat</strong>. Add <code>When I receive 🔵</code> → <code>Move right 3</code> → <code>Say "haha"</code>. Cat was in on it. Tap the green flag!</span></li>
+      </ol>
+
+      <div class="challenge">
+        <div class="ch-title">⭐ Challenge</div>
+        <p>Add <strong>Bird</strong> on <code>When I receive 🔴</code> → <code>Repeat 3</code>: inside put <code>Move down 2</code> then <code>Move up 2</code>. Bird swoops nervously as Dino appears. Change Avery's <code>Say</code> text to something funnier — it's your choice!</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="footer.js"></script>
+<script src="data.js"></script>
+</body>
+</html>

@@ -1,353 +1,9 @@
 const CURRICULUM = {
   grades: [
     {
-      id: "g12",
-      label: "Grade 12",
-      emoji: "🎓",
-      tagline: "Baccalaureate Year",
-      color: "#f72585",
-      glow: "rgba(247,37,133,0.4)",
-      units: [
-        {
-          id: "u1", label: "Unit 1", title: "***********",
-          icon: "⚗️",
-          lessons: [
-            
-           ]
-        },
-        {
-          id: "u2", label: "Unit 2", title: "************",
-          icon: "🔭",
-          lessons: [
-            // {
-            //   id: "l4", title: "Newton's Laws", description: "Forces and acceleration",
-            //   qcm: [
-            //     { question: "Newton's first law is also known as the law of:", options: ["Force", "Inertia", "Action-Reaction", "Gravity"], correct: 1 },
-            //     { question: "F = ma represents Newton's:", options: ["First law", "Second law", "Third law", "Law of gravity"], correct: 1 },
-            //     { question: "If a 2kg object accelerates at 5 m/s², the net force is:", options: ["2.5 N", "10 N", "7 N", "3 N"], correct: 1 },
-            //     { question: "When you push a wall, the wall pushes back. This is Newton's:", options: ["First law", "Second law", "Third law", "Zero law"], correct: 2 },
-            //     { question: "An object at rest stays at rest unless acted upon by:", options: ["Time", "An unbalanced force", "Gravity only", "Friction only"], correct: 1 }
-            //   ]
-            // },
-            // {
-            //   id: "l5", title: "Energy & Work", description: "Kinetic and potential energy",
-            //   qcm: [
-            //     { question: "The formula for kinetic energy is:", options: ["mgh", "½mv²", "mv", "½mgh"], correct: 1 },
-            //     { question: "Work is defined as:", options: ["Force × Time", "Mass × Acceleration", "Force × Distance", "Energy / Time"], correct: 2 },
-            //     { question: "The unit of energy in SI is:", options: ["Newton", "Watt", "Joule", "Pascal"], correct: 2 },
-            //     { question: "Gravitational potential energy equals:", options: ["½mv²", "mgh", "Fd", "mv²"], correct: 1 },
-            //     { question: "Power is defined as:", options: ["Work × Time", "Work / Time", "Force / Time", "Energy × Time"], correct: 1 }
-            //   ]
-            // }
-          ]
-        },
-        {
-          id: "u3", label: "Unit 3", title: "Unit 3: Designing Modular Programs",
-          icon: "⚡",
-          lessons: [
-               {
-  id: "l_mod",
-  title: "Modular Programming",
-  description: "Functions, modular design principles and the benefits of modularization",
-  qcm: [
-    {
-      question: "What is modular programming and what core problem is it specifically designed to solve?",
-      options: [
-        "A method of writing programs using only built-in library functions so developers never need to write custom code from scratch",
-        "A programming style that combines all functionality into one optimized file to minimize application loading time",
-        "A software design technique that separates a program's functionality into independent, interchangeable modules — each responsible for only one aspect of the overall functionality",
-        "A version control strategy that keeps different program versions in separate files so teams can work on multiple releases simultaneously"
-      ],
-      correct: 2
-    },
-    {
-      question: "Functions in programming fall into two main categories. What correctly distinguishes Program Control functions from Specific Task functions?",
-      options: [
-        "Program Control functions subdivide and manage one specific program and are unique to it, while Specific Task functions perform a reusable task applicable across many different programs",
-        "Program Control functions handle all user-facing features while Specific Task functions manage internal data storage and background processing",
-        "Program Control functions are used in statically-typed languages like C++, while Specific Task functions are only found in dynamically-typed languages like Python",
-        "Program Control functions run automatically at startup, while Specific Task functions must always be manually triggered by the user"
-      ],
-      correct: 0
-    },
-    {
-      question: "Functions can communicate data through a mechanism called parameter passing. Why is this capability essential for building reusable functions?",
-      options: [
-        "It prevents unauthorized parts of a program from accessing sensitive data by restricting which functions can read shared variables",
-        "It allows the compiler to automatically optimize function performance based on the type of data being passed through it",
-        "It ensures functions always execute in the correct order by controlling the sequence in which data flows through the program",
-        "It allows the same function to work with different data each time it is called, making it reusable across many programs that need to perform the same task"
-      ],
-      correct: 3
-    },
-    {
-      question: "Mike Kelly's MemberVault platform became extremely difficult to maintain and took months to refactor instead of weeks. What was the root cause of this problem?",
-      options: [
-        "Mike chose MySQL as his database, which is fundamentally incompatible with multi-tenant software-as-a-service applications at scale",
-        "The code was not modular — user signup logic was duplicated and scattered across multiple codebases instead of being centralized in a single well-designed module",
-        "MemberVault grew faster than anticipated and the hosting infrastructure could not handle the performance demands of thousands of simultaneous users",
-        "Mike's team lacked the experience needed to design a centralized database schema that could efficiently support multiple clients"
-      ],
-      correct: 1
-    },
-    {
-      question: "Software complexity is one of the most serious threats to developer productivity in large-scale projects. How does modular design specifically fight this?",
-      options: [
-        "It reduces complexity by enforcing strict coding standards that limit how many lines each developer is allowed to write per day",
-        "It eliminates complexity entirely by relying on pre-built libraries so developers never need to design solutions from scratch",
-        "It manages complexity by breaking large, unmanageable systems into small, independent, understandable parts — each with a clear purpose and clean interface",
-        "It reduces complexity by assigning each developer one isolated task, preventing anyone from needing to understand the broader system architecture"
-      ],
-      correct: 2
-    },
-    {
-      question: "Good modular design is built on five essential elements. Which answer correctly identifies all five?",
-      options: [
-        "Speed, security, scalability, simplicity, and consistent syntax across the entire codebase",
-        "Documentation, automated testing, version control, deployment pipelines, and peer code review",
-        "Input validation, output formatting, error handling, performance monitoring, and logging",
-        "Purpose, interface, encapsulation, implementation, and the connections between modules"
-      ],
-      correct: 3
-    },
-    {
-      question: "Encapsulation is considered one of the most critical principles of modular design. What makes it so important?",
-      options: [
-        "It keeps a module's internal implementation private, meaning any internal change can be made without affecting dependent modules — preventing hidden dependencies that cause problems at scale",
-        "It automatically generates unit tests for each function based on the input and output types defined in the module's interface",
-        "It compresses a module's source code during compilation, reducing file size and improving execution speed across all platforms",
-        "It enforces a consistent coding style across all developers working on a module, making collaborative code review significantly easier"
-      ],
-      correct: 0
-    },
-    {
-      question: "Modular design can be taken too far. When does separating code into its own module create more problems than it solves?",
-      options: [
-        "When a module contains more than 100 lines of code, since large modules inherently violate the single responsibility principle",
-        "When a module is only used by one parent and merging it back into that parent would eliminate around 90% of its code — meaning most of its existence is ceremony rather than genuine value",
-        "When a module is written in a different language than the rest of the project, making integration unnecessarily complicated",
-        "When a module handles user interface logic, since UI code should always remain directly inside the main program for clarity"
-      ],
-      correct: 1
-    },
-    {
-      question: "Good modular design produces six powerful practical benefits for development teams. Which answer correctly identifies all six?",
-      options: [
-        "Speed, security, portability, backward compatibility, cross-platform support, and reduced memory usage",
-        "Readability, debuggability, deployability, encapsulation, abstraction, and inheritance across codebases",
-        "Understandability, improvability, refactorability, reusability, testability, and scalability",
-        "Flexibility, maintainability, compatibility, extensibility, interoperability, and version stability"
-      ],
-      correct: 2
-    },
-    {
-      question: "Programming languages, operating systems, and the most successful software platforms in the world are all built on modular foundations. What does this reveal about the ultimate purpose of modular design?",
-      options: [
-        "That its primary goal is to reduce the number of developers needed on a project by making each component fully self-sufficient",
-        "That it exists mainly to protect intellectual property by making it harder for competitors to reverse-engineer how a system works",
-        "That its main purpose is to make code appear organized and professional, which helps attract better developers and enterprise clients",
-        "That its ultimate goal is to maximize developer productivity by managing complexity — enabling teams to build larger, more reliable software through reusable, independently maintainable parts"
-      ],
-      correct: 3
-    }
-  ]
-}
-          ]
-        },
-        {
-          id: "u4", label: "Unit 4", title: "*************",
-          icon: "🌊",
-          lessons: [
-
-          ]
-        }
-      ]
-    },
-    {
-      id: "g11",
-      label: "Grade 11",
-      emoji: "📚",
-      tagline: "Second Year",
-      color: "#4cc9f0",
-      glow: "rgba(76,201,240,0.4)",
-      units: [
-        {
-          id: "u1", label: "Unit 1", title: "*************",
-          icon: "⚛️",
-          lessons: [
-            // {
-            //   id: "l1", title: "The Atom Model", description: "Electrons, protons, neutrons",
-            //   qcm: [
-            //     { question: "The atomic number equals the number of:", options: ["Neutrons", "Protons", "Electrons + Neutrons", "Protons + Neutrons"], correct: 1 },
-            //     { question: "The mass number is the total of:", options: ["Protons only", "Neutrons only", "Protons + Neutrons", "Protons + Electrons"], correct: 2 },
-            //     { question: "Electrons are located:", options: ["In the nucleus", "Around the nucleus in shells", "Between protons", "Randomly inside atom"], correct: 1 },
-            //     { question: "Isotopes are atoms with the same atomic number but different:", options: ["Electron count", "Proton count", "Mass number", "Chemical symbol"], correct: 2 },
-            //     { question: "The maximum electrons in the 2nd shell is:", options: ["2", "8", "18", "32"], correct: 1 }
-            //   ]
-            // },
-            // {
-            //   id: "l2", title: "The Periodic Table", description: "Groups, periods and periodic trends",
-            //   qcm: [
-            //     { question: "Elements in the same group have the same number of:", options: ["Neutrons", "Valence electrons", "Protons", "Mass number"], correct: 1 },
-            //     { question: "Noble gases are in group:", options: ["1", "7", "17", "18"], correct: 3 },
-            //     { question: "Atomic radius generally increases going:", options: ["Across a period left to right", "Up a group", "Down a group", "Across period right to left"], correct: 2 },
-            //     { question: "Metals are generally located on which side of the periodic table?", options: ["Right", "Top", "Left", "Middle only"], correct: 2 },
-            //     { question: "Halogens belong to group:", options: ["1", "2", "17", "18"], correct: 2 }
-            //   ]
-            // }
-          ]
-        },
-        {
-          id: "u2", label: "Unit 2", title: "*************",
-          icon: "🔗",
-          lessons: [
-            // {
-            //   id: "l3", title: "Ionic Bonding", description: "Electron transfer and ions",
-            //   qcm: [
-            //     { question: "Ionic bonds form between:", options: ["Two non-metals", "Two metals", "Metal and non-metal", "Metalloids only"], correct: 2 },
-            //     { question: "In NaCl, the sodium ion has charge:", options: ["-1", "+2", "+1", "-2"], correct: 2 },
-            //     { question: "Ionic compounds in solution can conduct electricity because:", options: ["They are soft", "Ions are free to move", "They dissolve fast", "Electrons flow freely"], correct: 1 },
-            //     { question: "Which compound is ionic?", options: ["CO2", "H2O", "CH4", "CaCl2"], correct: 3 },
-            //     { question: "The process of an atom gaining electrons produces a:", options: ["Cation", "Anion", "Neutral atom", "Radical"], correct: 1 }
-            //   ]
-            // }
-          ]
-        },
-        {
-          id: "u3", label: "Unit 3", title: "Unit 3: The Next Level Programming in Java With IPO Mode in Java",
-          icon: "🏗️",
-          lessons: [
-              {
-  id: "ifelse",
-  title: "Lesson 1",
-  description: "if, else, and else if statements in Java",
-  qcm: [
-    {
-      question: "In programming, what is a 'condition' and what must it always evaluate to?",
-      options: [
-        "A mathematical formula that calculates a numeric result used to determine how many times a block of code repeats",
-        "A block of code that runs automatically every time the program starts, regardless of any user interaction",
-        "A true or false expression that determines which path of code the program will follow when executed",
-        "A predefined value stored in memory that the program compares against data received from the user"
-      ],
-      correct: 2
-    },
-    {
-      question: "When a Java if statement's condition evaluates to false, what happens to code written OUTSIDE the if block?",
-      options: [
-        "It executes normally — code outside the if block always runs regardless of whether the condition was true or false",
-        "It is permanently skipped for the rest of the program once any if condition evaluates to false",
-        "It waits for the condition to become true before executing on the next iteration of the program",
-        "It triggers a runtime error because the program cannot safely continue after a false condition"
-      ],
-      correct: 0
-    },
-    {
-      question: "Consider this Java code: int i = 10; if (i > 15) { System.out.println(\"inside\"); } System.out.println(\"outside\"); — What gets printed?",
-      options: [
-        "Both 'inside' and 'outside' print because all code executes sequentially from top to bottom",
-        "Only 'inside' prints because the condition is met and no else block interrupts normal execution",
-        "Nothing prints because an if statement without an else block causes a compile-time error in Java",
-        "Only 'outside' prints because i=10 is not greater than 15, so the if block is skipped entirely"
-      ],
-      correct: 3
-    },
-    {
-      question: "Using the same code structure, what gets printed if i is changed to 20?",
-      options: [
-        "Only 'inside' prints because once an if condition is true, the program stops after its block",
-        "Both 'inside' and 'outside' print — 20>15 triggers the if block, then execution continues normally outside it",
-        "Only 'outside' prints because the else block always runs after any if statement finishes",
-        "Nothing prints because integer comparisons above a certain value cause overflow errors"
-      ],
-      correct: 1
-    },
-    {
-      question: "Relational and logical operators can be combined inside a single if condition. What requirement must the entire combined expression meet?",
-      options: [
-        "Every individual comparison must be wrapped in its own separate if statement before being combined with &&",
-        "All comparisons must use the same relational operator to avoid ambiguous results during evaluation",
-        "The full combined expression must resolve to a single boolean — true or false — for the if statement to function",
-        "Logical operators must always appear before relational operators to guarantee correct evaluation order"
-      ],
-      correct: 2
-    },
-    {
-      question: "A nested if statement and a single if using && can produce the same logical outcome. What is one key advantage of nesting?",
-      options: [
-        "Nesting allows code to be placed between the two checks — code that runs when the outer condition is true but does not depend on the inner condition — which a single && cannot do",
-        "Nested ifs always execute faster because the compiler skips the inner check immediately after any result",
-        "Nested ifs automatically prevent type mismatch errors that occur when && is used with certain data types",
-        "Nesting is the only way to combine more than two conditions inside a single decision-making structure"
-      ],
-      correct: 0
-    },
-    {
-      question: "Which statement accurately describes how the else keyword works in Java?",
-      options: [
-        "An else block can appear independently in a program as long as it is placed before any if statement",
-        "An else block fires whenever any if statement anywhere in the same program evaluates to false",
-        "An else block requires its own condition written in brackets, just like a regular if statement does",
-        "An else block pairs exclusively with the immediately preceding if — it runs only when that specific if is false and never has its own condition"
-      ],
-      correct: 3
-    },
-    {
-      question: "Given: if (numb > 0) {code1} if (numb2 == 4) {code2} else {code3} — with numb=4 and numb2=0, which blocks execute?",
-      options: [
-        "Only code2 runs because numb2 must equal 4 for any block in that pair to execute at all",
-        "code1 and code3 both run — numb>0 is true so code1 triggers, numb2==4 is false so else triggers code3",
-        "All three blocks run because each if statement always evaluates independently in sequence",
-        "Only code1 runs because the false result on the second if cancels all remaining execution"
-      ],
-      correct: 1
-    },
-    {
-      question: "What is the fundamental difference between multiple consecutive if statements and an else-if chain?",
-      options: [
-        "Multiple if statements can only evaluate numeric conditions while else-if chains work with any data type",
-        "Else-if chains use more memory because all conditions are loaded into evaluation before any result is returned",
-        "With multiple ifs, several blocks can trigger if multiple conditions are true — with an else-if chain, only the first true condition fires and all remaining checks are skipped",
-        "Multiple ifs always run slower because the compiler re-evaluates every condition even after a match is found"
-      ],
-      correct: 2
-    },
-    {
-      question: "In a block structured as: if(num2 >= 0){block1} else if(num2 == 4){block2} if(num2 == 0){block3} else{block4} — with num2 = 4, which blocks trigger?",
-      options: [
-        "block1 and block4 — 4>=0 is true so block1 fires, else if is skipped since the first if was true, 4==0 is false so block3 is skipped, making else trigger block4",
-        "All four blocks trigger because every statement independently evaluates its own condition",
-        "Only block2 fires because 4==4 is the most specific matching condition across the entire structure",
-        "block1 and block2 both fire because 4>=0 and 4==4 are simultaneously true across the two chains"
-      ],
-      correct: 0
-    }
-  ]
-}
-          ]
-        },
-        {
-          id: "u4", label: "Unit 4", title: "************",
-          icon: "🌡️",
-          lessons: [
-            // {
-            //   id: "l5", title: "Heat & Temperature", description: "Thermal energy and transfer",
-            //   qcm: [
-            //     { question: "Temperature is measured in the SI system in:", options: ["Celsius", "Fahrenheit", "Kelvin", "Rankine"], correct: 2 },
-            //     { question: "Heat transfer through direct contact is called:", options: ["Convection", "Radiation", "Conduction", "Absorption"], correct: 2 },
-            //     { question: "To convert Celsius to Kelvin, you:", options: ["Add 273", "Subtract 273", "Multiply by 273", "Divide by 273"], correct: 0 },
-            //     { question: "Specific heat capacity represents:", options: ["Energy to melt 1g", "Energy to raise 1g by 1°C", "Total heat in a body", "Heat per second"], correct: 1 },
-            //     { question: "Q = mcΔT, where c represents:", options: ["Mass", "Specific heat", "Temperature change", "Charge"], correct: 1 }
-            //   ]
-            // }
-          ]
-        }
-      ]
-    },
-    {
       id: "g910",
       label: "Grade 9 & 10 - Technology and the Skilled Trades",
-      emoji: "✏️",
+      emoji: "📚",
       tagline: "Middle School",
       color: "#f8961e",
       glow: "rgba(248,150,30,0.4)",
@@ -642,7 +298,352 @@ const CURRICULUM = {
           ]
         }
       ]
+    },
+    {
+      id: "g11",
+      label: "Grade 11",
+      emoji: "📚",
+      tagline: "Second Year",
+      color: "#4cc9f0",
+      glow: "rgba(76,201,240,0.4)",
+      units: [
+        {
+          id: "u1", label: "Unit 1", title: "*************",
+          icon: "⚛️",
+          lessons: [
+            // {
+            //   id: "l1", title: "The Atom Model", description: "Electrons, protons, neutrons",
+            //   qcm: [
+            //     { question: "The atomic number equals the number of:", options: ["Neutrons", "Protons", "Electrons + Neutrons", "Protons + Neutrons"], correct: 1 },
+            //     { question: "The mass number is the total of:", options: ["Protons only", "Neutrons only", "Protons + Neutrons", "Protons + Electrons"], correct: 2 },
+            //     { question: "Electrons are located:", options: ["In the nucleus", "Around the nucleus in shells", "Between protons", "Randomly inside atom"], correct: 1 },
+            //     { question: "Isotopes are atoms with the same atomic number but different:", options: ["Electron count", "Proton count", "Mass number", "Chemical symbol"], correct: 2 },
+            //     { question: "The maximum electrons in the 2nd shell is:", options: ["2", "8", "18", "32"], correct: 1 }
+            //   ]
+            // },
+            // {
+            //   id: "l2", title: "The Periodic Table", description: "Groups, periods and periodic trends",
+            //   qcm: [
+            //     { question: "Elements in the same group have the same number of:", options: ["Neutrons", "Valence electrons", "Protons", "Mass number"], correct: 1 },
+            //     { question: "Noble gases are in group:", options: ["1", "7", "17", "18"], correct: 3 },
+            //     { question: "Atomic radius generally increases going:", options: ["Across a period left to right", "Up a group", "Down a group", "Across period right to left"], correct: 2 },
+            //     { question: "Metals are generally located on which side of the periodic table?", options: ["Right", "Top", "Left", "Middle only"], correct: 2 },
+            //     { question: "Halogens belong to group:", options: ["1", "2", "17", "18"], correct: 2 }
+            //   ]
+            // }
+          ]
+        },
+        {
+          id: "u2", label: "Unit 2", title: "*************",
+          icon: "🔗",
+          lessons: [
+            // {
+            //   id: "l3", title: "Ionic Bonding", description: "Electron transfer and ions",
+            //   qcm: [
+            //     { question: "Ionic bonds form between:", options: ["Two non-metals", "Two metals", "Metal and non-metal", "Metalloids only"], correct: 2 },
+            //     { question: "In NaCl, the sodium ion has charge:", options: ["-1", "+2", "+1", "-2"], correct: 2 },
+            //     { question: "Ionic compounds in solution can conduct electricity because:", options: ["They are soft", "Ions are free to move", "They dissolve fast", "Electrons flow freely"], correct: 1 },
+            //     { question: "Which compound is ionic?", options: ["CO2", "H2O", "CH4", "CaCl2"], correct: 3 },
+            //     { question: "The process of an atom gaining electrons produces a:", options: ["Cation", "Anion", "Neutral atom", "Radical"], correct: 1 }
+            //   ]
+            // }
+          ]
+        },
+        {
+          id: "u3", label: "Unit 3", title: "Unit 3: The Next Level Programming in Java With IPO Mode in Java",
+          icon: "🏗️",
+          lessons: [
+              {
+  id: "ifelse",
+  title: "Lesson 1",
+  description: "if, else, and else if statements in Java",
+  qcm: [
+    {
+      question: "In programming, what is a 'condition' and what must it always evaluate to?",
+      options: [
+        "A mathematical formula that calculates a numeric result used to determine how many times a block of code repeats",
+        "A block of code that runs automatically every time the program starts, regardless of any user interaction",
+        "A true or false expression that determines which path of code the program will follow when executed",
+        "A predefined value stored in memory that the program compares against data received from the user"
+      ],
+      correct: 2
+    },
+    {
+      question: "When a Java if statement's condition evaluates to false, what happens to code written OUTSIDE the if block?",
+      options: [
+        "It executes normally — code outside the if block always runs regardless of whether the condition was true or false",
+        "It is permanently skipped for the rest of the program once any if condition evaluates to false",
+        "It waits for the condition to become true before executing on the next iteration of the program",
+        "It triggers a runtime error because the program cannot safely continue after a false condition"
+      ],
+      correct: 0
+    },
+    {
+      question: "Consider this Java code: int i = 10; if (i > 15) { System.out.println(\"inside\"); } System.out.println(\"outside\"); — What gets printed?",
+      options: [
+        "Both 'inside' and 'outside' print because all code executes sequentially from top to bottom",
+        "Only 'inside' prints because the condition is met and no else block interrupts normal execution",
+        "Nothing prints because an if statement without an else block causes a compile-time error in Java",
+        "Only 'outside' prints because i=10 is not greater than 15, so the if block is skipped entirely"
+      ],
+      correct: 3
+    },
+    {
+      question: "Using the same code structure, what gets printed if i is changed to 20?",
+      options: [
+        "Only 'inside' prints because once an if condition is true, the program stops after its block",
+        "Both 'inside' and 'outside' print — 20>15 triggers the if block, then execution continues normally outside it",
+        "Only 'outside' prints because the else block always runs after any if statement finishes",
+        "Nothing prints because integer comparisons above a certain value cause overflow errors"
+      ],
+      correct: 1
+    },
+    {
+      question: "Relational and logical operators can be combined inside a single if condition. What requirement must the entire combined expression meet?",
+      options: [
+        "Every individual comparison must be wrapped in its own separate if statement before being combined with &&",
+        "All comparisons must use the same relational operator to avoid ambiguous results during evaluation",
+        "The full combined expression must resolve to a single boolean — true or false — for the if statement to function",
+        "Logical operators must always appear before relational operators to guarantee correct evaluation order"
+      ],
+      correct: 2
+    },
+    {
+      question: "A nested if statement and a single if using && can produce the same logical outcome. What is one key advantage of nesting?",
+      options: [
+        "Nesting allows code to be placed between the two checks — code that runs when the outer condition is true but does not depend on the inner condition — which a single && cannot do",
+        "Nested ifs always execute faster because the compiler skips the inner check immediately after any result",
+        "Nested ifs automatically prevent type mismatch errors that occur when && is used with certain data types",
+        "Nesting is the only way to combine more than two conditions inside a single decision-making structure"
+      ],
+      correct: 0
+    },
+    {
+      question: "Which statement accurately describes how the else keyword works in Java?",
+      options: [
+        "An else block can appear independently in a program as long as it is placed before any if statement",
+        "An else block fires whenever any if statement anywhere in the same program evaluates to false",
+        "An else block requires its own condition written in brackets, just like a regular if statement does",
+        "An else block pairs exclusively with the immediately preceding if — it runs only when that specific if is false and never has its own condition"
+      ],
+      correct: 3
+    },
+    {
+      question: "Given: if (numb > 0) {code1} if (numb2 == 4) {code2} else {code3} — with numb=4 and numb2=0, which blocks execute?",
+      options: [
+        "Only code2 runs because numb2 must equal 4 for any block in that pair to execute at all",
+        "code1 and code3 both run — numb>0 is true so code1 triggers, numb2==4 is false so else triggers code3",
+        "All three blocks run because each if statement always evaluates independently in sequence",
+        "Only code1 runs because the false result on the second if cancels all remaining execution"
+      ],
+      correct: 1
+    },
+    {
+      question: "What is the fundamental difference between multiple consecutive if statements and an else-if chain?",
+      options: [
+        "Multiple if statements can only evaluate numeric conditions while else-if chains work with any data type",
+        "Else-if chains use more memory because all conditions are loaded into evaluation before any result is returned",
+        "With multiple ifs, several blocks can trigger if multiple conditions are true — with an else-if chain, only the first true condition fires and all remaining checks are skipped",
+        "Multiple ifs always run slower because the compiler re-evaluates every condition even after a match is found"
+      ],
+      correct: 2
+    },
+    {
+      question: "In a block structured as: if(num2 >= 0){block1} else if(num2 == 4){block2} if(num2 == 0){block3} else{block4} — with num2 = 4, which blocks trigger?",
+      options: [
+        "block1 and block4 — 4>=0 is true so block1 fires, else if is skipped since the first if was true, 4==0 is false so block3 is skipped, making else trigger block4",
+        "All four blocks trigger because every statement independently evaluates its own condition",
+        "Only block2 fires because 4==4 is the most specific matching condition across the entire structure",
+        "block1 and block2 both fire because 4>=0 and 4==4 are simultaneously true across the two chains"
+      ],
+      correct: 0
     }
+  ]
+}
+          ]
+        },
+        {
+          id: "u4", label: "Unit 4", title: "************",
+          icon: "🌡️",
+          lessons: [
+            // {
+            //   id: "l5", title: "Heat & Temperature", description: "Thermal energy and transfer",
+            //   qcm: [
+            //     { question: "Temperature is measured in the SI system in:", options: ["Celsius", "Fahrenheit", "Kelvin", "Rankine"], correct: 2 },
+            //     { question: "Heat transfer through direct contact is called:", options: ["Convection", "Radiation", "Conduction", "Absorption"], correct: 2 },
+            //     { question: "To convert Celsius to Kelvin, you:", options: ["Add 273", "Subtract 273", "Multiply by 273", "Divide by 273"], correct: 0 },
+            //     { question: "Specific heat capacity represents:", options: ["Energy to melt 1g", "Energy to raise 1g by 1°C", "Total heat in a body", "Heat per second"], correct: 1 },
+            //     { question: "Q = mcΔT, where c represents:", options: ["Mass", "Specific heat", "Temperature change", "Charge"], correct: 1 }
+            //   ]
+            // }
+          ]
+        }
+      ]
+    },
+    {
+      id: "g12",
+      label: "Grade 12",
+      emoji: "🎓",
+      tagline: "Baccalaureate Year",
+      color: "#f72585",
+      glow: "rgba(247,37,133,0.4)",
+      units: [
+        {
+          id: "u1", label: "Unit 1", title: "***********",
+          icon: "⚗️",
+          lessons: [
+            
+           ]
+        },
+        {
+          id: "u2", label: "Unit 2", title: "************",
+          icon: "🔭",
+          lessons: [
+            // {
+            //   id: "l4", title: "Newton's Laws", description: "Forces and acceleration",
+            //   qcm: [
+            //     { question: "Newton's first law is also known as the law of:", options: ["Force", "Inertia", "Action-Reaction", "Gravity"], correct: 1 },
+            //     { question: "F = ma represents Newton's:", options: ["First law", "Second law", "Third law", "Law of gravity"], correct: 1 },
+            //     { question: "If a 2kg object accelerates at 5 m/s², the net force is:", options: ["2.5 N", "10 N", "7 N", "3 N"], correct: 1 },
+            //     { question: "When you push a wall, the wall pushes back. This is Newton's:", options: ["First law", "Second law", "Third law", "Zero law"], correct: 2 },
+            //     { question: "An object at rest stays at rest unless acted upon by:", options: ["Time", "An unbalanced force", "Gravity only", "Friction only"], correct: 1 }
+            //   ]
+            // },
+            // {
+            //   id: "l5", title: "Energy & Work", description: "Kinetic and potential energy",
+            //   qcm: [
+            //     { question: "The formula for kinetic energy is:", options: ["mgh", "½mv²", "mv", "½mgh"], correct: 1 },
+            //     { question: "Work is defined as:", options: ["Force × Time", "Mass × Acceleration", "Force × Distance", "Energy / Time"], correct: 2 },
+            //     { question: "The unit of energy in SI is:", options: ["Newton", "Watt", "Joule", "Pascal"], correct: 2 },
+            //     { question: "Gravitational potential energy equals:", options: ["½mv²", "mgh", "Fd", "mv²"], correct: 1 },
+            //     { question: "Power is defined as:", options: ["Work × Time", "Work / Time", "Force / Time", "Energy × Time"], correct: 1 }
+            //   ]
+            // }
+          ]
+        },
+        {
+          id: "u3", label: "Unit 3", title: "Unit 3: Designing Modular Programs",
+          icon: "⚡",
+          lessons: [
+               {
+  id: "l_mod",
+  title: "Modular Programming",
+  description: "Functions, modular design principles and the benefits of modularization",
+  qcm: [
+    {
+      question: "What is modular programming and what core problem is it specifically designed to solve?",
+      options: [
+        "A method of writing programs using only built-in library functions so developers never need to write custom code from scratch",
+        "A programming style that combines all functionality into one optimized file to minimize application loading time",
+        "A software design technique that separates a program's functionality into independent, interchangeable modules — each responsible for only one aspect of the overall functionality",
+        "A version control strategy that keeps different program versions in separate files so teams can work on multiple releases simultaneously"
+      ],
+      correct: 2
+    },
+    {
+      question: "Functions in programming fall into two main categories. What correctly distinguishes Program Control functions from Specific Task functions?",
+      options: [
+        "Program Control functions subdivide and manage one specific program and are unique to it, while Specific Task functions perform a reusable task applicable across many different programs",
+        "Program Control functions handle all user-facing features while Specific Task functions manage internal data storage and background processing",
+        "Program Control functions are used in statically-typed languages like C++, while Specific Task functions are only found in dynamically-typed languages like Python",
+        "Program Control functions run automatically at startup, while Specific Task functions must always be manually triggered by the user"
+      ],
+      correct: 0
+    },
+    {
+      question: "Functions can communicate data through a mechanism called parameter passing. Why is this capability essential for building reusable functions?",
+      options: [
+        "It prevents unauthorized parts of a program from accessing sensitive data by restricting which functions can read shared variables",
+        "It allows the compiler to automatically optimize function performance based on the type of data being passed through it",
+        "It ensures functions always execute in the correct order by controlling the sequence in which data flows through the program",
+        "It allows the same function to work with different data each time it is called, making it reusable across many programs that need to perform the same task"
+      ],
+      correct: 3
+    },
+    {
+      question: "Mike Kelly's MemberVault platform became extremely difficult to maintain and took months to refactor instead of weeks. What was the root cause of this problem?",
+      options: [
+        "Mike chose MySQL as his database, which is fundamentally incompatible with multi-tenant software-as-a-service applications at scale",
+        "The code was not modular — user signup logic was duplicated and scattered across multiple codebases instead of being centralized in a single well-designed module",
+        "MemberVault grew faster than anticipated and the hosting infrastructure could not handle the performance demands of thousands of simultaneous users",
+        "Mike's team lacked the experience needed to design a centralized database schema that could efficiently support multiple clients"
+      ],
+      correct: 1
+    },
+    {
+      question: "Software complexity is one of the most serious threats to developer productivity in large-scale projects. How does modular design specifically fight this?",
+      options: [
+        "It reduces complexity by enforcing strict coding standards that limit how many lines each developer is allowed to write per day",
+        "It eliminates complexity entirely by relying on pre-built libraries so developers never need to design solutions from scratch",
+        "It manages complexity by breaking large, unmanageable systems into small, independent, understandable parts — each with a clear purpose and clean interface",
+        "It reduces complexity by assigning each developer one isolated task, preventing anyone from needing to understand the broader system architecture"
+      ],
+      correct: 2
+    },
+    {
+      question: "Good modular design is built on five essential elements. Which answer correctly identifies all five?",
+      options: [
+        "Speed, security, scalability, simplicity, and consistent syntax across the entire codebase",
+        "Documentation, automated testing, version control, deployment pipelines, and peer code review",
+        "Input validation, output formatting, error handling, performance monitoring, and logging",
+        "Purpose, interface, encapsulation, implementation, and the connections between modules"
+      ],
+      correct: 3
+    },
+    {
+      question: "Encapsulation is considered one of the most critical principles of modular design. What makes it so important?",
+      options: [
+        "It keeps a module's internal implementation private, meaning any internal change can be made without affecting dependent modules — preventing hidden dependencies that cause problems at scale",
+        "It automatically generates unit tests for each function based on the input and output types defined in the module's interface",
+        "It compresses a module's source code during compilation, reducing file size and improving execution speed across all platforms",
+        "It enforces a consistent coding style across all developers working on a module, making collaborative code review significantly easier"
+      ],
+      correct: 0
+    },
+    {
+      question: "Modular design can be taken too far. When does separating code into its own module create more problems than it solves?",
+      options: [
+        "When a module contains more than 100 lines of code, since large modules inherently violate the single responsibility principle",
+        "When a module is only used by one parent and merging it back into that parent would eliminate around 90% of its code — meaning most of its existence is ceremony rather than genuine value",
+        "When a module is written in a different language than the rest of the project, making integration unnecessarily complicated",
+        "When a module handles user interface logic, since UI code should always remain directly inside the main program for clarity"
+      ],
+      correct: 1
+    },
+    {
+      question: "Good modular design produces six powerful practical benefits for development teams. Which answer correctly identifies all six?",
+      options: [
+        "Speed, security, portability, backward compatibility, cross-platform support, and reduced memory usage",
+        "Readability, debuggability, deployability, encapsulation, abstraction, and inheritance across codebases",
+        "Understandability, improvability, refactorability, reusability, testability, and scalability",
+        "Flexibility, maintainability, compatibility, extensibility, interoperability, and version stability"
+      ],
+      correct: 2
+    },
+    {
+      question: "Programming languages, operating systems, and the most successful software platforms in the world are all built on modular foundations. What does this reveal about the ultimate purpose of modular design?",
+      options: [
+        "That its primary goal is to reduce the number of developers needed on a project by making each component fully self-sufficient",
+        "That it exists mainly to protect intellectual property by making it harder for competitors to reverse-engineer how a system works",
+        "That its main purpose is to make code appear organized and professional, which helps attract better developers and enterprise clients",
+        "That its ultimate goal is to maximize developer productivity by managing complexity — enabling teams to build larger, more reliable software through reusable, independently maintainable parts"
+      ],
+      correct: 3
+    }
+  ]
+}
+          ]
+        },
+        {
+          id: "u4", label: "Unit 4", title: "*************",
+          icon: "🌊",
+          lessons: [
+
+          ]
+        }
+      ]
+    }
+    
   ]
 };
 
