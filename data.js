@@ -737,3 +737,33 @@ document.addEventListener('DOMContentLoaded', function () {
   `;
   document.body.appendChild(footer);
 });
+
+
+
+//private lessons
+// 
+document.addEventListener('DOMContentLoaded', function () {
+  if (localStorage.getItem('bannerDismissed')) return;
+
+  const banner = document.createElement('div');
+  banner.id = 'promo-banner';
+  banner.innerHTML = `
+    <div class="banner-inner">
+      <div class="banner-left">
+        <span class="banner-tag">📡 PRIVATE LESSONS</span>
+        <span class="banner-text">
+          Interested in private Computer Science lessons? — Programming, Office Tools, Scratch & more.
+          <a href="https://wa.me/212663650770" target="_blank" class="banner-link"><br><br>Contact me → +212 663 650 770</a>
+        </span>
+      </div>
+      <button class="banner-close" onclick="dismissBanner()">✕</button>
+    </div>
+  `;
+
+  document.body.insertBefore(banner, document.body.firstChild);
+});
+
+function dismissBanner() {
+  document.getElementById('promo-banner').remove();
+  localStorage.setItem('bannerDismissed', '1');
+}
