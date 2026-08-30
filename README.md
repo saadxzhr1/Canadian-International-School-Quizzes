@@ -1,92 +1,42 @@
-# ⚡ QuizClass — Interactive Lesson Quiz Site
+SaadZahraoui-Teacher-Ressources
 
-A gamified quiz platform for school lessons. Built as a static site — runs 100% in the browser, no server needed.
+Personal teaching resource site — guided lessons and revision material for students, built and maintained by Saad Zahraoui.
 
-## 📁 File Structure
-```
-quizsite/
-├── index.html       ← Grade selection home page
-├── units.html       ← Units for a grade
-├── lessons.html     ← Lessons + student leaderboard sidebar
-├── qcm.html         ← Interactive quiz page
-├── data.js          ← ALL curriculum data + QCM questions
-└── style.css        ← Shared styles
-```
+Live site: https://saadxzhr1.github.io/SaadZahraoui-Teacher-Ressources/
 
-## 🚀 Hosting on GitHub Pages (Free)
+Not tied to any single school — this holds resources for whichever students I'm currently teaching, updated as that changes.
 
-1. Create a free account at https://github.com
-2. Click **New Repository** → name it `quizclass` (or anything you like)
-3. Upload all files (drag and drop in the browser, or use Git)
-4. Go to **Settings → Pages**
-5. Under "Source", select **main branch** → **/ (root)**
-6. Click **Save** → your site will be live at:
-   `https://YOUR_USERNAME.github.io/quizclass/`
+What's here
+Computer Science (Scratch / ScratchJr)
 
-## ✏️ Adding Your Own Questions
+Guided, build-it-yourself project tutorials — not multiple-choice quizzes. Each page walks through building a complete project step by step, then adds debugging challenges and starred extension exercises for going further.
 
-Open `data.js` and find the lesson you want to edit. Each lesson has a `qcm` array:
+Grade	Topic	Page
+3–4	ScratchJr Challenge Pack	scratchjr-grade3-4.html
+5	ScratchJr	scratchjrGrade5.html
+6	Scratch	scratchGrade6.html
+7	Scratch — Cosmic Catch	scratchGrade7.html
+8	Scratch	scratchGrade8.html
+Math & Physics
 
-```javascript
-{
-  id: "l1",
-  title: "Your Lesson Title",
-  description: "Short description",
-  qcm: [
-    {
-      question: "What is the capital of France?",
-      options: ["London", "Berlin", "Paris", "Madrid"],
-      correct: 2   // ← index of correct answer (0 = A, 1 = B, 2 = C, 3 = D)
-    },
-    // add more questions...
-  ]
-}
-```
+Revision reference — formulas, diagrams, and memory hooks organized by level, plus a formula cheat sheet per subject. (In progress — being filled in incrementally.)
 
-## 🎬 How to Make QCM from Video Lessons
+Tech
 
-1. **Transcribe the video**: 
-   - Use [Whisper](https://openai.com/research/whisper) (free, offline)
-   - Or YouTube auto-captions → download as `.txt`
-   - Or [Otter.ai](https://otter.ai) (free tier)
+Static HTML/CSS/JS, no build step, no dependencies. Hosted on GitHub Pages directly from this repo.
 
-2. **Generate questions**: Paste the transcript into Claude or ChatGPT with this prompt:
-   ```
-   From the following lesson transcript, generate 8 multiple choice questions.
-   For each question: provide 4 options (A, B, C, D), mark the correct answer index (0-3).
-   Return as a JSON array matching this format:
-   [{"question":"...","options":["A","B","C","D"],"correct":0}]
-   
-   TRANSCRIPT:
-   [paste transcript here]
-   ```
+Structure
+/
+├── index.html              # homepage, links to all units
+├── scratchjr-grade3-4.html
+├── scratchjrGrade5.html
+├── scratchGrade6.html
+├── scratchGrade7.html
+├── scratchGrade8.html
+└── ...                     # math/physics pages
 
-3. **Review manually** — AI is 85-95% accurate. Always verify definitions and numbers.
+All internal links are relative — the site can be renamed or moved without breaking navigation.
 
-4. **Paste into data.js** under the correct lesson's `qcm` array.
+Adding content
 
-## 🎭 Customizing Memes
-
-Open `data.js` and find the `MEMES` object. Replace the Giphy URLs with any `.gif` URLs you prefer:
-
-```javascript
-const MEMES = {
-  correct: [
-    { url: "https://your-gif-url.gif", caption: "Your caption!" },
-  ],
-  wrong: [
-    { url: "https://your-gif-url.gif", caption: "Your caption!" },
-  ]
-};
-```
-
-## 🏫 Adding Grades / Units / Lessons
-
-Follow the same structure in `data.js`. Each grade has `units`, each unit has `lessons`, each lesson has `qcm`.
-
-## 📊 Student Leaderboard
-
-Results are saved in the browser's `localStorage`. This means:
-- Each browser/device has its own leaderboard
-- Data persists across sessions (until browser data is cleared)
-- For a **shared** leaderboard across all students, you would need a backend (e.g., Supabase free tier)
+New unit pages should follow the visual/structural pattern of the existing Scratch pages (or the Math/Physics formula-sheet pattern, depending on subject) and get linked from index.html.
