@@ -1,0 +1,1663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Math &amp; Physics, Primary &amp; Middle School</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --paper:#FAFAF6;
+    --paper-line:#E4E7EE;
+    --ink:#1D2B4F;
+    --ink-soft:#4C5A7A;
+    --teal:#2E8B87;
+    --teal-soft:#E4F2F1;
+    --amber:#E8A33D;
+    --amber-soft:#FBF0DC;
+    --red:#C1443C;
+    --red-soft:#FBEAE8;
+    --card:#FFFFFF;
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --disp: 'Space Grotesk', system-ui, sans-serif;
+    --body: 'Literata', Georgia, serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 28px,
+      var(--paper);
+    color:var(--ink);
+    font-family:var(--body);
+    font-size:16px;
+    line-height:1.5;
+    padding-bottom:80px;
+  }
+  a{color:inherit;}
+
+  /* HEADER */
+  header{
+    background:var(--ink);
+    color:#fff;
+    padding:28px 20px 22px;
+    position:relative;
+    overflow:hidden;
+  }
+  header .ruler{
+    position:absolute; top:0; right:0; height:100%; width:60px;
+    background-image: repeating-linear-gradient(
+      to bottom, rgba(255,255,255,.12) 0 1px, transparent 1px 14px
+    );
+    opacity:.5;
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-size:11px;
+    color:var(--amber);
+    margin:0 0 8px;
+  }
+  h1{
+    font-family:var(--disp);
+    font-weight:700;
+    font-size:clamp(24px,4vw,34px);
+    margin:0 0 6px;
+    letter-spacing:-0.01em;
+  }
+  header p.sub{
+    margin:0;
+    color:#C9D1E5;
+    font-family:var(--body);
+    font-size:14.5px;
+    max-width:640px;
+  }
+
+  /* TABS */
+  nav.tabs{
+    position:sticky; top:0; z-index:20;
+    display:flex; gap:0; flex-wrap:wrap;
+    background:var(--ink);
+    border-bottom:3px solid var(--amber);
+    padding:0 20px;
+  }
+  nav.tabs button{
+    font-family:var(--disp);
+    font-weight:600;
+    font-size:13.5px;
+    letter-spacing:.02em;
+    background:transparent;
+    color:#B9C3DC;
+    border:none;
+    padding:12px 16px;
+    cursor:pointer;
+    border-bottom:3px solid transparent;
+    margin-bottom:-3px;
+    transition:color .15s ease, border-color .15s ease;
+  }
+  nav.tabs button:hover{color:#fff;}
+  nav.tabs button.active{
+    color:#fff;
+    border-bottom-color:var(--amber);
+  }
+
+  main{max-width:980px; margin:0 auto; padding:26px 20px 10px;}
+  .panel{display:none;}
+  .panel.active{display:block; animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;}}
+
+  .part-title{
+    font-family:var(--disp);
+    font-size:12px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--teal);
+    margin:34px 0 4px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .part-title::after{content:""; flex:1; height:1px; background:var(--paper-line);}
+  .part-title:first-child{margin-top:0;}
+
+  h2.topic{
+    font-family:var(--disp);
+    font-size:19px;
+    margin:22px 0 10px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .tag{
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    padding:3px 8px;
+    border-radius:20px;
+    font-weight:600;
+  }
+  .tag.must{background:var(--red-soft); color:var(--red);}
+  .tag.quick{background:var(--amber-soft); color:#95661C;}
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--paper-line);
+    border-radius:10px;
+    padding:16px 18px;
+    margin-bottom:14px;
+  }
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .grid3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px;}
+  @media(max-width:720px){ .grid2, .grid3{grid-template-columns:1fr;} }
+
+  .formula{
+    font-family:var(--mono);
+    background:var(--ink);
+    color:#EAF6F5;
+    padding:10px 14px;
+    border-radius:7px;
+    display:inline-block;
+    font-size:14.5px;
+    margin:4px 6px 4px 0;
+  }
+  .formula .op{color:var(--amber);}
+
+  .memory{
+    background:var(--teal-soft);
+    border-left:4px solid var(--teal);
+    padding:9px 13px;
+    border-radius:0 6px 6px 0;
+    font-size:14px;
+    color:#14514E;
+    margin:10px 0;
+  }
+  .memory b{color:var(--teal);}
+
+  .example{
+    background:#F5F6FA;
+    border:1px dashed #C7CEDD;
+    border-radius:8px;
+    padding:12px 14px;
+    margin-top:8px;
+    font-size:14.5px;
+  }
+  .example .ans{
+    font-family:var(--mono);
+    background:var(--amber-soft);
+    display:inline-block;
+    padding:3px 9px;
+    border-radius:5px;
+    margin-top:6px;
+    font-weight:600;
+    color:#7A4E10;
+  }
+
+  table.ref{width:100%; border-collapse:collapse; font-size:14px; margin:8px 0;}
+  table.ref th, table.ref td{border:1px solid var(--paper-line); padding:6px 9px; text-align:center;}
+  table.ref th{background:var(--ink); color:#fff; font-family:var(--disp); font-weight:600; font-size:12.5px;}
+
+  ul.termlist{margin:6px 0; padding-left:18px; font-size:14.5px;}
+  ul.termlist li{margin-bottom:2px;}
+
+  svg{display:block; margin:0 auto;}
+  .diagram-box{background:#F5F6FA; border-radius:8px; padding:10px; display:flex; align-items:center; justify-content:center;}
+
+  .cheat-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:10px;}
+  .cheat-card{background:var(--card); border:1px solid var(--paper-line); border-radius:8px; padding:11px 13px;}
+  .cheat-card h4{margin:0 0 6px; font-family:var(--disp); font-size:12.5px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.04em;}
+
+  .steps{counter-reset:step;}
+  .steps li{list-style:none; counter-increment:step; position:relative; padding-left:30px; margin-bottom:10px;}
+  .steps li::before{
+    content:counter(step);
+    position:absolute; left:0; top:0;
+    width:20px; height:20px; border-radius:50%;
+    background:var(--amber); color:#fff;
+    font-family:var(--disp); font-weight:700; font-size:12px;
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  footer{max-width:980px; margin:30px auto 0; padding:0 20px; color:var(--ink-soft); font-size:12.5px; text-align:center;}
+
+
+  nav.subjects{
+    position:sticky; top:0; z-index:30;
+    display:flex; gap:0;
+    background:#141d38;
+    padding:0 20px;
+  }
+  nav.subjects button{
+    font-family:var(--disp); font-weight:700; font-size:15.5px;
+    letter-spacing:.02em; background:transparent; color:#B9C3DC;
+    border:none; padding:16px 30px; cursor:pointer;
+    border-bottom:3px solid transparent;
+  }
+  nav.subjects button:hover{color:#fff;}
+  nav.subjects button.active{color:#fff; border-bottom-color:var(--teal); background:rgba(255,255,255,0.04);}
+  nav.tabs.subnav{position:sticky; top:49px; z-index:20;}
+  .subnav{display:none;}
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">GRADES 1–8</div>
+  <h1>Math &amp; Physics Summary — Primary &amp; Middle School</h1>
+<p>By Zahraoui Saad. Organized by subject and level — the formulas, diagrams, and memory hooks you actually need, not a textbook.</p>
+</header>
+
+<nav class="subjects">
+  <button class="subject-btn active" data-subject="math">Math</button>
+  <button class="subject-btn" data-subject="physics">Physics</button>
+</nav>
+
+<nav class="tabs subnav" id="math-subnav" style="display:flex;">
+  <button class="tablink active" data-tab="primary">Primary</button>
+  <button class="tablink" data-tab="middle">Middle School</button>
+  <button class="tablink" data-tab="cheat">Formula Sheet</button>
+  <!-- <button class="tablink" data-tab="interview">Interview Notes</button> -->
+</nav>
+
+<nav class="tabs subnav" id="physics-subnav" style="display:none;">
+  <button class="tablink" data-tab="p-primary">Primary</button>
+  <button class="tablink" data-tab="p-middle">Middle School</button>
+  <button class="tablink" data-tab="p-cheat">Formula Sheet</button>
+  <!-- <button class="tablink" data-tab="p-interview">Interview Notes</button> -->
+</nav>
+
+<main>
+
+
+<!-- ===================== PRIMARY ===================== -->
+<section class="panel active" id="primary">
+
+  <h2 class="topic">1. Number &amp; Place Value <span class="tag must">Must know</span></h2>
+  <div class="card">
+    <p><b>Place value</b> — read left to right: thousands, hundreds, tens, ones, then tenths, hundredths.</p>
+    <table class="ref">
+      <tr><th>Th</th><th>H</th><th>T</th><th>O</th></tr>
+      <tr><td>4</td><td>5</td><td>8</td><td>2</td></tr>
+    </table>
+    <table class="ref">
+      <tr><th>T</th><th>O</th><th>.</th><th>tenths</th><th>hundredths</th></tr>
+      <tr><td>3</td><td>7</td><td>.</td><td>4</td><td>6</td></tr>
+    </table>
+    <div class="memory"><b>Comparing decimals:</b> pad with zeros first — 6.8 = 6.80, so 6.80 &gt; 6.08.</div>
+    <div class="memory"><b>Rounding:</b> look at the digit right after the target place. 0–4 → round down · 5–9 → round up.</div>
+  </div>
+
+  <h2 class="topic">2. Four Operations <span class="tag must">Must know</span></h2>
+  <div class="grid2">
+    <div class="card">
+      <p><b>+ / −</b> with decimals: line up the decimal points.</p>
+      <p><b>× with decimals:</b> ignore the decimal points, multiply as whole numbers, then count total decimal places and place the point back.</p>
+      <div class="example">2.4 × 1.55 → 24 × 155 = 3720 → 3 decimal places total<br>
+      <span class="ans">= 3.72</span></div>
+    </div>
+    <div class="card">
+      <p><b>Division:</b> know exact division, division with remainder, and decimal results.</p>
+      <div class="example">95 ÷ 4 = 23 remainder 3 <span class="ans">= 23.75</span></div>
+      <div class="memory"><b>Order of operations:</b> Brackets → Multiply/Divide → Add/Subtract</div>
+    </div>
+  </div>
+
+  <h2 class="topic">3. Fractions, Decimals &amp; Percentages <span class="tag must">Must know</span></h2>
+  <div class="card">
+    <p><b>Fraction parts:</b> numerator (top) / denominator (bottom) — e.g. in 3/4, 3 is the numerator, 4 the denominator.</p>
+    <div class="formula">3/4 <span class="op">=</span> 0.75 <span class="op">=</span> 75%</div>
+    <ul class="termlist">
+      <li>decimal → percentage: ×100</li>
+      <li>percentage → decimal: ÷100</li>
+      <li>fraction → decimal: numerator ÷ denominator</li>
+    </ul>
+    <div class="example">Percentage of a number: 15% of 400 = 0.15 × 400 <span class="ans">= 60</span></div>
+    <div class="example">Proportional method: 18 out of 20 → 18/20 × 100 <span class="ans">= 90%</span></div>
+    <p><b>Fraction operations:</b> simplify/equivalent fractions; add/subtract with a common denominator; multiply numerator × numerator and denominator × denominator; divide by multiplying by the reciprocal.</p>
+  </div>
+
+  <h2 class="topic">4. Measurement <span class="tag must">Must know</span></h2>
+  <div class="grid2">
+    <div class="card">
+      <table class="ref">
+        <tr><th>Length</th><td>km → m → cm → mm</td></tr>
+        <tr><td colspan="2" style="font-family:var(--mono); font-size:13px;">1 km=1000 m · 1 m=100 cm · 1 cm=10 mm</td></tr>
+        <tr><th>Mass</th><td>kg → g → mg</td></tr>
+        <tr><td colspan="2" style="font-family:var(--mono); font-size:13px;">1 kg=1000 g · 1 g=1000 mg</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <table class="ref">
+        <tr><th>Capacity</th><td>L → cL → mL</td></tr>
+        <tr><td colspan="2" style="font-family:var(--mono); font-size:13px;">1 L=100 cL · 1 cL=10 mL · 1 L=1000 mL</td></tr>
+        <tr><th>Time</th><td>60 s=1 min · 60 min=1 h · 24 h=1 day</td></tr>
+      </table>
+      <p style="margin-top:8px;"><b>Money:</b> total price, change, price × quantity, discount.</p>
+    </div>
+  </div>
+
+  <h2 class="topic">5. Perimeter &amp; Area <span class="tag must">Must know</span></h2>
+  <div class="card">
+    <div class="grid3">
+      <div class="diagram-box">
+        <svg width="150" height="110" viewBox="0 0 150 110">
+          <rect x="25" y="20" width="100" height="60" fill="none" stroke="#1D2B4F" stroke-width="2.5"/>
+          <text x="75" y="14" text-anchor="middle" font-size="11" fill="#4C5A7A" font-family="monospace">L</text>
+          <text x="14" y="54" text-anchor="middle" font-size="11" fill="#4C5A7A" font-family="monospace">W</text>
+        </svg>
+      </div>
+      <div>
+        <div class="formula">P <span class="op">=</span> 2(L+W)</div><br>
+        <div class="formula">A <span class="op">=</span> L × W</div><br>
+        <div class="formula">Square: P<span class="op">=</span>4s, A<span class="op">=</span>s²</div>
+      </div>
+      <div>
+        <div class="formula">Triangle:<br>A <span class="op">=</span> (base×height)/2</div>
+      </div>
+    </div>
+    <div class="memory"><b>Units:</b> perimeter → cm (or m) · area → cm² (or m²)</div>
+  </div>
+
+  <h2 class="topic">6. Basic Geometry <span class="tag must">Must know</span></h2>
+  <div class="grid2">
+    <div class="card">
+      <p><b>Shapes:</b> triangle, quadrilateral, pentagon, hexagon, octagon, circle.</p>
+      <p><b>Quadrilaterals:</b> square, rectangle, parallelogram, rhombus, trapezoid.</p>
+      <p><b>Angles:</b></p>
+      <table class="ref">
+        <tr><th>Acute</th><th>Right</th><th>Obtuse</th><th>Straight</th><th>Reflex</th></tr>
+        <tr><td>&lt;90°</td><td>=90°</td><td>90–180°</td><td>=180°</td><td>180–360°</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <p><b>Line symmetry — how many lines:</b></p>
+      <div class="diagram-box">
+        <svg width="260" height="90" viewBox="0 0 260 90">
+          <rect x="10" y="15" width="55" height="55" fill="none" stroke="#2E8B87" stroke-width="2"/>
+          <line x1="37" y1="10" x2="37" y2="75" stroke="#E8A33D" stroke-width="1" stroke-dasharray="3,3"/>
+          <line x1="7" y1="42" x2="70" y2="42" stroke="#E8A33D" stroke-width="1" stroke-dasharray="3,3"/>
+          <text x="37" y="88" text-anchor="middle" font-size="10" font-family="monospace" fill="#4C5A7A">square: 4</text>
+
+          <polygon points="150,15 175,70 125,70" fill="none" stroke="#2E8B87" stroke-width="2"/>
+          <line x1="150" y1="10" x2="150" y2="70" stroke="#E8A33D" stroke-width="1" stroke-dasharray="3,3"/>
+          <text x="150" y="88" text-anchor="middle" font-size="10" font-family="monospace" fill="#4C5A7A">equil. Δ: 3</text>
+
+          <circle cx="225" cy="42" r="27" fill="none" stroke="#2E8B87" stroke-width="2"/>
+          <text x="225" y="88" text-anchor="middle" font-size="10" font-family="monospace" fill="#4C5A7A">circle: ∞</text>
+        </svg>
+      </div>
+      <p style="font-size:13.5px; color:var(--ink-soft); margin-top:4px;">Rectangle → 2 lines of symmetry.</p>
+    </div>
+  </div>
+
+  <h2 class="topic">7. Tables, Charts &amp; Word Problems <span class="tag must">Must know</span></h2>
+  <div class="card">
+    <ul class="termlist">
+      <li>Read tables, bar charts and simple line charts</li>
+      <li>Compare values, calculate totals</li>
+      <li>Identify highest / lowest</li>
+      <li>Translate a word problem into the correct operation(s)</li>
+    </ul>
+  </div>
+
+  <h2 class="topic">8. Basic Volume <span class="tag must">Must know</span></h2>
+  <div class="card">
+    <p><b>Volume</b> measures the space occupied by a solid.</p>
+    <div class="formula">V = L × W × H</div>
+    <p style="font-size:14px;"><b>Units:</b> cm³, m³. Useful conversion: <b>1 cm³ = 1 mL</b> and <b>1 dm³ = 1 L</b>.</p>
+  </div>
+
+</section>
+
+<!-- ===================== MIDDLE SCHOOL ===================== -->
+<section class="panel" id="middle">
+
+  <p class="part-title">Numbers &amp; Algebra</p>
+
+  <h2 class="topic">1. Signed Numbers <span class="tag must">Must know</span></h2>
+  <div class="card">
+    <table class="ref">
+      <tr><th>+ × +</th><th>− × −</th><th>+ × −</th><th>− × +</th></tr>
+      <tr><td>+</td><td>+</td><td>−</td><td>−</td></tr>
+    </table>
+    <div class="memory"><b>Multiplication/division:</b> same signs → positive · different signs → negative.</div>
+    <p style="font-size:14px;"><b>Addition:</b> same signs → add absolute values and keep the sign; different signs → subtract absolute values and keep the sign of the number with greater absolute value.</p>
+    <p style="font-size:14px;"><b>Subtraction:</b> subtracting a number is adding its opposite.</p>
+    <div class="formula">a − b = a + (−b)</div>
+  </div>
+
+  <h2 class="topic">2. Fractions &amp; Powers <span class="tag must">Must know</span></h2>
+  <div class="grid2">
+    <div class="card">
+      <p>Add/subtract → common denominator. Multiply → numerator×numerator. Divide → multiply by the reciprocal.</p>
+      <div class="example">2/3 ÷ 5/4 = 2/3 × 4/5</div>
+    </div>
+    <div class="card">
+      <p><b>Powers:</b> aⁿ = base<sup>exponent</sup></p>
+      <div class="formula">aᵐ × aⁿ <span class="op">=</span> a<sup>m+n</sup></div><br>
+      <div class="formula">aᵐ ÷ aⁿ <span class="op">=</span> a<sup>m−n</sup></div>
+      <div class="formula">a<sup>0</sup> = 1 &nbsp; (a ≠ 0)</div>
+    </div>
+  </div>
+
+  <h2 class="topic">3. Algebra <span class="tag must">Must know</span></h2>
+  <div class="card">
+    <p><b>Vocabulary:</b> variable, unknown, coefficient, term, like terms, expression, equation, solution.</p>
+    <div class="example">Simplifying: 3x + 5x <span class="ans">= 8x</span></div>
+    <div class="example">Development: a(b+c) = ab+ac → 3(x+2) <span class="ans">= 3x+6</span></div>
+    <div class="example">Factorisation (reverse): 3x+6 <span class="ans">= 3(x+2)</span></div>
+    <div class="memory"><b>Inspector line:</b> "Development removes parentheses and creates terms. Factorisation reverses this and creates a product."</div>
+  </div>
+
+  <h2 class="topic">4. Equations, Inequalities &amp; Systems <span class="tag must">Must know</span></h2>
+  <div class="grid2">
+    <div class="card">
+      <p><b>Equation:</b> whatever you do to one side, do to the other.</p>
+      <div class="example">3x+5=17 → 3x=12 → <span class="ans">x=4</span></div>
+      <p style="margin-top:10px;"><b>Inequality symbols:</b> &gt; &lt; ≥ ≤</p>
+      <div class="example">2x+3≤11 → 2x≤8 → <span class="ans">x≤4</span></div>
+      <div class="memory">⚠️ Multiplying/dividing by a <b>negative</b> flips the inequality sign.</div>
+    </div>
+    <div class="card">
+      <p><b>System of equations</b> — two equations, same unknowns, solved by <b>substitution</b> or <b>elimination</b>.</p>
+      <div class="formula">x+y=10<br>x−y=2</div>
+      <div class="memory">The solution makes <b>both</b> equations true at the same time.</div>
+    </div>
+  </div>
+
+  <h2 class="topic">5. Proportionality &amp; Functions <span class="tag must">Must know</span></h2>
+  <div class="card">
+    <div class="grid2">
+      <div>
+        <p><b>Proportional:</b> <span class="formula">y = ax</span> — straight line through the origin (0,0). y/x is constant.</p>
+        <p><b>Affine:</b> <span class="formula">y = ax+b</span> — straight line, not necessarily through the origin. Crosses y-axis at (0,b).</p>
+      </div>
+      <div class="diagram-box">
+        <svg width="180" height="140" viewBox="0 0 180 140">
+          <line x1="15" y1="120" x2="170" y2="120" stroke="#4C5A7A" stroke-width="1.5"/>
+          <line x1="30" y1="130" x2="30" y2="10" stroke="#4C5A7A" stroke-width="1.5"/>
+          <line x1="30" y1="120" x2="150" y2="20" stroke="#2E8B87" stroke-width="2.5"/>
+          <line x1="30" y1="90" x2="160" y2="20" stroke="#E8A33D" stroke-width="2.5"/>
+          <circle cx="30" cy="120" r="3" fill="#2E8B87"/>
+          <text x="60" y="130" font-size="9" fill="#2E8B87" font-family="monospace">y=ax</text>
+          <text x="120" y="30" font-size="9" fill="#E8A33D" font-family="monospace">y=ax+b</text>
+        </svg>
+      </div>
+    </div>
+    <p style="margin-top:6px;"><b>Function:</b> f(x)=2x+3 → f(4)=11 → <b>11 is the image of 4</b>. Solve f(x)=11 → x=4 → <b>4 is the antecedent of 11</b>.</p>
+    <div class="formula">slope a <span class="op">=</span> (y₂−y₁)/(x₂−x₁)</div>
+    <p style="font-size:14px; margin-top:6px;">a&gt;0 → increasing · a&lt;0 → decreasing · a=0 → constant</p>
+  </div>
+
+  <h2 class="topic">6. Square Roots <span class="tag must">Must know</span></h2>
+  <div class="card">
+    <div class="formula">√25 <span class="op">=</span> 5</div>
+    <div class="memory">But <b>x² = 25 → x = ±5</b> (since both 5² and (−5)² equal 25). √ itself only gives the positive root.</div>
+  </div>
+
+  <h2 class="topic">7. Algebraic Identities <span class="tag must">Must know</span></h2>
+  <div class="card">
+    <div class="formula">(a+b)² <span class="op">=</span> a²+2ab+b²</div><br>
+    <div class="formula">(a−b)² <span class="op">=</span> a²−2ab+b²</div><br>
+    <div class="formula">a²−b² <span class="op">=</span> (a−b)(a+b)</div>
+    <p style="font-size:14px; margin-top:6px;">Know both directions: development <i>and</i> recognizing them for factorisation.</p>
+  </div>
+
+  <p class="part-title">Geometry</p>
+
+  
+<h2 class="topic">8. Triangles <span class="tag must">Must know</span></h2>
+<div class="card">
+  <p><b>Classify triangles in two independent ways:</b> by their <b>sides</b> and by their <b>angles</b>.</p>
+
+  <div class="grid3">
+    <div class="diagram-box">
+      <svg width="170" height="135" viewBox="0 0 170 135" aria-label="Equilateral triangle">
+        <polygon points="85,15 140,105 30,105" fill="none" stroke="#1D2B4F" stroke-width="2.5"/>
+        <line x1="55" y1="60" x2="64" y2="67" stroke="#C1443C" stroke-width="2.5"/>
+        <line x1="106" y1="67" x2="115" y2="60" stroke="#C1443C" stroke-width="2.5"/>
+        <line x1="78" y1="105" x2="92" y2="105" stroke="#C1443C" stroke-width="2.5"/>
+        <text x="85" y="126" text-anchor="middle" font-size="11" font-family="monospace" fill="#1D2B4F">Equilateral</text>
+        <text x="85" y="12" text-anchor="middle" font-size="9" fill="#2E8B87">3 equal sides</text>
+      </svg>
+    </div>
+
+    <div class="diagram-box">
+      <svg width="170" height="135" viewBox="0 0 170 135" aria-label="Isosceles triangle">
+        <polygon points="85,15 140,105 30,105" fill="none" stroke="#1D2B4F" stroke-width="2.5"/>
+        <line x1="55" y1="58" x2="64" y2="66" stroke="#E8A33D" stroke-width="2.5"/>
+        <line x1="106" y1="66" x2="115" y2="58" stroke="#E8A33D" stroke-width="2.5"/>
+        <text x="85" y="126" text-anchor="middle" font-size="11" font-family="monospace" fill="#1D2B4F">Isosceles</text>
+        <text x="85" y="12" text-anchor="middle" font-size="9" fill="#2E8B87">2 equal sides</text>
+      </svg>
+    </div>
+
+    <div class="diagram-box">
+      <svg width="170" height="135" viewBox="0 0 170 135" aria-label="Scalene triangle">
+        <polygon points="35,20 145,78 35,108" fill="none" stroke="#1D2B4F" stroke-width="2.5"/>
+        <text x="85" y="126" text-anchor="middle" font-size="11" font-family="monospace" fill="#1D2B4F">Scalene</text>
+        <text x="85" y="12" text-anchor="middle" font-size="9" fill="#2E8B87">no equal sides</text>
+      </svg>
+    </div>
+  </div>
+
+  <table class="ref">
+    <tr><th>By sides</th><th>Meaning</th></tr>
+    <tr><td>Equilateral</td><td>3 equal sides</td></tr>
+    <tr><td>Isosceles</td><td>2 equal sides</td></tr>
+    <tr><td>Scalene</td><td>3 different sides</td></tr>
+  </table>
+
+  <div class="grid3">
+    <div class="diagram-box">
+      <svg width="170" height="125" viewBox="0 0 170 125" aria-label="Acute triangle">
+        <polygon points="85,15 145,105 25,105" fill="none" stroke="#1D2B4F" stroke-width="2.5"/>
+        <text x="85" y="122" text-anchor="middle" font-size="11" font-family="monospace" fill="#1D2B4F">Acute</text>
+        <text x="85" y="10" text-anchor="middle" font-size="9" fill="#2E8B87">all angles &lt; 90°</text>
+      </svg>
+    </div>
+    <div class="diagram-box">
+      <svg width="170" height="125" viewBox="0 0 170 125" aria-label="Right angled triangle">
+        <polygon points="30,105 30,25 145,105" fill="none" stroke="#1D2B4F" stroke-width="2.5"/>
+        <rect x="30" y="94" width="11" height="11" fill="none" stroke="#C1443C" stroke-width="2"/>
+        <text x="85" y="122" text-anchor="middle" font-size="11" font-family="monospace" fill="#1D2B4F">Right-angled</text>
+        <text x="85" y="10" text-anchor="middle" font-size="9" fill="#2E8B87">one angle = 90°</text>
+      </svg>
+    </div>
+    <div class="diagram-box">
+      <svg width="170" height="125" viewBox="0 0 170 125" aria-label="Obtuse triangle">
+        <polygon points="25,95 145,80 75,25" fill="none" stroke="#1D2B4F" stroke-width="2.5"/>
+        <text x="85" y="122" text-anchor="middle" font-size="11" font-family="monospace" fill="#1D2B4F">Obtuse</text>
+        <text x="85" y="10" text-anchor="middle" font-size="9" fill="#2E8B87">one angle &gt; 90°</text>
+      </svg>
+    </div>
+  </div>
+
+  <table class="ref">
+    <tr><th>By angles</th><th>Meaning</th></tr>
+    <tr><td>Acute</td><td>All angles &lt; 90°</td></tr>
+    <tr><td>Right-angled</td><td>One angle = 90°</td></tr>
+    <tr><td>Obtuse</td><td>One angle &gt; 90°</td></tr>
+  </table>
+
+  <div class="memory"><b>Memory:</b> a triangle can have both classifications — e.g. 40°, 40°, 100° = <b>obtuse isosceles</b>.</div>
+  <div class="grid2">
+    <div>
+      <p><b>Parts:</b> vertex = corner · side = edge · base = chosen reference side · height/altitude = perpendicular distance to the base · hypotenuse = side opposite the 90° angle.</p>
+    </div>
+    <div class="formula">A + B + C <span class="op">=</span> 180°</div>
+  </div>
+</div>
+
+<h2 class="topic">9. Pythagoras &amp; Thales <span class="tag must">Must know</span></h2>
+  <div class="grid2">
+    <div class="card">
+      <div class="diagram-box">
+        <svg width="150" height="110" viewBox="0 0 150 110">
+          <polygon points="20,90 20,25 110,90" fill="none" stroke="#1D2B4F" stroke-width="2"/>
+          <rect x="20" y="80" width="10" height="10" fill="none" stroke="#1D2B4F" stroke-width="1.5"/>
+          <text x="10" y="60" font-size="11" font-family="monospace" fill="#4C5A7A">a</text>
+          <text x="60" y="102" font-size="11" font-family="monospace" fill="#4C5A7A">b</text>
+          <text x="70" y="52" font-size="11" font-family="monospace" fill="#2E8B87">c</text>
+        </svg>
+      </div>
+      <div class="formula">a² + b² <span class="op">=</span> c²</div>
+      <p style="font-size:14px;">c = hypotenuse (side opposite the right angle). <b>Use it when:</b> two sides known → find the third.</p>
+    </div>
+    <div class="card">
+      <div class="diagram-box">
+        <svg width="160" height="120" viewBox="0 0 160 120">
+          <polygon points="80,10 140,100 20,100" fill="none" stroke="#1D2B4F" stroke-width="2"/>
+          <line x1="55" y1="60" x2="105" y2="60" stroke="#E8A33D" stroke-width="2.5"/>
+          <text x="80" y="8" font-size="10" font-family="monospace" fill="#4C5A7A" text-anchor="middle">A</text>
+          <text x="55" y="55" font-size="10" font-family="monospace" fill="#4C5A7A">M</text>
+          <text x="110" y="55" font-size="10" font-family="monospace" fill="#4C5A7A">N</text>
+          <text x="15" y="112" font-size="10" font-family="monospace" fill="#4C5A7A">B</text>
+          <text x="145" y="112" font-size="10" font-family="monospace" fill="#4C5A7A">C</text>
+        </svg>
+      </div>
+      <div class="formula" style="font-size:13px;">AM/AB <span class="op">=</span> AN/AC <span class="op">=</span> MN/BC</div>
+      <div class="memory"><b>Thales:</b> parallel line inside a triangle → proportional segments.</div>
+    </div>
+  </div>
+
+  
+<h2 class="topic">10. Lines &amp; Constructions <span class="tag quick">Quick refresh</span></h2>
+<div class="card">
+  <div class="grid3">
+    <div class="diagram-box">
+      <svg width="170" height="140" viewBox="0 0 170 140" aria-label="Median">
+        <polygon points="85,15 145,110 25,110" fill="none" stroke="#1D2B4F" stroke-width="2.5"/>
+        <line x1="85" y1="15" x2="85" y2="110" stroke="#2E8B87" stroke-width="3"/>
+        <line x1="72" y1="110" x2="85" y2="110" stroke="#2E8B87" stroke-width="2"/>
+        <line x1="85" y1="110" x2="98" y2="110" stroke="#2E8B87" stroke-width="2"/>
+        <text x="85" y="132" text-anchor="middle" font-size="11" font-family="monospace" fill="#1D2B4F">Median</text>
+      </svg>
+    </div>
+
+    <div class="diagram-box">
+      <svg width="170" height="140" viewBox="0 0 170 140" aria-label="Altitude">
+        <polygon points="85,15 145,110 25,110" fill="none" stroke="#1D2B4F" stroke-width="2.5"/>
+        <line x1="85" y1="15" x2="85" y2="110" stroke="#E8A33D" stroke-width="3"/>
+        <rect x="85" y="98" width="12" height="12" fill="none" stroke="#E8A33D" stroke-width="2"/>
+        <text x="85" y="132" text-anchor="middle" font-size="11" font-family="monospace" fill="#1D2B4F">Altitude</text>
+      </svg>
+    </div>
+
+    <div class="diagram-box">
+      <svg width="170" height="140" viewBox="0 0 170 140" aria-label="Angle bisector">
+        <polygon points="85,15 145,110 25,110" fill="none" stroke="#1D2B4F" stroke-width="2.5"/>
+        <line x1="85" y1="15" x2="85" y2="110" stroke="#C1443C" stroke-width="3"/>
+        <path d="M80,28 A18,18 0 0 0 90,28" fill="none" stroke="#C1443C" stroke-width="2"/>
+        <text x="85" y="132" text-anchor="middle" font-size="11" font-family="monospace" fill="#1D2B4F">Angle bisector</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card" style="margin:0;">
+      <p><b>Median:</b> from a vertex to the <b>midpoint</b> of the opposite side.</p>
+      <div class="memory"><b>Median → midpoint</b></div>
+    </div>
+    <div class="card" style="margin:0;">
+      <p><b>Altitude:</b> from a vertex <b>perpendicular</b> to the opposite side (or its extension).</p>
+      <div class="memory"><b>Altitude → 90°</b></div>
+    </div>
+    <div class="card" style="margin:0;">
+      <p><b>Angle bisector:</b> divides one angle into <b>two equal angles</b>.</p>
+      <div class="memory"><b>Bisector → equal angles</b></div>
+    </div>
+    <div class="card" style="margin:0;">
+      <p><b>Perpendicular bisector of [AB]:</b> passes through the <b>midpoint</b> of AB and is <b>perpendicular</b> to AB.</p>
+      <div class="memory"><b>Midpoint + 90°</b></div>
+    </div>
+  </div>
+
+  <p style="font-size:14px; margin-top:12px;"><b>Vocabulary:</b> line · ray · segment · parallel · perpendicular · midpoint · vertex.</p>
+</div>
+
+<h2 class="topic">11. Central Symmetry <span class="tag quick">Quick refresh</span></h2>
+  <div class="card">
+    <p>Equivalent to a 180° rotation around a center O. For A → A′ around O: <span class="formula">OA = OA′</span>, and O is the midpoint of [AA′].</p>
+  </div>
+
+  
+<h2 class="topic">12. Quadrilaterals <span class="tag must">Must know</span></h2>
+<div class="card">
+  <div class="grid2">
+    <div class="card">
+      <div class="diagram-box">
+        <svg width="230" height="130" viewBox="0 0 230 130" aria-label="Parallelogram">
+          <polygon points="35,25 190,25 160,105 5,105" fill="none" stroke="#1D2B4F" stroke-width="2.5"/>
+          <line x1="55" y1="25" x2="75" y2="25" stroke="#2E8B87" stroke-width="3"/>
+          <line x1="125" y1="105" x2="145" y2="105" stroke="#2E8B87" stroke-width="3"/>
+          <line x1="15" y1="80" x2="25" y2="60" stroke="#E8A33D" stroke-width="3"/>
+          <line x1="170" y1="60" x2="180" y2="40" stroke="#E8A33D" stroke-width="3"/>
+          <text x="115" y="122" text-anchor="middle" font-size="11" font-family="monospace" fill="#1D2B4F">Parallelogram</text>
+        </svg>
+      </div>
+      <p><b>Parallelogram:</b> two pairs of opposite sides are parallel.</p>
+      <ul class="termlist">
+        <li>opposite sides are equal</li>
+        <li>opposite angles are equal</li>
+        <li>adjacent angles add to 180°</li>
+        <li>diagonals bisect each other</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="diagram-box">
+        <svg width="230" height="130" viewBox="0 0 230 130" aria-label="Rectangle">
+          <rect x="35" y="25" width="155" height="80" fill="none" stroke="#1D2B4F" stroke-width="2.5"/>
+          <rect x="35" y="25" width="12" height="12" fill="none" stroke="#C1443C" stroke-width="2"/>
+          <rect x="178" y="25" width="12" height="12" fill="none" stroke="#C1443C" stroke-width="2"/>
+          <rect x="35" y="93" width="12" height="12" fill="none" stroke="#C1443C" stroke-width="2"/>
+          <rect x="178" y="93" width="12" height="12" fill="none" stroke="#C1443C" stroke-width="2"/>
+          <text x="112" y="122" text-anchor="middle" font-size="11" font-family="monospace" fill="#1D2B4F">Rectangle</text>
+        </svg>
+      </div>
+      <p><b>Rectangle:</b> parallelogram + 4 right angles.</p>
+      <p>Its diagonals <b>bisect each other and are equal</b>.</p>
+    </div>
+
+    <div class="card">
+      <div class="diagram-box">
+        <svg width="230" height="130" viewBox="0 0 230 130" aria-label="Rhombus">
+          <polygon points="112,18 188,65 112,112 36,65" fill="none" stroke="#1D2B4F" stroke-width="2.5"/>
+          <line x1="112" y1="18" x2="112" y2="112" stroke="#2E8B87" stroke-width="2"/>
+          <line x1="36" y1="65" x2="188" y2="65" stroke="#2E8B87" stroke-width="2"/>
+          <line x1="72" y1="42" x2="82" y2="48" stroke="#E8A33D" stroke-width="2.5"/>
+          <line x1="142" y1="48" x2="152" y2="42" stroke="#E8A33D" stroke-width="2.5"/>
+          <text x="112" y="122" text-anchor="middle" font-size="11" font-family="monospace" fill="#1D2B4F">Rhombus</text>
+        </svg>
+      </div>
+      <p><b>Rhombus:</b> parallelogram + 4 equal sides.</p>
+      <p>Its diagonals <b>bisect each other at 90°</b>.</p>
+    </div>
+
+    <div class="card">
+      <div class="diagram-box">
+        <svg width="230" height="130" viewBox="0 0 230 130" aria-label="Square">
+          <rect x="70" y="20" width="85" height="85" fill="none" stroke="#1D2B4F" stroke-width="2.5"/>
+          <line x1="70" y1="20" x2="155" y2="105" stroke="#2E8B87" stroke-width="2"/>
+          <line x1="155" y1="20" x2="70" y2="105" stroke="#2E8B87" stroke-width="2"/>
+          <rect x="70" y="20" width="12" height="12" fill="none" stroke="#C1443C" stroke-width="2"/>
+          <text x="112" y="122" text-anchor="middle" font-size="11" font-family="monospace" fill="#1D2B4F">Square</text>
+        </svg>
+      </div>
+      <p><b>Square:</b> both a rectangle and a rhombus.</p>
+      <p>4 equal sides · 4 right angles · equal diagonals · perpendicular diagonals.</p>
+    </div>
+  </div>
+
+  <div class="memory"><b>Hierarchy:</b> Square ⊂ Rectangle ∩ Rhombus ⊂ Parallelogram.</div>
+</div>
+
+<h2 class="topic">13. Parallel Lines &amp; Angles <span class="tag must">Must know</span></h2>
+  <div class="card">
+    <div class="diagram-box">
+      <svg width="260" height="150" viewBox="0 0 260 150">
+        <line x1="20" y1="45" x2="240" y2="45" stroke="#1D2B4F" stroke-width="2"/>
+        <line x1="20" y1="105" x2="240" y2="105" stroke="#1D2B4F" stroke-width="2"/>
+        <line x1="70" y1="10" x2="190" y2="140" stroke="#2E8B87" stroke-width="2"/>
+        <text x="115" y="35" font-size="11" font-family="monospace" fill="#4C5A7A">1</text>
+        <text x="145" y="35" font-size="11" font-family="monospace" fill="#4C5A7A">2</text>
+        <text x="115" y="60" font-size="11" font-family="monospace" fill="#4C5A7A">3</text>
+        <text x="145" y="60" font-size="11" font-family="monospace" fill="#4C5A7A">4</text>
+        <text x="140" y="95" font-size="11" font-family="monospace" fill="#4C5A7A">5</text>
+        <text x="168" y="95" font-size="11" font-family="monospace" fill="#4C5A7A">6</text>
+        <text x="140" y="120" font-size="11" font-family="monospace" fill="#4C5A7A">7</text>
+        <text x="168" y="120" font-size="11" font-family="monospace" fill="#4C5A7A">8</text>
+      </svg>
+    </div>
+    <ul class="termlist">
+      <li><b>Corresponding</b> (equal): ∠1=∠5, ∠2=∠6, ∠3=∠7, ∠4=∠8</li>
+      <li><b>Alternate interior</b> (equal): ∠3=∠6, ∠4=∠5</li>
+      <li><b>Vertically opposite</b> (equal): ∠1=∠4, ∠2=∠3, ∠5=∠8, ∠6=∠7</li>
+      <li><b>Co-interior / same-side</b> (sum to 180°): ∠3+∠5=180°, ∠4+∠6=180°</li>
+      <li><b>Straight line:</b> adjacent angles on a straight line sum to 180°. <b>Around a point:</b> angles sum to 360°.</li>
+    </ul>
+    <div class="memory">One known angle determines all eight.</div>
+  </div>
+
+  <h2 class="topic">14. Circle <span class="tag must">Must know</span></h2>
+  <div class="grid2">
+    <div class="card">
+      <div class="diagram-box">
+        <svg width="150" height="130" viewBox="0 0 150 130">
+          <circle cx="75" cy="65" r="50" fill="none" stroke="#1D2B4F" stroke-width="2"/>
+          <line x1="75" y1="65" x2="125" y2="65" stroke="#2E8B87" stroke-width="2"/>
+          <text x="98" y="58" font-size="10" font-family="monospace" fill="#2E8B87">r</text>
+          <line x1="25" y1="65" x2="125" y2="65" stroke="#E8A33D" stroke-width="1.5" stroke-dasharray="3,3"/>
+          <circle cx="75" cy="65" r="2.5" fill="#1D2B4F"/>
+        </svg>
+      </div>
+      <p style="font-size:14px;"><b>Vocabulary:</b> center, radius, diameter, chord, circumference. Diameter = a chord through the center.</p>
+    </div>
+    <div class="card">
+      <div class="formula">d <span class="op">=</span> 2r</div><br>
+      <div class="formula">C <span class="op">=</span> 2πr</div><br>
+      <div class="formula">A <span class="op">=</span> πr²</div>
+    </div>
+  </div>
+
+  <h2 class="topic">15. Coordinates &amp; Triangle Inequality <span class="tag quick">Quick refresh</span></h2>
+  <div class="grid2">
+    <div class="card">
+      <p>Point A(x,y): x → horizontal, y → vertical. Origin = (0,0). The plane has four quadrants; read/plot points using x first, then y.</p>
+      <p style="font-size:14px;"><b>Horizontal distance:</b> difference of x-values. <b>Vertical distance:</b> difference of y-values.</p>
+      <div class="formula">Symmetry about origin: (x,y) → (−x,−y)</div>
+    </div>
+    <div class="card">
+      <p><b>Triangle inequality:</b> the two shorter sides must sum to more than the longest.</p>
+      <div class="formula">a+b &gt; c</div>
+      <div class="formula" style="font-size:12.5px;">|a−b| &lt; c &lt; a+b</div>
+    </div>
+  </div>
+
+  <h2 class="topic">16. Prisms &amp; Cylinders <span class="tag quick">Quick refresh</span></h2>
+  <div class="card">
+    <div class="grid2">
+      <div>
+        <p><b>Prism:</b> two identical, parallel polygonal bases.</p>
+        <div class="formula">V <span class="op">=</span> A<sub>base</sub> × h</div>
+      </div>
+      <div>
+        <p><b>Cylinder:</b> two identical, parallel circular bases.</p>
+        <div class="formula">V <span class="op">=</span> πr²h</div>
+      </div>
+    </div>
+    <p style="font-size:14px;"><b>Cuboid:</b> V = LWH. &nbsp; <b>Cube:</b> V = a³.</p>
+    <!-- <p style="font-size:13px; color:var(--ink-soft); margin-top:6px;">Surface area detail is lower priority for this interview.</p> -->
+  </div>
+
+  <p class="part-title">Statistics, Probability &amp; Trigonometry</p>
+
+  <h2 class="topic">17. Statistics <span class="tag must">Must know</span></h2>
+  <div class="card">
+    <p><b>Vocabulary:</b> population, individual, variable/character, value, effectif, frequency.</p>
+    <div class="memory"><b>Effectif = count</b> · <b>Frequency = count ÷ total</b></div>
+    <div class="formula">mean <span class="op">=</span> sum ÷ number of values</div>
+    <p style="font-size:14px;"><b>Median:</b> sort the data, then take the middle value (or the mean of the two middle values when there is an even number of values).</p>
+    <p style="font-size:14px;"><b>Mode:</b> most frequent value. &nbsp; <b>Range:</b> maximum − minimum.</p>
+  </div>
+
+  <h2 class="topic">18. Probability <span class="tag must">Must know</span></h2>
+  <div class="card">
+    <div class="formula">P(E) <span class="op">=</span> favorable equally-likely outcomes ÷ total equally-likely outcomes</div>
+    <p style="font-size:13px; color:var(--ink-soft); margin-top:2px;">— only valid when all outcomes are equally likely.</p>
+    <p style="font-size:14px;">0 ≤ P(E) ≤ 1 &nbsp; (0 = impossible, 1 = certain)</p>
+    <div class="formula">P(not E) <span class="op">=</span> 1 − P(E)</div>
+    <div class="memory"><b>Effectif</b> = observed count · <b>Frequency</b> = observed proportion · <b>Probability</b> = theoretical chance</div>
+  </div>
+
+  <h2 class="topic">19. Trigonometry (3AC) <span class="tag must">Must know</span></h2>
+  <div class="card">
+    <div class="diagram-box">
+      <svg width="170" height="120" viewBox="0 0 170 120">
+        <polygon points="20,100 20,20 150,100" fill="none" stroke="#1D2B4F" stroke-width="2"/>
+        <rect x="20" y="90" width="10" height="10" fill="none" stroke="#1D2B4F" stroke-width="1.5"/>
+        <path d="M125,100 A18,18 0 0 0 130,84" fill="none" stroke="#E8A33D" stroke-width="1.5"/>
+        <text x="118" y="94" font-size="10" font-family="monospace" fill="#E8A33D">θ</text>
+        <text x="5" y="65" font-size="10" font-family="monospace" fill="#4C5A7A">opp</text>
+        <text x="75" y="112" font-size="10" font-family="monospace" fill="#4C5A7A">adjacent</text>
+        <text x="85" y="55" font-size="10" font-family="monospace" fill="#2E8B87">hypotenuse</text>
+      </svg>
+    </div>
+    <div class="formula">sin θ <span class="op">=</span> opp/hyp</div>
+    <div class="formula">cos θ <span class="op">=</span> adj/hyp</div>
+    <div class="formula">tan θ <span class="op">=</span> opp/adj</div>
+    <div class="formula">tan θ <span class="op">=</span> sin θ / cos θ</div>
+    <div class="memory"><b>SOH–CAH–TOA.</b> Finds an unknown <b>side</b> (angle+side known) or an unknown <b>angle</b> (via sin⁻¹, cos⁻¹, tan⁻¹) — unlike Pythagoras, which needs no angle.</div>
+    <p style="font-size:13px; color:var(--ink-soft); margin-top:4px;">Exact special-triangle values: optional, only if extra time.</p>
+  </div>
+
+</section>
+
+<!-- ===================== CHEAT SHEET ===================== -->
+<section class="panel" id="cheat">
+  <h2 class="topic" style="margin-top:0;">Formula Cheat Sheet</h2>
+  <div class="cheat-grid">
+    <div class="cheat-card"><h4>Perimeter / Area</h4>P=2(L+W) · A=L×W<br>Square: P=4s, A=s²<br>Triangle: A=(b×h)/2</div>
+    <div class="cheat-card"><h4>Pythagoras</h4>a²+b²=c² (right triangles only)</div>
+    <div class="cheat-card"><h4>Thales</h4>AM/AB = AN/AC = MN/BC</div>
+    <div class="cheat-card"><h4>Circle</h4>d=2r · C=2πr · A=πr²</div>
+    <div class="cheat-card"><h4>Angle sum (triangle)</h4>∠A+∠B+∠C=180°</div>
+    <div class="cheat-card"><h4>Triangle inequality</h4>a+b&gt;c · |a−b|&lt;c&lt;a+b</div>
+    <div class="cheat-card"><h4>Proportionality</h4>y=ax (through origin)</div>
+    <div class="cheat-card"><h4>Affine function</h4>y=ax+b · crosses y-axis at (0,b)</div>
+    <div class="cheat-card"><h4>Slope</h4>a=(y₂−y₁)/(x₂−x₁)</div>
+    <div class="cheat-card"><h4>Identities</h4>(a+b)²=a²+2ab+b²<br>(a−b)²=a²−2ab+b²<br>a²−b²=(a−b)(a+b)</div>
+    <div class="cheat-card"><h4>Trigonometry</h4>sin=opp/hyp · cos=adj/hyp · tan=opp/adj · tan=sin/cos</div>
+    <div class="cheat-card"><h4>Statistics</h4>mean=sum÷count · median=middle of sorted data · mode=most frequent · range=max−min</div>
+    <div class="cheat-card"><h4>Probability</h4>P(E)=favorable÷total · P(not E)=1−P(E)</div>
+    <div class="cheat-card"><h4>Volume</h4>V=LWH · V=a³ · V=A<sub>base</sub>×h · V=πr²h</div>
+    <div class="cheat-card"><h4>Powers</h4>aᵐ×aⁿ=a<sup>m+n</sup> · aᵐ÷aⁿ=a<sup>m−n</sup> · a⁰=1 (a≠0)</div>
+    <div class="cheat-card"><h4>Signs</h4>Multiplication/division: same→+ · different→− · subtraction: a−b=a+(−b)</div>
+  </div>
+</section>
+
+<!-- ===================== INTERVIEW NOTES ===================== -->
+<section class="panel" id="interview">
+  <h2 class="topic" style="margin-top:0;">How to Handle the Interview</h2>
+  <div class="card">
+    <p>Don't prepare only to calculate. Be ready to do three things for any topic:</p>
+    <ol class="steps">
+      <li><b>Define</b> — "An isosceles triangle has two equal sides."</li>
+      <li><b>Solve</b> — use the correct theorem/formula, get the result.</li>
+      <li><b>Teach</b> — explain why the method works, at a middle-schooler's level.</li>
+    </ol>
+    <div class="memory"><b>Teaching pattern:</b> visual → concrete example → rule/formula → student exercise.</div>
+  </div>
+
+  <h2 class="topic">Priority Tiers</h2>
+  <div class="grid3">
+    <div class="card">
+      <h4 style="margin-top:0; color:var(--red);">Tier 1 — Automatic</h4>
+      <p style="font-size:13.5px;">Arithmetic, fractions/decimals/percentages, measurement, perimeter/area/volume, basic geometry, signed numbers, algebra, equations, proportionality, triangles, quadrilaterals, Pythagoras, statistics, and basic probability.</p>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0; color:#95661C;">Tier 2 — Quick refresh</h4>
+      <p style="font-size:13.5px;">Thales, functions, inequalities, systems, square roots, algebraic identities, coordinate geometry, circles, trigonometry, median/altitude/bisector, triangle inequality, prisms/cylinders, slope/affine functions.</p>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0; color:var(--teal);">Tier 3 — Only if time</h4>
+      <p style="font-size:13.5px;">Exact special-triangle trig values, detailed constructions, surface-area formulas, less common geometry properties.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== PHYSICS: PRIMARY ===================== -->
+<section class="panel" id="p-primary">
+
+  <h2 class="topic">1. Forces &amp; Motion <span class="tag must">Must know</span></h2>
+  <div class="card">
+    <p><b>A force is a push or a pull acting on an object.</b></p>
+    <ul class="termlist">
+      <li>Pushing a door · Pulling a suitcase · Kicking a ball · A magnet attracting an object</li>
+    </ul>
+    <div class="memory"><b>A force can:</b> start motion · stop motion · speed up · slow down · change direction · change shape.</div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <p><b>Gravity</b> — the force that pulls objects toward Earth.</p>
+      <p><b>Friction</b> — a force that opposes motion when surfaces interact.</p>
+      <table class="ref">
+        <tr><th>Useful friction</th><th>Unwanted friction</th></tr>
+        <tr><td>Walking · Braking · Writing</td><td>Wear of machine parts · Heat from rubbing</td></tr>
+      </table>
+      <p style="font-size:13.5px; margin-top:6px;"><b>Air resistance / drag:</b> a type of friction caused by air opposing motion — e.g. a parachute slowing a fall.</p>
+    </div>
+    <div class="card">
+      <div class="diagram-box">
+        <svg width="230" height="140" viewBox="0 0 230 140" aria-label="Balanced and unbalanced forces">
+          <rect x="65" y="45" width="40" height="30" fill="none" stroke="#1D2B4F" stroke-width="2"/>
+          <line x1="20" y1="60" x2="63" y2="60" stroke="#2E8B87" stroke-width="3"/>
+          <polygon points="63,60 55,55 55,65" fill="#2E8B87"/>
+          <line x1="150" y1="60" x2="107" y2="60" stroke="#2E8B87" stroke-width="3"/>
+          <polygon points="107,60 115,55 115,65" fill="#2E8B87"/>
+          <text x="85" y="95" text-anchor="middle" font-size="10" font-family="monospace" fill="#1D2B4F">Balanced</text>
+          <text x="85" y="108" text-anchor="middle" font-size="9" fill="#4C5A7A">equal &amp; opposite → no change</text>
+
+          <rect x="65" y="110" width="0" height="0"/>
+        </svg>
+        <svg width="230" height="90" viewBox="0 0 230 90" aria-label="Unbalanced forces">
+          <rect x="95" y="20" width="40" height="30" fill="none" stroke="#1D2B4F" stroke-width="2"/>
+          <line x1="150" y1="35" x2="192" y2="35" stroke="#C1443C" stroke-width="4"/>
+          <polygon points="192,35 183,29 183,41" fill="#C1443C"/>
+          <line x1="93" y1="35" x2="65" y2="35" stroke="#C1443C" stroke-width="2"/>
+          <polygon points="65,35 74,30 74,40" fill="#C1443C"/>
+          <text x="115" y="70" text-anchor="middle" font-size="10" font-family="monospace" fill="#1D2B4F">Unbalanced</text>
+          <text x="115" y="83" text-anchor="middle" font-size="9" fill="#4C5A7A">bigger force wins → motion changes</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <p><b>Simple motion:</b> distance = how far · time = how long · speed = how quickly.</p>
+    <div class="formula">speed <span class="op">=</span> distance ÷ time</div>
+  </div>
+
+  <h2 class="topic">2. States of Matter <span class="tag must">Must know</span></h2>
+  <div class="card">
+    <div class="diagram-box">
+      <svg width="560" height="120" viewBox="0 0 560 120" aria-label="Particle arrangement in solid, liquid, gas">
+        <text x="80" y="15" text-anchor="middle" font-size="11" font-family="monospace" fill="#1D2B4F">Solid</text>
+        <g fill="#2E8B87">
+          <circle cx="45" cy="35" r="6"/><circle cx="65" cy="35" r="6"/><circle cx="85" cy="35" r="6"/><circle cx="105" cy="35" r="6"/>
+          <circle cx="45" cy="55" r="6"/><circle cx="65" cy="55" r="6"/><circle cx="85" cy="55" r="6"/><circle cx="105" cy="55" r="6"/>
+          <circle cx="45" cy="75" r="6"/><circle cx="65" cy="75" r="6"/><circle cx="85" cy="75" r="6"/><circle cx="105" cy="75" r="6"/>
+        </g>
+        <text x="80" y="105" text-anchor="middle" font-size="9" fill="#4C5A7A">tightly packed, fixed positions</text>
+
+        <text x="280" y="15" text-anchor="middle" font-size="11" font-family="monospace" fill="#1D2B4F">Liquid</text>
+        <g fill="#E8A33D">
+          <circle cx="235" cy="40" r="6"/><circle cx="253" cy="33" r="6"/><circle cx="273" cy="42" r="6"/><circle cx="295" cy="35" r="6"/>
+          <circle cx="245" cy="58" r="6"/><circle cx="265" cy="62" r="6"/><circle cx="285" cy="55" r="6"/>
+          <circle cx="240" cy="78" r="6"/><circle cx="260" cy="80" r="6"/><circle cx="280" cy="75" r="6"/><circle cx="298" cy="70" r="6"/>
+        </g>
+        <text x="280" y="105" text-anchor="middle" font-size="9" fill="#4C5A7A">close together, can move past each other</text>
+
+        <text x="480" y="15" text-anchor="middle" font-size="11" font-family="monospace" fill="#1D2B4F">Gas</text>
+        <g fill="#C1443C">
+          <circle cx="420" cy="30" r="5"/><circle cx="470" cy="45" r="5"/><circle cx="510" cy="25" r="5"/>
+          <circle cx="440" cy="65" r="5"/><circle cx="495" cy="70" r="5"/><circle cx="415" cy="85" r="5"/>
+          <circle cx="530" cy="55" r="5"/><circle cx="460" cy="90" r="5"/>
+        </g>
+        <text x="480" y="105" text-anchor="middle" font-size="9" fill="#4C5A7A">far apart, move freely</text>
+      </svg>
+    </div>
+    <table class="ref">
+      <tr><th></th><th>Shape</th><th>Volume</th></tr>
+      <tr><td>Solid</td><td>Fixed</td><td>Fixed</td></tr>
+      <tr><td>Liquid</td><td>Takes container's shape</td><td>Fixed</td></tr>
+      <tr><td>Gas</td><td>Fills container</td><td>Fills container</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <div class="diagram-box">
+      <svg width="420" height="130" viewBox="0 0 420 130" aria-label="Changes of state">
+        <rect x="20" y="45" width="90" height="40" rx="6" fill="none" stroke="#1D2B4F" stroke-width="2"/>
+        <text x="65" y="70" text-anchor="middle" font-size="12" font-family="monospace" fill="#1D2B4F">Solid</text>
+        <rect x="165" y="45" width="90" height="40" rx="6" fill="none" stroke="#1D2B4F" stroke-width="2"/>
+        <text x="210" y="70" text-anchor="middle" font-size="12" font-family="monospace" fill="#1D2B4F">Liquid</text>
+        <rect x="310" y="45" width="90" height="40" rx="6" fill="none" stroke="#1D2B4F" stroke-width="2"/>
+        <text x="355" y="70" text-anchor="middle" font-size="12" font-family="monospace" fill="#1D2B4F">Gas</text>
+
+        <line x1="110" y1="55" x2="163" y2="55" stroke="#E8A33D" stroke-width="2"/>
+        <polygon points="163,55 155,51 155,59" fill="#E8A33D"/>
+        <text x="137" y="45" text-anchor="middle" font-size="9" fill="#95661C">Melting</text>
+
+        <line x1="163" y1="75" x2="110" y2="75" stroke="#2E8B87" stroke-width="2"/>
+        <polygon points="110,75 118,71 118,79" fill="#2E8B87"/>
+        <text x="137" y="98" text-anchor="middle" font-size="9" fill="#14514E">Freezing</text>
+
+        <line x1="255" y1="55" x2="308" y2="55" stroke="#E8A33D" stroke-width="2"/>
+        <polygon points="308,55 300,51 300,59" fill="#E8A33D"/>
+        <text x="282" y="45" text-anchor="middle" font-size="9" fill="#95661C">Vaporization</text>
+
+        <line x1="308" y1="75" x2="255" y2="75" stroke="#2E8B87" stroke-width="2"/>
+        <polygon points="255,75 263,71 263,79" fill="#2E8B87"/>
+        <text x="282" y="98" text-anchor="middle" font-size="9" fill="#14514E">Condensation</text>
+      </svg>
+    </div>
+    <div class="memory"><b>Vaporization = liquid → gas</b>, in two ways: <b>evaporation</b> (at the surface, below boiling point) or <b>boiling</b> (throughout the liquid, at the boiling point).</div>
+  </div>
+
+  <h2 class="topic">3. Heat &amp; Temperature <span class="tag must">Must know</span></h2>
+  <div class="grid2">
+    <div class="card">
+      <p><b>Temperature:</b> how hot or cold something is. Unit: °C. Measured with a thermometer.</p>
+      <p><b>Heat:</b> thermal energy transferred from a hotter object to a colder one.</p>
+      <div class="memory">Heat always flows <b>hot → cold</b>. There is no separate "cold energy."</div>
+    </div>
+    <div class="card">
+      <p><b>Heating/cooling causes changes of state:</b></p>
+      <div class="formula" style="font-size:13px;">Heating: ice → water → water vapor</div><br>
+      <div class="formula" style="font-size:13px;">Cooling: water vapor → water → ice</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="grid3">
+      <div>
+        <div class="diagram-box">
+          <svg width="150" height="90" viewBox="0 0 150 90" aria-label="Conduction">
+            <rect x="10" y="55" width="70" height="10" fill="#C1443C"/>
+            <rect x="80" y="55" width="60" height="10" fill="#8A93AC"/>
+            <text x="30" y="45" font-size="9" fill="#C1443C">hot</text>
+            <line x1="90" y1="40" x2="130" y2="40" stroke="#E8A33D" stroke-width="2"/>
+            <polygon points="130,40 122,36 122,44" fill="#E8A33D"/>
+          </svg>
+        </div>
+        <p style="font-size:13.5px; text-align:center;"><b>Conduction</b> — direct contact, common in solids.<br>e.g. metal spoon heating up.</p>
+      </div>
+      <div>
+        <div class="diagram-box">
+          <svg width="150" height="90" viewBox="0 0 150 90" aria-label="Convection">
+            <path d="M40,75 C40,45 90,45 90,15" fill="none" stroke="#E8A33D" stroke-width="2"/>
+            <polygon points="90,15 84,22 96,22" fill="#E8A33D"/>
+            <path d="M100,15 C100,45 50,45 50,75" fill="none" stroke="#2E8B87" stroke-width="2"/>
+            <polygon points="50,75 56,68 44,68" fill="#2E8B87"/>
+          </svg>
+        </div>
+        <p style="font-size:13.5px; text-align:center;"><b>Convection</b> — movement of liquid/gas.<br>e.g. warm air rising.</p>
+      </div>
+      <div>
+        <div class="diagram-box">
+          <svg width="150" height="90" viewBox="0 0 150 90" aria-label="Radiation">
+            <circle cx="25" cy="45" r="14" fill="#E8A33D"/>
+            <line x1="45" y1="30" x2="80" y2="20" stroke="#E8A33D" stroke-width="2"/>
+            <line x1="47" y1="45" x2="90" y2="45" stroke="#E8A33D" stroke-width="2"/>
+            <line x1="45" y1="60" x2="80" y2="70" stroke="#E8A33D" stroke-width="2"/>
+            <rect x="95" y="30" width="30" height="30" fill="none" stroke="#1D2B4F" stroke-width="2"/>
+          </svg>
+        </div>
+        <p style="font-size:13.5px; text-align:center;"><b>Radiation</b> — no contact needed.<br>e.g. heat from the Sun or a fire.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="topic">4. Light <span class="tag must">Must know</span></h2>
+  <div class="grid2">
+    <div class="card">
+      <p><b>Light source:</b> produces its own light — Sun, candle, bulb, fire.</p>
+      <div class="memory">The <b>Moon is not a light source</b> — it reflects sunlight.</div>
+      <p style="margin-top:8px;"><b>Light travels in straight lines</b> through a uniform medium.</p>
+    </div>
+    <div class="card">
+      <div class="diagram-box">
+        <svg width="260" height="100" viewBox="0 0 260 100" aria-label="Transparent, translucent, opaque">
+          <line x1="10" y1="50" x2="55" y2="50" stroke="#E8A33D" stroke-width="2"/>
+          <rect x="55" y="20" width="14" height="60" fill="#DDEBEA" stroke="#2E8B87" stroke-width="1.5"/>
+          <line x1="69" y1="50" x2="110" y2="50" stroke="#E8A33D" stroke-width="2"/>
+          <text x="60" y="95" text-anchor="middle" font-size="8.5" font-family="monospace" fill="#4C5A7A">Transparent</text>
+
+          <line x1="120" y1="50" x2="150" y2="50" stroke="#E8A33D" stroke-width="2"/>
+          <rect x="150" y="20" width="14" height="60" fill="#EAEAEA" stroke="#8A93AC" stroke-width="1.5"/>
+          <line x1="164" y1="42" x2="195" y2="30" stroke="#E8A33D" stroke-width="1.5" stroke-dasharray="2,2"/>
+          <line x1="164" y1="58" x2="195" y2="70" stroke="#E8A33D" stroke-width="1.5" stroke-dasharray="2,2"/>
+          <text x="155" y="95" text-anchor="middle" font-size="8.5" font-family="monospace" fill="#4C5A7A">Translucent</text>
+
+          <line x1="205" y1="50" x2="225" y2="50" stroke="#E8A33D" stroke-width="2"/>
+          <rect x="225" y="20" width="14" height="60" fill="#1D2B4F"/>
+          <text x="228" y="95" text-anchor="middle" font-size="8.5" font-family="monospace" fill="#4C5A7A">Opaque</text>
+        </svg>
+      </div>
+      <p style="font-size:13px; color:var(--ink-soft);">Transparent = clean glass · Translucent = frosted glass · Opaque = wood.</p>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <div class="diagram-box">
+        <svg width="220" height="110" viewBox="0 0 220 110" aria-label="Shadow formation">
+          <circle cx="20" cy="25" r="10" fill="#E8A33D"/>
+          <line x1="30" y1="30" x2="80" y2="55" stroke="#E8A33D" stroke-width="1.5"/>
+          <line x1="30" y1="20" x2="80" y2="20" stroke="#E8A33D" stroke-width="1.5" stroke-dasharray="2,2"/>
+          <rect x="80" y="20" width="16" height="45" fill="#1D2B4F"/>
+          <polygon points="96,20 96,65 150,90 150,25" fill="#B9C3DC"/>
+          <text x="115" y="105" text-anchor="middle" font-size="9" font-family="monospace" fill="#4C5A7A">light → opaque object → shadow</text>
+        </svg>
+      </div>
+      <p style="font-size:13.5px;">A shadow forms when an opaque object blocks light.</p>
+    </div>
+    <div class="card">
+      <div class="diagram-box">
+        <svg width="220" height="110" viewBox="0 0 220 110" aria-label="Reflection">
+          <line x1="30" y1="90" x2="190" y2="90" stroke="#1D2B4F" stroke-width="2.5"/>
+          <line x1="70" y1="20" x2="110" y2="90" stroke="#E8A33D" stroke-width="2"/>
+          <polygon points="110,90 100,82 106,78" fill="#E8A33D"/>
+          <line x1="110" y1="90" x2="150" y2="20" stroke="#2E8B87" stroke-width="2"/>
+          <polygon points="150,20 138,24 143,30" fill="#2E8B87"/>
+          <line x1="110" y1="90" x2="110" y2="55" stroke="#8A93AC" stroke-width="1" stroke-dasharray="2,2"/>
+          <text x="70" y="15" text-anchor="middle" font-size="8.5" fill="#95661C">incident ray</text>
+          <text x="155" y="15" text-anchor="middle" font-size="8.5" fill="#14514E">reflected ray</text>
+        </svg>
+      </div>
+      <p style="font-size:13.5px;">Reflection: light hits a surface and bounces back — mirrors, calm water, shiny metal.</p>
+      <div class="memory">We see objects because light reflects off them into our eyes.</div>
+    </div>
+  </div>
+
+  <h2 class="topic">5. Sound <span class="tag must">Must know</span></h2>
+  <div class="grid2">
+    <div class="card">
+      <p><b>Sound is produced by vibrations</b> — guitar string, speaker, vocal cords.</p>
+      <p><b>Sound needs a medium</b> to travel through: solids, liquids, or gases (not a vacuum).</p>
+      <p style="font-size:13.5px;">A source vibrates the surrounding medium → vibrations travel to our ears → detected and interpreted by the brain.</p>
+      <div class="memory">Sound can reflect off surfaces too, producing an <b>echo</b> — e.g. shouting near a cliff.</div>
+    </div>
+    <div class="card">
+      <div class="diagram-box">
+        <svg width="480" height="150" viewBox="0 0 480 150" aria-label="Loudness and pitch">
+          <path d="M20,35 Q35,10 50,35 T80,35 T110,35 T140,35" fill="none" stroke="#2E8B87" stroke-width="2"/>
+          <text x="80" y="58" text-anchor="middle" font-size="11" font-family="monospace" fill="#14514E">loud — big amplitude</text>
+
+          <path d="M20,95 Q35,84 50,95 T80,95 T110,95 T140,95" fill="none" stroke="#8A93AC" stroke-width="2"/>
+          <text x="80" y="118" text-anchor="middle" font-size="11" font-family="monospace" fill="#4C5A7A">quiet — small amplitude</text>
+
+          <path d="M280,35 Q287,20 294,35 T308,35 T322,35 T336,35 T350,35 T364,35 T378,35 T392,35" fill="none" stroke="#C1443C" stroke-width="2"/>
+          <text x="335" y="58" text-anchor="middle" font-size="11" font-family="monospace" fill="#C1443C">high pitch — high frequency</text>
+
+          <path d="M280,95 Q294,80 308,95 T336,95 T364,95 T392,95" fill="none" stroke="#E8A33D" stroke-width="2"/>
+          <text x="335" y="118" text-anchor="middle" font-size="11" font-family="monospace" fill="#95661C">low pitch — low frequency</text>
+        </svg>
+      </div>
+      <p style="font-size:13px; color:var(--ink-soft);">Loudness ↔ amplitude · Pitch ↔ frequency. No formulas needed at this level.</p>
+    </div>
+  </div>
+
+  <h2 class="topic">6. Electricity <span class="tag must">Must know</span></h2>
+  <div class="grid2">
+    <div class="card">
+      <div class="diagram-box">
+        <svg width="230" height="130" viewBox="0 0 230 130" aria-label="Closed circuit">
+          <rect x="30" y="20" width="170" height="90" fill="none" stroke="#1D2B4F" stroke-width="2.5"/>
+          <rect x="95" y="10" width="40" height="20" fill="#fff" stroke="#1D2B4F" stroke-width="2"/>
+          <line x1="105" y1="10" x2="105" y2="30" stroke="#1D2B4F" stroke-width="1.5"/>
+          <line x1="115" y1="10" x2="115" y2="30" stroke="#1D2B4F" stroke-width="1.5"/>
+          <line x1="125" y1="10" x2="125" y2="30" stroke="#1D2B4F" stroke-width="1.5"/>
+          <circle cx="200" cy="65" r="14" fill="none" stroke="#E8A33D" stroke-width="2.5"/>
+          <line x1="191" y1="56" x2="209" y2="74" stroke="#E8A33D" stroke-width="2"/>
+          <line x1="209" y1="56" x2="191" y2="74" stroke="#E8A33D" stroke-width="2"/>
+          <circle cx="30" cy="53" r="3.5" fill="#2E8B87"/>
+          <circle cx="30" cy="77" r="3.5" fill="#2E8B87"/>
+          <line x1="30" y1="53" x2="30" y2="77" stroke="#2E8B87" stroke-width="3"/>
+          <text x="115" y="45" text-anchor="middle" font-size="9" font-family="monospace" fill="#4C5A7A">battery</text>
+          <text x="200" y="95" text-anchor="middle" font-size="9" font-family="monospace" fill="#4C5A7A">bulb</text>
+          <text x="65" y="68" text-anchor="middle" font-size="9" font-family="monospace" fill="#14514E">switch (closed)</text>
+        </svg>
+      </div>
+      <p style="font-size:13.5px;"><b>Closed circuit:</b> complete path → current flows → bulb lights.</p>
+    </div>
+    <div class="card">
+      <div class="diagram-box">
+        <svg width="230" height="130" viewBox="0 0 230 130" aria-label="Open circuit">
+          <path d="M30,110 L30,20 L95,20" fill="none" stroke="#1D2B4F" stroke-width="2.5"/>
+          <path d="M135,20 L200,20 L200,110 L30,110" fill="none" stroke="#1D2B4F" stroke-width="2.5"/>
+          <rect x="95" y="10" width="40" height="20" fill="#fff" stroke="#1D2B4F" stroke-width="2"/>
+          <line x1="105" y1="10" x2="105" y2="30" stroke="#1D2B4F" stroke-width="1.5"/>
+          <line x1="115" y1="10" x2="115" y2="30" stroke="#1D2B4F" stroke-width="1.5"/>
+          <line x1="125" y1="10" x2="125" y2="30" stroke="#1D2B4F" stroke-width="1.5"/>
+          <circle cx="200" cy="65" r="14" fill="none" stroke="#8A93AC" stroke-width="2.5"/>
+          <line x1="45" y1="110" x2="65" y2="110" stroke="#C1443C" stroke-width="3"/>
+          <line x1="65" y1="110" x2="90" y2="95" stroke="#C1443C" stroke-width="3"/>
+          <line x1="90" y1="110" x2="110" y2="110" stroke="#C1443C" stroke-width="3"/>
+          <text x="200" y="95" text-anchor="middle" font-size="9" font-family="monospace" fill="#8A93AC">bulb (off)</text>
+          <text x="75" y="126" text-anchor="middle" font-size="9" font-family="monospace" fill="#C1443C">switch (open)</text>
+        </svg>
+      </div>
+      <p style="font-size:13.5px;"><b>Open circuit:</b> broken path → current stops → bulb off.</p>
+    </div>
+  </div>
+  <div class="card">
+    <p><b>Cell</b> = one electrical source. <b>Battery</b> = combination of cells.</p>
+    <table class="ref">
+      <tr><th>Conductors (current flows easily)</th><th>Insulators (resist current)</th></tr>
+      <tr><td>Copper · Aluminium · Metals</td><td>Plastic · Rubber · Glass · Dry wood</td></tr>
+    </table>
+    <div class="memory">Wires: <b>metal conductor inside</b> + <b>plastic insulation outside</b>.</div>
+    <p style="font-size:13.5px; margin-top:6px;"><b>Current</b> = the flow of electric charge through a circuit.</p>
+  </div>
+
+  <h2 class="topic">7. Magnets <span class="tag must">Must know</span></h2>
+  <div class="grid2">
+    <div class="card">
+      <div class="diagram-box">
+        <svg width="230" height="110" viewBox="0 0 230 110" aria-label="Like and unlike poles">
+          <rect x="15" y="35" width="45" height="30" fill="#C1443C"/>
+          <rect x="60" y="35" width="45" height="30" fill="#1D2B4F"/>
+          <text x="37" y="55" text-anchor="middle" font-size="12" fill="#fff" font-family="monospace">N</text>
+          <text x="82" y="55" text-anchor="middle" font-size="12" fill="#fff" font-family="monospace">N</text>
+          <line x1="60" y1="20" x2="45" y2="20" stroke="#4C5A7A" stroke-width="1.5"/>
+          <polygon points="45,20 52,16 52,24" fill="#4C5A7A"/>
+          <line x1="60" y1="20" x2="75" y2="20" stroke="#4C5A7A" stroke-width="1.5"/>
+          <polygon points="75,20 68,16 68,24" fill="#4C5A7A"/>
+          <text x="60" y="90" text-anchor="middle" font-size="9.5" font-family="monospace" fill="#1D2B4F">Like poles repel</text>
+
+          <rect x="130" y="35" width="45" height="30" fill="#C1443C"/>
+          <rect x="175" y="35" width="45" height="30" fill="#1D2B4F"/>
+          <text x="152" y="55" text-anchor="middle" font-size="12" fill="#fff" font-family="monospace">N</text>
+          <text x="197" y="55" text-anchor="middle" font-size="12" fill="#fff" font-family="monospace">S</text>
+          <line x1="150" y1="20" x2="165" y2="20" stroke="#4C5A7A" stroke-width="1.5"/>
+          <polygon points="165,20 158,16 158,24" fill="#4C5A7A"/>
+          <line x1="200" y1="20" x2="185" y2="20" stroke="#4C5A7A" stroke-width="1.5"/>
+          <polygon points="185,20 192,16 192,24" fill="#4C5A7A"/>
+          <text x="175" y="90" text-anchor="middle" font-size="9.5" font-family="monospace" fill="#1D2B4F">Unlike poles attract</text>
+        </svg>
+      </div>
+    </div>
+    <div class="card">
+      <div class="diagram-box">
+        <svg width="230" height="110" viewBox="0 0 230 110" aria-label="Magnetic field">
+          <rect x="95" y="35" width="40" height="40" fill="none" stroke="#1D2B4F" stroke-width="2"/>
+          <line x1="95" y1="35" x2="115" y2="35" stroke="#C1443C" stroke-width="4"/>
+          <line x1="115" y1="35" x2="135" y2="35" stroke="#1D2B4F" stroke-width="4"/>
+          <text x="105" y="60" text-anchor="middle" font-size="10" fill="#fff" font-family="monospace">N</text>
+          <text x="125" y="60" text-anchor="middle" font-size="10" fill="#fff" font-family="monospace">S</text>
+          <path d="M95,45 C60,35 60,15 100,15 C140,15 140,35 135,45" fill="none" stroke="#E8A33D" stroke-width="1.3"/>
+          <path d="M95,55 C50,55 50,90 115,88 C180,90 180,55 135,55" fill="none" stroke="#E8A33D" stroke-width="1.3"/>
+          <path d="M95,65 C70,80 80,100 115,98 C150,100 160,80 135,65" fill="none" stroke="#E8A33D" stroke-width="1.3"/>
+        </svg>
+      </div>
+      <p style="font-size:13.5px;"><b>Magnetic field:</b> the region around a magnet where magnetic effects act. Field lines run N → S outside the magnet.</p>
+    </div>
+  </div>
+  <div class="card">
+    <p><b>Magnetic materials:</b> iron, steel are strongly attracted. Plastic is not.</p>
+    <p><b>Compass:</b> uses magnetism to show direction.</p>
+    <p style="font-size:13.5px;"><b>Everyday uses:</b> refrigerator doors · magnetic catches · speakers · compasses.</p>
+  </div>
+
+</section>
+
+<!-- ===================== PHYSICS: CHEAT SHEET ===================== -->
+<section class="panel" id="p-cheat">
+  <h2 class="topic" style="margin-top:0;">Physics Quick Reference</h2>
+  <div class="cheat-grid">
+    <div class="cheat-card"><h4>Speed</h4>speed = distance ÷ time</div>
+    <div class="cheat-card"><h4>Forces</h4>Balanced → no change · Unbalanced → motion changes</div>
+    <div class="cheat-card"><h4>States of matter</h4>Solid: fixed shape+volume<br>Liquid: fixed volume only<br>Gas: neither fixed</div>
+    <div class="cheat-card"><h4>Changes of state</h4>Melting/Freezing (solid↔liquid)<br>Vaporization/Condensation (liquid↔gas)</div>
+    <div class="cheat-card"><h4>Heat transfer</h4>Conduction (contact, solids) · Convection (fluids) · Radiation (no contact)</div>
+    <div class="cheat-card"><h4>Light</h4>Transparent/Translucent/Opaque · straight-line travel · reflection</div>
+    <div class="cheat-card"><h4>Sound</h4>Vibration → medium → ear. Loudness=amplitude · Pitch=frequency</div>
+    <div class="cheat-card"><h4>Circuits</h4>Closed → current flows · Open → current stops</div>
+    <div class="cheat-card"><h4>Conductors/Insulators</h4>Conduct: metals · Insulate: plastic, rubber, glass, wood</div>
+    <div class="cheat-card"><h4>Magnets</h4>Like poles repel · Unlike poles attract · attracts iron/steel</div>
+  </div>
+</section>
+
+<!-- ===================== PHYSICS: INTERVIEW NOTES ===================== -->
+<section class="panel" id="p-interview">
+  <h2 class="topic" style="margin-top:0;">How to Handle the Physics Interview</h2>
+  <div class="card">
+    <p>At primary level, the interview is more likely to probe <b>explanation and demonstration</b> than calculation.</p>
+    <ol class="steps">
+      <li><b>Define</b> — plain-language definition a child would understand.</li>
+      <li><b>Everyday example</b> — connect it to something the student already experiences.</li>
+      <li><b>Simple demo idea</b> — how you'd show it hands-on (e.g. torch + objects for opaque/translucent/transparent).</li>
+    </ol>
+    <div class="memory"><b>Teaching pattern:</b> everyday example → simple demo → vocabulary → student prediction/observation.</div>
+  </div>
+  <div class="card">
+    <h4 style="margin-top:0;">Fast demo ideas per lesson</h4>
+    <ul class="termlist">
+      <li><b>Forces:</b> push/pull a toy car, compare rolling on carpet vs smooth floor (friction)</li>
+      <li><b>States of matter:</b> ice cube melting in hand vs on a plate</li>
+      <li><b>Heat:</b> metal spoon vs wooden spoon in warm water (conduction)</li>
+      <li><b>Light:</b> torch through glass / frosted plastic / cardboard</li>
+      <li><b>Sound:</b> ruler twanged off a desk edge — pitch changes with length</li>
+      <li><b>Electricity:</b> simple bulb-battery-switch circuit, open vs closed</li>
+      <li><b>Magnets:</b> sorting a mixed pile of objects — attracted vs not</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== PHYSICS: MIDDLE SCHOOL ===================== -->
+<section class="panel" id="p-middle">
+
+  <div class="eyebrow">1AC — First Year</div>
+
+  <h2 class="topic">1. Matter &amp; Environment <span class="tag must">Must know</span></h2>
+  <div class="card">
+    <p><b>States of water:</b> solid, liquid, gas — properties of each, plus the water cycle.</p>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <p><b>Measuring volume &amp; mass</b></p>
+      <div class="formula">V <span class="op">=</span> L × W × H</div><br>
+      <div class="formula">1 L <span class="op">=</span> 1 dm³</div><br>
+      <div class="formula">1 mL <span class="op">=</span> 1 cm³</div>
+    </div>
+    <div class="card">
+      <p><b>Density</b></p>
+      <div class="formula">ρ <span class="op">=</span> m/V</div>
+      <p style="font-size:13px; margin-top:6px;">Units: g/cm³ or kg/m³ · <b>1 g/cm³ = 1000 kg/m³</b></p>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <p><b>Pressure</b></p>
+      <div class="formula">P <span class="op">=</span> F/A</div>
+      <p style="font-size:13px; margin-top:6px;">1 Pa = 1 N/m² · 1 hPa = 100 Pa</p>
+      <div class="memory">Same force + smaller area → greater pressure.</div>
+    </div>
+    <div class="card">
+      <p><b>Atmospheric pressure:</b> air exerts pressure, measured with a <b>barometer</b>. Concept level only.</p>
+    </div>
+  </div>
+  <div class="card">
+    <p><b>Particle model</b> (builds on primary states of matter):</p>
+    <table class="ref">
+      <tr><td>Solid</td><td>particles close, vibrate around fixed positions</td></tr>
+      <tr><td>Liquid</td><td>particles close, move past each other</td></tr>
+      <tr><td>Gas</td><td>particles far apart, move freely</td></tr>
+    </table>
+    <div class="memory">Heating generally increases average kinetic energy of particles.</div>
+  </div>
+  <div class="card">
+    <p><b>Heat, temperature &amp; changes of state:</b> temperature = how hot/cold · heat = thermal energy transferred hotter → colder.</p>
+    <div class="diagram-box">
+      <svg width="360" height="140" viewBox="0 0 360 140" aria-label="Temperature plateau during change of state">
+        <line x1="30" y1="120" x2="340" y2="120" stroke="#1D2B4F" stroke-width="1.5"/>
+        <line x1="30" y1="120" x2="30" y2="10" stroke="#1D2B4F" stroke-width="1.5"/>
+        <text x="345" y="124" font-size="9" fill="#4C5A7A">time</text>
+        <text x="10" y="15" font-size="9" fill="#4C5A7A">T</text>
+        <path d="M30,100 L100,60 L220,60 L290,20" fill="none" stroke="#C1443C" stroke-width="2.5"/>
+        <line x1="100" y1="60" x2="220" y2="60" stroke="#E8A33D" stroke-width="3"/>
+        <text x="160" y="50" text-anchor="middle" font-size="9" font-family="monospace" fill="#95661C">plateau — melting point</text>
+      </svg>
+    </div>
+    <div class="memory"><b>Temperature stays constant during a change of state</b> — the plateau on a heating/cooling graph. Energy goes into changing state, not raising temperature.</div>
+    <div class="memory" style="margin-top:8px;"><b>Vaporization = liquid → gas</b>, two ways: slowly at the surface (evaporation) or throughout the liquid at boiling point (boiling).</div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <p><b>Mixtures &amp; solutions</b></p>
+      <p style="font-size:13.5px;">Pure substance · homogeneous mixture · heterogeneous mixture · dissolution · solute · solvent · solution.</p>
+      <div class="memory">Solution = homogeneous mixture. e.g. salt + water → salt solution.</div>
+    </div>
+    <div class="card">
+      <p><b>Separation of mixtures</b></p>
+      <table class="ref">
+        <tr><td>Filtration</td><td>insoluble solid + liquid</td></tr>
+        <tr><td>Decantation</td><td>separate phases/layers</td></tr>
+        <tr><td>Evaporation</td><td>recover dissolved solid</td></tr>
+        <tr><td>Distillation</td><td>different boiling points, then condensation</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <h2 class="topic">2. Electricity <span class="tag must">Must know</span></h2>
+  <div class="grid2">
+    <div class="card">
+      <p><b>Simple circuit parts:</b> generator/cell/battery · wires · switch · receiver.</p>
+      <div class="memory">Closed circuit → current flows. Open circuit → current stops.</div>
+      <p style="font-size:13.5px; margin-top:8px;"><b>Effects of current:</b> thermal (heating) · luminous (light) · chemical · magnetic.</p>
+    </div>
+    <div class="card">
+      <table class="ref">
+        <tr><th>Conductors</th><th>Insulators</th></tr>
+        <tr><td>Copper · Aluminium · Metals</td><td>Plastic · Rubber · Glass</td></tr>
+      </table>
+      <p style="font-size:13.5px; margin-top:6px;"><b>I</b> current → ampere (A), ammeter in <b>series</b>. <b>V</b> voltage → volt (V), voltmeter in <b>parallel</b>.</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="diagram-box">
+      <svg width="470" height="130" viewBox="0 0 470 130" aria-label="Series and parallel circuits">
+        <rect x="20" y="30" width="200" height="70" fill="none" stroke="#1D2B4F" stroke-width="2.5"/>
+        <circle cx="80" cy="30" r="12" fill="none" stroke="#E8A33D" stroke-width="2"/>
+        <line x1="72" y1="22" x2="88" y2="38" stroke="#E8A33D" stroke-width="1.5"/>
+        <line x1="88" y1="22" x2="72" y2="38" stroke="#E8A33D" stroke-width="1.5"/>
+        <circle cx="160" cy="30" r="12" fill="none" stroke="#E8A33D" stroke-width="2"/>
+        <line x1="152" y1="22" x2="168" y2="38" stroke="#E8A33D" stroke-width="1.5"/>
+        <line x1="168" y1="22" x2="152" y2="38" stroke="#E8A33D" stroke-width="1.5"/>
+        <rect x="100" y="94" width="40" height="16" fill="#fff" stroke="#1D2B4F" stroke-width="2"/>
+        <text x="120" y="127" text-anchor="middle" font-size="10" font-family="monospace" fill="#1D2B4F">Series — one path</text>
+
+        <rect x="260" y="20" width="190" height="90" fill="none" stroke="#1D2B4F" stroke-width="2.5"/>
+        <line x1="260" y1="45" x2="450" y2="45" stroke="#1D2B4F" stroke-width="2"/>
+        <line x1="330" y1="20" x2="330" y2="45" stroke="#1D2B4F" stroke-width="2"/>
+        <line x1="380" y1="20" x2="380" y2="45" stroke="#1D2B4F" stroke-width="2"/>
+        <circle cx="330" cy="65" r="12" fill="none" stroke="#E8A33D" stroke-width="2"/>
+        <line x1="322" y1="57" x2="338" y2="73" stroke="#E8A33D" stroke-width="1.5"/>
+        <line x1="338" y1="57" x2="322" y2="73" stroke="#E8A33D" stroke-width="1.5"/>
+        <circle cx="380" cy="65" r="12" fill="none" stroke="#E8A33D" stroke-width="2"/>
+        <line x1="372" y1="57" x2="388" y2="73" stroke="#E8A33D" stroke-width="1.5"/>
+        <line x1="388" y1="57" x2="372" y2="73" stroke="#E8A33D" stroke-width="1.5"/>
+        <rect x="335" y="94" width="40" height="16" fill="#fff" stroke="#1D2B4F" stroke-width="2"/>
+        <text x="355" y="127" text-anchor="middle" font-size="10" font-family="monospace" fill="#1D2B4F">Parallel — multiple paths</text>
+      </svg>
+    </div>
+    <div class="grid2" style="margin-top:10px;">
+      <div>
+        <div class="formula">I <span class="op">=</span> I₁ = I₂</div><br>
+        <div class="formula">V <span class="op">=</span> V₁ + V₂</div>
+      </div>
+      <div>
+        <div class="formula">I <span class="op">=</span> I₁ + I₂</div><br>
+        <div class="formula">V <span class="op">=</span> V₁ = V₂</div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <p><b>Resistance (R):</b> unit Ω. Basic idea — resistance opposes current.</p>
+    <p style="font-size:13.5px;"><b>Electrical safety:</b> insulation · short circuits · excessive current · electric shock · circuit breakers/fuses · safe handling.</p>
+  </div>
+
+  <div class="eyebrow" style="margin-top:26px;">2AC — Second Year</div>
+
+  <h2 class="topic">3. Air, Atmosphere &amp; Chemistry <span class="tag must">Must know</span></h2>
+  <div class="grid2">
+    <div class="card">
+      <p><b>Air is a mixture of gases</b> — mainly nitrogen and oxygen. Atmosphere, air movement, pollution.</p>
+      <div class="memory">Atom = basic particle of an element. Molecule = group of atoms bonded together.</div>
+    </div>
+    <div class="card">
+      <p><b>Chemical reactions</b> produce new substances.</p>
+      <table class="ref">
+        <tr><th>Physical change</th><th>Chemical change</th></tr>
+        <tr><td>ice → water (same substance)</td><td>new substance(s) formed</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <p><b>Combustion:</b> role of oxygen — e.g. carbon combustion, butane combustion. <span class="tag quick">Important</span></p>
+    <p style="font-size:13.5px; margin-top:6px;"><b>Conservation of mass</b> (Lavoisier): total mass of reactants = total mass of products. Simple reaction interpretation only, no stoichiometry yet.</p>
+    <p style="font-size:13.5px;"><b>Natural vs synthetic substances:</b> know the distinction with everyday examples.</p>
+  </div>
+
+  <h2 class="topic">4. Light &amp; Optics <span class="tag must">Must know</span></h2>
+  <div class="grid2">
+    <div class="card">
+      <p><b>Sources &amp; receivers:</b> Sun = source. Moon = receiver/reflects sunlight.</p>
+      <p style="font-size:13.5px; margin-top:6px;"><b>Light and colours:</b> light can be dispersed into colours.</p>
+      <div class="memory">Light travels in a straight line in a uniform medium. Speed of light ≈ 300,000 km/s.</div>
+    </div>
+    <div class="card">
+      <p><b>Applications of rectilinear propagation:</b> shadows · eclipses · pinhole camera (camera obscura).</p>
+      <p style="font-size:13.5px; margin-top:6px;">Media types: transparent · translucent · opaque (recap from primary).</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="diagram-box">
+      <svg width="380" height="120" viewBox="0 0 380 120" aria-label="Converging and diverging lenses">
+        <line x1="20" y1="60" x2="360" y2="60" stroke="#8A93AC" stroke-width="1" stroke-dasharray="3,3"/>
+        <ellipse cx="90" cy="60" rx="12" ry="45" fill="#DDEBEA" stroke="#2E8B87" stroke-width="2"/>
+        <line x1="20" y1="40" x2="78" y2="60" stroke="#E8A33D" stroke-width="1.5"/>
+        <line x1="20" y1="80" x2="78" y2="60" stroke="#E8A33D" stroke-width="1.5"/>
+        <line x1="102" y1="60" x2="160" y2="60" stroke="#E8A33D" stroke-width="1.5"/>
+        <polygon points="160,60 150,56 150,64" fill="#E8A33D"/>
+        <text x="90" y="112" text-anchor="middle" font-size="10" font-family="monospace" fill="#1D2B4F">Converging — rays meet at focus</text>
+
+        <path d="M280,15 C270,60 270,60 280,105" fill="none" stroke="#C1443C" stroke-width="2.5"/>
+        <line x1="210" y1="40" x2="278" y2="60" stroke="#E8A33D" stroke-width="1.5"/>
+        <line x1="210" y1="80" x2="278" y2="60" stroke="#E8A33D" stroke-width="1.5"/>
+        <line x1="282" y1="55" x2="350" y2="30" stroke="#E8A33D" stroke-width="1.5" stroke-dasharray="2,2"/>
+        <line x1="282" y1="65" x2="350" y2="90" stroke="#E8A33D" stroke-width="1.5" stroke-dasharray="2,2"/>
+        <text x="290" y="112" text-anchor="middle" font-size="10" font-family="monospace" fill="#1D2B4F">Diverging — rays spread apart</text>
+      </svg>
+    </div>
+    <p style="font-size:13.5px;"><b>Optical instruments</b> <span class="tag quick">quick review</span>: magnifying glass, eye, simple instruments — basic purpose only.</p>
+  </div>
+
+  <h2 class="topic">5. Electricity — AC &amp; Domestic <span class="tag must">Must know</span></h2>
+  <div class="grid2">
+    <div class="card">
+      <p><b>DC:</b> current supplied by a battery/cell (constant direction).</p>
+      <p><b>AC:</b> current changes direction periodically (sinusoidal).</p>
+      <div class="memory">Oscilloscope: reads period <b>T</b>, frequency <b>f = 1/T</b>, and amplitude <b>U<sub>max</sub></b> off the trace — distinguishes continuous from alternating voltage.</div>
+    </div>
+    <div class="card">
+      <p><b>Domestic electrical installation:</b></p>
+      <p style="font-size:13.5px;">Phase/live · Neutral · Earth/ground — plus basic electrical safety.</p>
+    </div>
+  </div>
+
+  <div class="eyebrow" style="margin-top:26px;">3AC — Third Year (highest exam weight)</div>
+
+  <h2 class="topic">6. Materials &amp; Chemistry</h2>
+  <div class="grid2">
+    <div class="card">
+      <p><b>Atoms and ions</b> <span class="tag must">must know</span></p>
+      <p style="font-size:13.5px;">Atom · nucleus/electrons (basic level) · electrically neutral atom · ion · positive/negative ion.</p>
+    </div>
+    <div class="card">
+      <p><b>Oxidation of metals</b> <span class="tag quick">important</span> — e.g. iron, aluminium react with oxygen in air.</p>
+      <p style="font-size:13.5px; margin-top:6px;"><b>Combustion of organic materials</b> — oxygen, products, safety/environmental implications.</p>
+    </div>
+  </div>
+  <div class="card">
+    <p><b>Acids and bases</b> <span class="tag must">must know</span></p>
+    <div class="diagram-box">
+      <svg width="380" height="80" viewBox="0 0 380 80" aria-label="pH scale">
+        <rect x="20" y="30" width="340" height="20" fill="url(#phgrad)"/>
+        <defs>
+          <linearGradient id="phgrad" x1="0" x2="1">
+            <stop offset="0%" stop-color="#C1443C"/>
+            <stop offset="50%" stop-color="#E8A33D"/>
+            <stop offset="70%" stop-color="#2E8B87"/>
+            <stop offset="100%" stop-color="#1D2B4F"/>
+          </linearGradient>
+        </defs>
+        <text x="20" y="65" font-size="9" font-family="monospace" fill="#4C5A7A">0 acidic</text>
+        <text x="175" y="65" font-size="9" font-family="monospace" fill="#4C5A7A">7 neutral</text>
+        <text x="320" y="65" font-size="9" font-family="monospace" fill="#4C5A7A">14 basic</text>
+        <line x1="190" y1="25" x2="190" y2="55" stroke="#1D2B4F" stroke-width="1.5"/>
+      </svg>
+    </div>
+    <p style="font-size:13.5px;">Measuring pH, interpreting the scale. <span class="tag quick">Quick review</span>: reactions of metals with acids/bases (gas production), ion identification tests, materials/health/environment hazards.</p>
+  </div>
+
+  <h2 class="topic">7. Mechanics <span class="tag must">Must know</span></h2>
+  <div class="grid2">
+    <div class="card">
+      <p>Motion depends on the <b>reference frame</b>. Trajectory: rectilinear · circular · curvilinear.</p>
+      <div class="formula">v <span class="op">=</span> d/t</div><br>
+      <div class="formula">v<sub>avg</sub> <span class="op">=</span> total distance ÷ total time</div>
+    </div>
+    <div class="card">
+      <p><b>A force is a push or pull.</b> Effects: change motion, speed, direction, or shape.</p>
+      <p style="font-size:13.5px; margin-top:6px;"><b>Characteristics of a force:</b> point of application · direction · sense · magnitude — represented by an arrow.</p>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <div class="diagram-box">
+        <svg width="280" height="100" viewBox="0 0 280 100" aria-label="Equilibrium of two forces">
+          <circle cx="140" cy="45" r="6" fill="#1D2B4F"/>
+          <line x1="30" y1="45" x2="134" y2="45" stroke="#2E8B87" stroke-width="3"/>
+          <polygon points="134,45 124,40 124,50" fill="#2E8B87"/>
+          <line x1="250" y1="45" x2="146" y2="45" stroke="#2E8B87" stroke-width="3"/>
+          <polygon points="146,45 156,40 156,50" fill="#2E8B87"/>
+          <text x="140" y="72" text-anchor="middle" font-size="9.5" font-family="monospace" fill="#14514E">
+            <tspan x="140" dy="0">same line, opposite sense,</tspan>
+            <tspan x="140" dy="14">equal magnitude</tspan>
+          </text>
+        </svg>
+      </div>
+      <div class="memory">Equilibrium of two forces: same magnitude · opposite sense · same line of action → F<sub>net</sub> = 0</div>
+    </div>
+    <div class="card">
+      <p><b>Mass:</b> kg, amount of matter — stays the same when location changes.</p>
+      <div class="formula">W <span class="op">=</span> mg</div>
+      <p style="font-size:13px; margin-top:6px;">Weight (N): a vertical, downward force applied at the center of gravity — it depends on the gravitational field.</p>
+    </div>
+  </div>
+
+  <h2 class="topic">8. Electricity — Ohm, Power &amp; Energy <span class="tag must">Very important</span></h2>
+  <div class="grid2">
+    <div class="card">
+      <div class="formula" style="font-size:15px;">V <span class="op">=</span> R I</div>
+      <p style="font-size:13px; margin-top:6px;">I = V/R · R = V/I · R in Ω</p>
+    </div>
+    <div class="card">
+      <div class="formula" style="font-size:15px;">P <span class="op">=</span> V I</div>
+      <p style="font-size:13px; margin-top:6px;">Power in Watts (W)</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="formula" style="font-size:15px;">E <span class="op">=</span> P t <span class="op">=</span> V I t</div>
+    <p style="font-size:13px; margin-top:6px;">Units: J · Wh · kWh — <b>1 kWh = 3.6×10⁶ J</b></p>
+    <p style="font-size:13.5px; margin-top:6px;">Electrical consumption: relationship between power, operating time, and energy consumed.</p>
+  </div>
+
+</section>
+
+</main>
+
+<footer>Built By Zahraoui Saad — primary &amp; middle school, math &amp; physics scope.
+  <br> Contact: saadxzhr@gmail.com / +212 663650770
+</footer>
+
+<script>
+  const buttons = document.querySelectorAll('.tablink');
+  const panels = document.querySelectorAll('.panel');
+  buttons.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      buttons.forEach(b=>b.classList.remove('active'));
+      panels.forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+      window.scrollTo({top:0, behavior:'instant'});
+    });
+  });
+
+  const subjectBtns = document.querySelectorAll('.subject-btn');
+  const subnavs = document.querySelectorAll('.subnav');
+  subjectBtns.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      subjectBtns.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      subnavs.forEach(sn=>sn.style.display='none');
+      const target = document.getElementById(btn.dataset.subject+'-subnav');
+      target.style.display='flex';
+      const firstTab = target.querySelector('.tablink');
+      if(firstTab) firstTab.click();
+    });
+  });
+</script>
+</body>
+</html>
